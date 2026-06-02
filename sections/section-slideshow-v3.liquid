@@ -1,0 +1,190 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-v3" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-slideshow-v3">
+      <div class="slick-side-h3 js-slideshow-v3 boxinfo">       
+        {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+        {% if block.type == "slideshow" %}
+        <div class="itemv-slide-h3">
+          <div class="picture-slideh5">
+            {% if block.settings.block_banerimage != blank %}
+            <img src="{{block.settings.block_banerimage | img_url: 'master'}}" class="img-fluid img_slideh5" alt="">
+            {% else %}
+            <img src="//via.placeholder.com/1920x980" class="img-fluid img_slideh5" alt="slideshow">
+            {% endif %}
+         
+            <div class="box-content {% if block.settings.select_pos =='left' %} text-left {% elsif block.settings.select_pos == 'center' %} text-center {% elsif block.settings.select_pos == 'right' %} text-right {% endif %}">              
+                            
+              {% if block.settings.block_title != blank %}
+              <h3 class="title" style="color:{{block.settings.color_title}};">{{ block.settings.block_title }}</h3>
+              {% endif %} 
+              
+              {% if block.settings.block_buton != blank %}
+              <a class="button-main1 btn3-{{section.id}}-{{block.id}}" href="{{block.settings.block_url}}">{{ block.settings.block_buton }}</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        
+      </div>
+  </div>
+</div>
+<style>
+  .section-slideshow-v3 .slick-dots li {
+    color: {{section.settings.color_arrows}}; 
+  }
+  {% for block in section.blocks %}
+  {% if block.type == 'slideshow' %}
+  .section-slideshow-v3 .boxinfo .itemv-slide-h3 .box-content .btn3-{{section.id}}-{{block.id}}{
+    background : {{block.settings.bg_color_block_button}};
+    color : {{block.settings.color_block_button}};
+  }
+  .section-slideshow-v3 .boxinfo .itemv-slide-h3 .box-content .btn3-{{section.id}}-{{block.id}}:hover{
+    background : {{block.settings.bg_color_hover_button}};
+    color : {{block.settings.color_hover_text}};
+  }
+
+  {% endif %}
+  {% endfor %}
+</style>
+{% schema %}
+{
+  "name": "SLIDESHOW V3",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_arrows",
+      "label": "Color Arrows",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "slideshow",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "block_banerimage",
+          "label": "Image slideshow",
+          "info": "1920 x 980px recommended"
+        },
+        {
+          "type": "select",
+          "id": "select_pos",
+          "label": "Select Position Content",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Title Slideshow",
+          "default": "Wine Grapes"
+        },
+        {
+          "type": "color",
+          "id": "color_title",
+          "label": "Color Title",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "block_buton",
+          "label": "Button Slideshow",
+          "default": "Shop now"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_block_button",
+          "label": "Background Color Button",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color_block_button",
+          "label": "Color Button",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_hover_button",
+          "label": "Background Hover Color",
+          "default": "#a53e4c "
+        },
+        {
+          "type": "color",
+          "id": "color_hover_text",
+          "label": "Text Hover Color",
+          "default": "#fff"
+        },
+        {
+          "type": "url",
+          "id": "block_url",
+          "label": "URL button slideshow",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SLIDESHOW V3",
+      "category": "Slideshow",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_title": "Wine Grapes"
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_title": "Wine With Love"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,202 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-video-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %}">
+  <div class="section-video-v1 mt-all" style="background-color: {{ section.settings.bg_color }}">
+    <div class="container container-v2">
+      <div class="heading-section text-center">
+        {% if section.settings.heading != blank %}
+        <h2 class="heading" style="color: {{section.settings.color_heading}}">
+          {{section.settings.heading}}
+        </h2>
+        {% endif %}
+      </div>
+      <div class="row"">
+        <div class="col-12 col-md-7 col-lg-8">
+          <div class="section-video">
+            <div class="box-video">
+              <div class="video-bg">
+                {% if section.settings.video_img != blank %}
+                <img data-src="{{section.settings.video_img | img_url:'master'}}" class="lazyload img-fluid w-100" alt="_img_banner_">
+                {% else %}
+                <img data-src="https://via.placeholder.com/781x611" class="lazyload img-fluid w-100" alt="_img_banner_">
+                {% endif %}
+              </div>
+              <div class="video-content">
+                <a data-fancybox href="{{section.settings.url_video1}}"> 
+                  <span class="box-btn">
+                    <span class="btn-banner">
+                      <i class="fa fa-play"></i>
+                      <span class="line-video line-1"></span>
+                      <span class="line-video line-2"></span>
+                      <span class="line-video line-3"></span>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-5 col-lg-4">
+          <div class="video-right">
+            <div class="video-info">
+              {% if section.settings.img_banner != blank %}
+              <img src="{{section.settings.img_banner | img_url:'master'}}" class="img-fluid">
+              {% else %}
+              <img src="//via.placeholder.com/400x400" class="img-fluid" alt="">
+              {% endif %}
+              {% if section.settings.title_banner != blank %}
+              <h3 class="title-banner" style="color: {{section.settings.color_title}}">
+                {{section.settings.title_banner}}
+              </h3>
+              {% endif %}
+              {% if section.settings.desc_banner != blank %}
+              <p class="desc-banner" style="color: {{section.settings.color_desc}}">
+                {{section.settings.desc_banner}}
+              </p>
+              {% endif %}
+              {% if section.settings.button_name != blank %}
+              <div class="box-button">
+                <a class="button-main1" href="{{ section.settings.button_url }}">
+                  {{ section.settings.button_name }}
+                </a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .section-video .video-content .button-main1 {
+    color: {{block.settings.color_block_button}};
+    background: {{block.settings.bg_block_button}};
+  }
+  .section-video .video-content .button-main1:hover {
+    color: {{block.settings.color_button_hover}};
+    background: {{block.settings.bg_block_button_hover}};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "VIDEO V1",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Section",
+      "default": "WATCH & SHOP"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Color",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_img",
+      "info": "781 x 611px recommended",
+      "label": "Video Image"
+    },
+    {
+      "type": "url",
+      "id": "url_video1",
+      "label": "URL Video",
+      "info": "[Upload video .mp4 in here](/admin/settings/files)"
+    },
+    {
+      "type": "header",
+      "content": "Info Right"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner",
+      "info": "400 x 400px recommended",
+      "label": "Image Small"
+    },
+    {
+      "type": "text",
+      "id": "title_banner",
+      "label": "Title Banner ",
+      "default": "EVE’S ESSENCE"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Color",
+      "default": "#000"
+    },
+    {
+      "type": "textarea",
+      "id": "desc_banner",
+      "label": "Description Banner ",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis libero placerat cursus cursus. Nunc rutrum tellus a orci pretium sodales. Fusce ante odio, tristique at urna sed, condimentum ornare eros."
+    },
+    {
+      "type": "color",
+      "id": "color_desc",
+      "label": "Color",
+      "default": "#000"
+    },
+    {
+      "type": "text",
+      "id": "button_name",
+      "label": "Button",
+      "default": "Shop now"
+    },
+    {
+      "type": "color",
+      "id": "color_block_button",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "bg_block_button",
+      "label": "Background Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "color_button_hover",
+      "label": "Color Text Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "bg_block_button_hover",
+      "label": "Background Color Hover",
+      "default": "#000"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "URL Button",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "VIDEO V1",
+      "category": "HOME"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,236 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v6" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %}">
+  <div class="section-banner-v6 pt-all" style="background: {{section.settings.bg_section}}">
+    <div class="container container-v1">
+      <div class="row row-banner-{{ section.id }}">
+        <div class="col-md-4">
+          <div class="banner-item">
+            <div class="banner-img">
+              <a href="{{section.settings.url_banner1}}" class="box-img d-block">
+                <img data-src="{% if section.settings.banner_img1 != blank %} {{section.settings.banner_img1 | img_url : 'master'}} {% else %} https://via.placeholder.com/600x640 {% endif %}" class="lazyload img-fluid w-100" alt="_banner_img_">
+              </a>
+            </div>
+            <div class="banner-info">
+              {% if section.settings.title_banner1 != blank %}
+              <h3 class="title-banner" style="color: {{section.settings.color_title1}}">
+                {{section.settings.title_banner1}}
+              </h3>
+              {% endif %}
+
+              {% if section.settings.btn_banner1 != blank %}
+              <a href="{{section.settings.url_banner1}}" class="mb-0 btn-{{ section.id }}" style="color: {{section.settings.color_btn1}};border-bottom: 1px solid {{section.settings.color_btn1}};">
+                {{section.settings.btn_banner1}}
+              </a>
+              {% endif %}
+
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="banner-item">
+            <a href="{{section.settings.url_banner2}}" class="box-img d-block">
+              <img data-src="{% if section.settings.banner_img2 != blank %} {{section.settings.banner_img2 | img_url : 'master'}} {% else %} https://via.placeholder.com/600x640 {% endif %}" class="lazyload img-fluid w-100" alt="_banner_img_">
+            </a>
+            <div class="banner-info">
+              {% if section.settings.title_banner2 != blank %}
+              <h3 class="title-banner" style="color: {{section.settings.color_title2}}">
+                {{section.settings.title_banner2}}
+              </h3>
+              {% endif %}
+              {% if section.settings.btn_banner2 != blank %}
+               <a href="{{section.settings.url_banner2}}" class="mb-0 btn-{{ section.id }}" style="color: {{section.settings.color_btn2}};border-bottom: 1px solid {{section.settings.color_btn2}};">
+                {{section.settings.btn_banner2}}
+              </a>
+              {% endif %}
+
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="banner-item">
+            <a href="{{section.settings.url_banner3}}" class="box-img d-block">
+              <img data-src="{% if section.settings.banner_img3 != blank %} {{section.settings.banner_img3 | img_url : 'master'}} {% else %} https://via.placeholder.com/600x640 {% endif %}" class="lazyload img-fluid w-100" alt="_banner_img_">
+            </a>
+            <div class="banner-info">
+              {% if section.settings.title_banner3 != blank %}
+              <h3 class="title-banner" style="color: {{section.settings.color_title3}}">
+                {{section.settings.title_banner3}}
+              </h3>
+              {% endif %}
+
+              {% if section.settings.btn_banner3 != blank %}
+              <a href="{{section.settings.url_banner3}}" class="mb-0 btn-{{ section.id }}" style="color: {{section.settings.color_btn3}};border-bottom: 1px solid {{section.settings.color_btn3}};">
+                {{section.settings.btn_banner3}}
+              </a>
+              {% endif %}
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "BANNER V6",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_section",
+      "label": "Background",
+      "default": "#f3edeb"
+    },
+    {
+      "type": "header",
+      "content": "Banner 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_img1",
+      "info": "960 x 960px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "title_banner1",
+      "label": "Title Banner 1",
+      "default": "For Women"
+    },
+    {
+      "type": "color",
+      "id": "color_title1",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "btn_banner1",
+      "label": "Link Banner 1",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "color_btn1",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "url",
+      "id": "url_banner1",
+      "label": "URL Banner 1 ",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Banner 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_img2",
+      "info": "960 x 960px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "title_banner2",
+      "label": "Title Banner 2",
+      "default": "For Men"
+    },
+    {
+      "type": "color",
+      "id": "color_title2",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "btn_banner2",
+      "label": "Link Banner 2",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "color_btn2",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "url",
+      "id": "url_banner2",
+      "label": "URL Banner 2 ",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Banner 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_img3",
+      "info": "960 x 960px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "title_banner3",
+      "label": "Title Banner 3",
+      "default": "Sofia Collection"
+    },
+    {
+      "type": "color",
+      "id": "color_title3",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "btn_banner3",
+      "label": "Link Banner 3",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "color_btn3",
+      "label": "Color",
+      "default": "#fff"
+    },
+    {
+      "type": "url",
+      "id": "url_banner3",
+      "label": "URL Banner 3 ",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "BANNER V6",
+      "category": "HOME"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

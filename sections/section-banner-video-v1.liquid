@@ -1,0 +1,180 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-video-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %}">
+  <div class="section-banner-video-v1" style="background-image: url( {%if section.settings.bg_banner != blank %}{{section.settings.bg_banner | img_url: 'master'}} {% else %}///via.placeholder.com/1920x1100 {% endif %})">
+    <div class="container container-v2">
+      <div class="row banner-video">
+        <div class="col-12 col-md-9 col-lg-6">
+          <div class="banner-box">
+            <div class="banner-info">
+              {% if section.settings.sub_title != blank %}
+              <h4 class="sub-title" style="color: {{section.settings.color_sub_title}}">
+                {{section.settings.sub_title}}</h4>
+              {% endif %}
+              {% if section.settings.title_banner != blank %}
+              <h3 class="title" style="color: {{section.settings.color_title}}">
+                {{section.settings.title_banner}}</h3>
+              {% endif %}
+              {% if section.settings.desc_banner != blank %}
+              <p class="sub-title" style="color: {{section.settings.color_desc}}">
+                {{section.settings.desc_banner}}</p>
+              {% endif %}
+              {% if section.settings.button_name != blank %}
+              <a href="{{section.settings.url_button}}" class="button-main1 button-shop-{{ section.id }} text-center">
+                {{section.settings.button_name}}
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-9 col-lg-6">
+          <div class="video">
+            <div class="box-video text-center">
+              <a data-fancybox href="{{section.settings.url_video}}">
+                <span class="box-btn">
+                  <span class="btn-banner">
+                    <i class="fa fa-play"></i>
+                    <span class="line-video line-1"></span>
+                    <span class="line-video line-2"></span>
+                    <span class="line-video line-3"></span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .section-banner-video-v1 .banner-box .banner-info .button-shop-{{ section.id }} {
+    color: {{section.settings.color_btn}};
+    background: {{section.settings.bg_btn}};
+  }
+  .section-banner-video-v1 .banner-box .banner-info .button-shop-{{ section.id }}:hover {
+    color: {{section.settings.color_btn_hover}};
+    background: {{section.settings.bg_btn_hover}};
+  }
+</style>
+{% schema %}
+{
+  "name": "BANNER VIDEO V1",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_banner",
+      "label": "Background Image",
+      "info": "1920 x 750px recommended"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub title banner",
+      "default": "Be The Best of You"
+    },
+    {
+      "type": "color",
+      "id": "color_sub_title",
+      "label": "Color sub title",
+      "default": "#222"
+    },
+    {
+      "type": "text",
+      "id": "title_banner",
+      "label": "Title banner",
+      "default": "Become More Confident & Show Your Better Self"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Color title",
+      "default": "#222"
+    },
+    {
+      "type": "text",
+      "id": "desc_banner",
+      "label": "Description banner",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+    },
+    {
+      "type": "color",
+      "id": "color_desc",
+      "label": "Color description",
+      "default": "#222"
+    },
+    {
+      "type": "text",
+      "id": "button_name",
+      "label": "Button banner",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "color",
+      "id": "color_btn",
+      "label": "Color button",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "bg_btn",
+      "label": "Background button",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "color_btn_hover",
+      "label": "Color button hover",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "bg_btn_hover",
+      "label": "Background button hover",
+      "default": "#ff6f00"
+    },
+    {
+      "type": "url",
+      "id": "url_button",
+      "label": "URL button",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "url",
+      "id": "url_video",
+      "label": "URL Video",
+      "info": "[Upload video .mp4 in here](/admin/settings/files)"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "BANNER VIDEO V1",
+      "category": "HOME"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,189 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-service-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-service-v1 mt-all">
+    <div class="container container-v2">
+      <div class="text-center col-12 col-sm-10 col-md-9 col-lg-7 mx-auto">
+          {% if section.settings.title_heading != blank %}
+          <h3 style="color: {{section.settings.color_title}}">
+            {{section.settings.title_heading}}
+          </h3>
+          {% endif %}
+          {% if section.settings.subtitle_heading != blank %}
+          <p class="subtitle_heading mb-0" style="color: {{section.settings.color_subtitle}}">
+            {{section.settings.subtitle_heading}}
+          </p>
+          {% endif %}
+        </div>
+      <div class="row js-service-v1">
+        {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+        {% if block.type == "service" %}
+        <div class="itemtservice justify-content-center col-12">
+          <div class="box-service">
+            {% if block.settings.enable_img_icon %}
+            <div class="image">
+              <img src="{{block.settings.img_icon |img_url : 'master'}}">
+            </div>
+            {% elsif block.settings.block_svg != blank %}
+            <div class="number">
+              {{block.settings.block_svg}}
+            </div>
+            {% else %}
+            <div class="number">
+            {{block.settings.block_number}}
+            </div>
+            {% endif %}
+
+            <div class="info">
+              {% if block.settings.block_title != blank %}
+              <h4 class="title">{{block.settings.block_title}}</h4>
+              {% endif %}
+              {% if block.settings.block_content != blank %}          	
+              <p class="content">{{block.settings.block_content}}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "SERVICE V1",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_heading",
+      "label": "Title Heading",
+      "default": "OUR CATEGORIES"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Color Title Heading",
+      "default": "#000"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle_heading",
+      "label": "Sub Title Heading",
+      "default": "Find Your Dream Plants"
+    },
+    {
+      "type": "color",
+      "id": "color_subtitle",
+      "label": "Color Sub Title Heading",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service item",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_img_icon",
+          "label": "Enable?",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "img_icon",
+          "label": "Image icon"
+        },
+        {
+          "type": "textarea",
+          "id": "block_svg",
+          "label": "SVG"
+        },
+        {
+          "type": "text",
+          "id": "block_number",
+          "label": "Number",
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Title",
+          "default": "Garden Care"
+        },
+        {
+          "type": "text",
+          "id": "block_content",
+          "label": "Content",
+          "default": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SERVICE V1",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "block_number": "1",
+            "block_title": "Garden Care",
+            "block_content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "block_number": "2",
+            "block_title": "Plant Renovation",
+            "block_content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "block_number": "3",
+            "block_title": "Seed Supply",
+            "block_content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "block_number": "4",
+            "block_title": "Watering Garden",
+            "block_content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

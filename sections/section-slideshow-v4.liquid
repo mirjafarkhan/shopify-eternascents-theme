@@ -1,0 +1,190 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-v4" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-slideshow-v4">
+    <div class="js-slideshow-v4 slick-slide-h4">
+      {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+      {% if block.type == "slideshow" %}
+      <div class="items-slide-h4">    
+        <div class="items-slide__left">
+          <a href="{{block.settings.slide_left_url}}" class="d-block">
+            {% if block.settings.slide_left != blank %}
+            <img src="{{block.settings.slide_left | img_url:'master' }}" class="img-fluid w-100">
+            {% else %}
+            <img src="//via.placeholder.com/960x900" class="img-fluid w-100">
+            {% endif %}
+          </a>
+        </div>
+        <div class="items-slide__right">
+          <a href="{{block.settings.slide_right_url}}" class="d-block">
+            {% if block.settings.slide_right != blank %}
+            <img src="{{block.settings.slide_right | img_url:'master' }}" class="img-fluid w-100">
+            {% else %}
+            <img src="//via.placeholder.com/960x900" class="img-fluid w-100">
+            {% endif %}
+          </a>
+        </div>
+        <div class="head-caption">
+          {% if block.settings.color_heading != blank %}
+          <h1 class="heading-slide" style="color:{{block.settings.color_caption}}">
+            {{ block.settings.color_heading }}
+          </h1>
+          {% endif %}
+          {% if block.settings.block_btn_name != blank %}
+          <div class="box-button">
+            <a href="{{block.settings.block_btn_url}}" class="button-main1 btn-sv4-{{section.id}}-{{block.id}}">
+              <span>{{ block.settings.block_btn_name }}</span>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+<style>
+  .section-slideshow-v4 ul.slick-dots li button {
+    background: {{section.settings.color_dots}};
+  }
+  {% for block in section.blocks %}
+  {% if block.type == "slideshow" %}
+  .section-slideshow-v4 .slick-slide-h4 .box-button  .btn-sv4-{{section.id}}-{{block.id}} {
+    background-color: {{block.settings.bg_block_button}};
+  }
+  .section-slideshow-v4 .slick-slide-h4  .box-button .btn-sv4-{{section.id}}-{{block.id}}:hover {
+    background-color: {{block.settings.bg_block_button_hover}};
+  }
+  {% endif %}
+  {% endfor %}
+</style>
+{% schema %}
+{
+  "name": "SLIDESHOW V4",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_dots",
+      "label": "Color Dots",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "slideshow",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "slide_left",
+          "label": "Slide Left",
+          "info": "960 x 900px recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "slide_right",
+          "label": "Slide Right",
+          "info": "960 x 900px recommended"
+        },
+        {
+          "type": "url",
+          "id": "slide_left_url",
+          "label": "Slider Url",
+          "default": "/collections/all"
+        },
+        {
+          "type": "url",
+          "id": "slide_right_url",
+          "label": "Slider Url",
+          "default": "/collections/all"
+        },
+        {
+          "type": "header",
+          "content": "Info slider"
+        },
+        {
+          "type": "text",
+          "id": "color_heading",
+          "label": "Color Heading",
+          "default": "New Beauty Trend"
+        },
+        {
+          "type": "text",
+          "id": "block_btn_name",
+          "label": "Button slideshow",
+          "default": "Shop now"
+        },
+        {
+          "type": "color",
+          "id": "bg_block_button",
+          "label": "Background Button",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "bg_block_button_hover",
+          "label": "Background Button Hover",
+          "default": "rgba(255, 166, 168, 0.75)"
+        },
+        {
+          "type": "url",
+          "id": "block_btn_url",
+          "label": " Button Url",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SLIDESHOW V4",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "color_heading": "New Beauty Trend",
+            "block_btn_name": "Shop now"
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "color_heading": "New Beauty Trend",
+            "block_btn_name": "Shop now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

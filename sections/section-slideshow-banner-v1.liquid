@@ -1,0 +1,958 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-banner-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-slideshow-banner-v1">
+    <div class="container container-v2">
+      <div class="row row-1">
+        <div class="col-12 col-lg-8 slide-left order-2 order-md-1">
+          <div class="slick-slide-h2 js-slideshow-banner-v1">       
+            {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+            {% if block.type == "slideshow" %}
+            <div class="item-slide-banner">
+              <div class="info-slide-banner">
+                <div class="picture-slideshow">
+                  {% if block.settings.block_bg_image != blank %}
+                  <img src="{{block.settings.block_bg_image | img_url: 'master'}}" class="img-fluid w-100" alt="slideshow">
+                  {% else %}
+                  <img src="//via.placeholder.com/1100x665" class="img-fluid w-100" alt="slideshow">
+                  {% endif %}
+                </div>
+
+                <div class="box-content">
+                  {% if block.settings.block_title or block.settings.block_sub_title or block.settings.block_desc or block.settings.block_buton != blank %}
+                  <div class="box-info box-info-{{block.id}} {% if block.settings.select_textalign_content == 'left' %} text-left {% elsif block.settings.select_textalign_content == 'center' %} text-center {% else %} text-right {% endif %}">                          
+
+                    {% if block.settings.block_subtitle != blank %}
+                    <div class="box-subtitle box-subtitle-{{block.id}} animated">
+                      <p style="color:{{block.settings.color_block_subtitle}};">{{ block.settings.block_subtitle }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if block.settings.block_title != blank %}
+                    <div class="box-title box-title-{{block.id}} animated">
+                      <h2 class="title-slide" style="color:{{block.settings.color_block_title}};">{{ block.settings.block_title }}</h2>
+                    </div>
+                    {% endif %}
+
+                    {% if block.settings.block_subtitle2 != blank %}
+                    <div class="box-subtitle2 box-subtitle2-{{block.id}} animated">
+                      <p class="mb-0" style="color:{{block.settings.color_block_subtitle2}};">{{block.settings.block_subtitle2}}</p>
+                    </div>
+                    {% endif %}
+
+
+                    {% if block.settings.block_buton != blank %}
+                    <div class="box-button">
+                      <a class="button-main1 button-shop-{{block.id}}  animated" href="{{block.settings.block_url}}">
+                        {{ block.settings.block_buton }}
+                      </a>
+                    </div>
+                    {% endif %}
+
+                  </div>
+                  {% endif %}
+                </div>          
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 banner-right order-1 order-md-2 mx-auto mt-md-4 mt-lg-0">
+          <div class="banner-heading">
+            {% if section.settings.heading_title != blank %}
+            <h5 class="mb-0" style="background:{{section.settings.bg_heading}}; color:{{section.settings.color_heading}}">
+              {{section.settings.heading_title}}
+            </h5>
+            {% endif %}
+          </div>
+          
+          {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+          {% if block.type == "banner" %}
+          <div class="row align-items-center banner-item">
+            <div class="col-5 col-lg-4 banner-thumb"> 
+              {% if block.settings.block_banner_img != blank %}
+              <a href="{{ block.settings.block_url }}" class="box-img">
+                <img src="{{block.settings.block_banner_img|img_url:'master'}}" class="img-fluid" alt="banner">
+              </a>
+              {% else %}
+              <a href="{{ block.settings.block_url }}" class="box-img">
+                <img src="//via.placeholder.com/150x150" class="img-fluid" alt="banner">
+              </a>
+              {% endif %}
+            </div>
+            <div class="col-7 col-lg-8 banner-info">
+              <div class="banner-content">
+                {% if block.settings.block_title != blank %}
+                <h3>
+                  <a class="d-block" href="{{ block.settings.block_url }}" style="color:{{block.settings.color_block_title}}">
+                    {{block.settings.block_title}}
+                  </a>
+                </h3>
+                {% endif %}
+
+                {% if block.settings.block_desc != blank %}
+                <p class="mb-0" style="color:{{block.settings.color_block_desc}}">
+                  {{block.settings.block_desc}}
+                </p>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  
+  .section-slideshow-banner-v1 .banner-right .button-main1 {
+    color: {{section.settings.color_btn}};
+    background: {{section.settings.bg_color_btn}};
+  }
+  .section-slideshow-banner-v1 .banner-right .button-main1:hover {
+    color: {{section.settings.color_btn_hover}};
+    background: {{section.settings.bg_color_btn_hover}};
+  }
+  {% for block in section.blocks %}
+  {% if block.type == 'slideshow' %}
+  .section-slideshow-banner-v1 .item-slide-banner .info-slide-banner .box-content .box-button .button-shop-{{block.id}} {
+    background : {{block.settings.bg_color_block_button}};
+    color : {{block.settings.color_block_button}};
+  }
+  .section-slideshow-banner-v1 .item-slide-banner .info-slide-banner .box-content .box-button .button-shop-{{block.id}}:hover{
+    background : {{block.settings.bg_color_hover_button}};
+    color : {{block.settings.color_hover_text}};
+  }
+  .section-slideshow-banner-v1 .slick-active .info-slide-banner .box-info-{{block.id}} .box-subtitle-{{block.id}}{   
+    -webkit-animation-name: {{block.settings.effect_subtitle}};
+    animation-name:  {{block.settings.effect_subtitle}}; ;
+  }
+  .section-slideshow-banner-v1 .slick-active .info-slide-banner .box-info-{{block.id}} .box-title-{{block.id}}{    
+    -webkit-animation-name: {{block.settings.effect_title}};
+    animation-name:  {{block.settings.effect_title}}; ;
+  }
+  .section-slideshow-banner-v1 .slick-active .info-slide-banner .box-info-{{block.id}} .box-subtitle2-{{block.id}}{    
+    -webkit-animation-name: {{block.settings.effect_subtitle2}};
+    animation-name:  {{block.settings.effect_subtitle2}}; ;
+  }
+  
+  .section-slideshow-banner-v1 .item-slide-banner .info-slide-banner .box-content .box-subtitle2-{{block.id}} p strong {
+    color : {{block.settings.color_block_subtitle2_strong}};
+  }
+  .section-slideshow-banner-v1 .slick-active .info-slide-banner .box-info-{{block.id}} .button-shop-{{block.id}}{    
+    -webkit-animation-name: {{block.settings.effect_button}};
+    animation-name:  {{block.settings.effect_button}}; ;
+  }
+
+  {% endif %}
+  {% endfor %}
+</style>
+{% schema %}
+{
+  "name": "SLIDESHOW BANNER V1",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "header",
+      "content": "Banner left"
+    },
+    {
+      "type": "color",
+      "id": "bg_heading",
+      "label": "Background Heading",
+      "default": "#0057ff"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Color Heading",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "heading_title",
+      "label": "Heading title",
+      "default": "Grab today's deal"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "slideshow",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "block_bg_image",
+          "label": "Image slideshow",
+          "info": "770 x 620px recommended"
+        },
+        {
+          "type": "select",
+          "id": "select_textalign_content",
+          "label": "Text Align Content",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Sub Title"
+        },
+        {
+          "type": "text",
+          "id": "block_subtitle",
+          "label": "Title sideshow",
+          "default": "Under favorable smart watches"
+        },
+        {
+          "type": "color",
+          "id": "color_block_subtitle",
+          "label": "Color Title sideshow",
+          "default": "#000"
+        },
+        {
+          "type": "select",
+          "id": "effect_subtitle",
+          "label": "Choose The Effect Sub Title",
+          "info": "[Reference effect in here](https://animate.style/)",
+          "options": [
+            {
+              "value": "bounce",
+              "label": "Bounce"
+            },
+            {
+              "value": "flash",
+              "label": "Flash"
+            },
+            {
+              "value": "pulse",
+              "label": "Pulse"
+            },
+            {
+              "value": "rubberBand",
+              "label": "Rubberband"
+            },
+            {
+              "value": "shake",
+              "label": "Shake"
+            },
+            {
+              "value": "swing",
+              "label": "Swing"
+            },
+            {
+              "value": "tada",
+              "label": "tada"
+            },
+            {
+              "value": "wobble",
+              "label": "Wobble"
+            },
+            {
+              "value": "jello",
+              "label": "Jello"
+            },
+            {
+              "value": "heartBeat",
+              "label": "HeartBeat"
+            },
+            {
+              "value": "backInDown",
+              "label": "Back In Down"
+            },
+            {
+              "value": "backInLeft",
+              "label": "Back In Left"
+            },
+            {
+              "value": "backInRight",
+              "label": "Back In Right"
+            },
+            {
+              "value": "backInUp",
+              "label": "Back In Up"
+            },
+            {
+              "value": "bounceIn",
+              "label": "BounceIn"
+            },
+            {
+              "value": "bounceInDown",
+              "label": "Bounce In Down"
+            },
+            {
+              "value": "bounceInLeft",
+              "label": "Bounce In Left"
+            },
+            {
+              "value": "bounceInRight",
+              "label": "Bounce In Right"
+            },
+            {
+              "value": "fadeIn",
+              "label": "Fade In"
+            },
+            {
+              "value": "fadeInDown",
+              "label": "Fade In Down"
+            },
+            {
+              "value": "fadeInLeft",
+              "label": "Fade In Left"
+            },
+            {
+              "value": "fadeInRight",
+              "label": "Fade In Right"
+            },
+            {
+              "value": "fadeInUp",
+              "label": "Fade In Up"
+            },
+            {
+              "value": "flipInX",
+              "label": "Flip In X"
+            },
+            {
+              "value": "flipInY",
+              "label": "Flip In Y"
+            },
+            {
+              "value": "lightSpeedIn",
+              "label": "Light Speed In"
+            },
+            {
+              "value": "slideInUp",
+              "label": "Slide In Up"
+            },
+            {
+              "value": "slideInRight",
+              "label": "Slide In Right"
+            },
+            {
+              "value": "slideInDown",
+              "label": "Slide In Down"
+            },
+            {
+              "value": "slideInLeft",
+              "label": "Slide In Left"
+            },
+            {
+              "value": "zoomIn",
+              "label": "Zoom In"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Title"
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Title sideshow",
+          "default": "Get 15% OFF on<br>Technology",
+          "info": "Down the line use html tag: <br>. Example: Get 15% OFF on<br>smart watches"
+        },
+        {
+          "type": "color",
+          "id": "color_block_title",
+          "label": "Color Title sideshow",
+          "default": "#000"
+        },
+        {
+          "type": "select",
+          "id": "effect_title",
+          "label": "Choose The Effect Title",
+          "info": "[Reference effect in here](https://animate.style/)",
+          "options": [
+            {
+              "value": "bounce",
+              "label": "Bounce"
+            },
+            {
+              "value": "flash",
+              "label": "Flash"
+            },
+            {
+              "value": "pulse",
+              "label": "Pulse"
+            },
+            {
+              "value": "rubberBand",
+              "label": "Rubberband"
+            },
+            {
+              "value": "shake",
+              "label": "Shake"
+            },
+            {
+              "value": "swing",
+              "label": "Swing"
+            },
+            {
+              "value": "tada",
+              "label": "tada"
+            },
+            {
+              "value": "wobble",
+              "label": "Wobble"
+            },
+            {
+              "value": "jello",
+              "label": "Jello"
+            },
+            {
+              "value": "heartBeat",
+              "label": "HeartBeat"
+            },
+            {
+              "value": "backInDown",
+              "label": "Back In Down"
+            },
+            {
+              "value": "backInLeft",
+              "label": "Back In Left"
+            },
+            {
+              "value": "backInRight",
+              "label": "Back In Right"
+            },
+            {
+              "value": "backInUp",
+              "label": "Back In Up"
+            },
+            {
+              "value": "bounceIn",
+              "label": "BounceIn"
+            },
+            {
+              "value": "bounceInDown",
+              "label": "Bounce In Down"
+            },
+            {
+              "value": "bounceInLeft",
+              "label": "Bounce In Left"
+            },
+            {
+              "value": "bounceInRight",
+              "label": "Bounce In Right"
+            },
+            {
+              "value": "fadeIn",
+              "label": "Fade In"
+            },
+            {
+              "value": "fadeInDown",
+              "label": "Fade In Down"
+            },
+            {
+              "value": "fadeInLeft",
+              "label": "Fade In Left"
+            },
+            {
+              "value": "fadeInRight",
+              "label": "Fade In Right"
+            },
+            {
+              "value": "fadeInUp",
+              "label": "Fade In Up"
+            },
+            {
+              "value": "flipInX",
+              "label": "Flip In X"
+            },
+            {
+              "value": "flipInY",
+              "label": "Flip In Y"
+            },
+            {
+              "value": "lightSpeedIn",
+              "label": "Light Speed In"
+            },
+            {
+              "value": "slideInUp",
+              "label": "Slide In Up"
+            },
+            {
+              "value": "slideInRight",
+              "label": "Slide In Right"
+            },
+            {
+              "value": "slideInDown",
+              "label": "Slide In Down"
+            },
+            {
+              "value": "slideInLeft",
+              "label": "Slide In Left"
+            },
+            {
+              "value": "zoomIn",
+              "label": "Zoom In"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "SubTitle 2"
+        },
+        {
+          "type": "text",
+          "id": "block_subtitle2",
+          "label": "Subtitle sideshow",
+      "default": "Use Code: <strong>SALE30 OFF</strong>",
+        "info": "Color text use: <strong>text</strong>. Example: <strong>SALE30 OFF</strong>"
+        },
+        {
+          "type": "color",
+          "id": "color_block_subtitle2",
+          "label": "Color Subtitle sideshow",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color_block_subtitle2_strong",
+          "label": "Color Subtitle sideshow strong",
+          "default": "#0057ff"
+        },
+        {
+          "type": "select",
+          "id": "effect_subtitle2",
+          "label": "Choose The Effect Subtitle2",
+          "info": "[Reference effect in here](https://animate.style/)",
+          "options": [
+            {
+              "value": "bounce",
+              "label": "Bounce"
+            },
+            {
+              "value": "flash",
+              "label": "Flash"
+            },
+            {
+              "value": "pulse",
+              "label": "Pulse"
+            },
+            {
+              "value": "rubberBand",
+              "label": "Rubberband"
+            },
+            {
+              "value": "shake",
+              "label": "Shake"
+            },
+            {
+              "value": "swing",
+              "label": "Swing"
+            },
+            {
+              "value": "tada",
+              "label": "tada"
+            },
+            {
+              "value": "wobble",
+              "label": "Wobble"
+            },
+            {
+              "value": "jello",
+              "label": "Jello"
+            },
+            {
+              "value": "heartBeat",
+              "label": "HeartBeat"
+            },
+            {
+              "value": "backInDown",
+              "label": "Back In Down"
+            },
+            {
+              "value": "backInLeft",
+              "label": "Back In Left"
+            },
+            {
+              "value": "backInRight",
+              "label": "Back In Right"
+            },
+            {
+              "value": "backInUp",
+              "label": "Back In Up"
+            },
+            {
+              "value": "bounceIn",
+              "label": "BounceIn"
+            },
+            {
+              "value": "bounceInDown",
+              "label": "Bounce In Down"
+            },
+            {
+              "value": "bounceInLeft",
+              "label": "Bounce In Left"
+            },
+            {
+              "value": "bounceInRight",
+              "label": "Bounce In Right"
+            },
+            {
+              "value": "fadeIn",
+              "label": "Fade In"
+            },
+            {
+              "value": "fadeInDown",
+              "label": "Fade In Down"
+            },
+            {
+              "value": "fadeInLeft",
+              "label": "Fade In Left"
+            },
+            {
+              "value": "fadeInRight",
+              "label": "Fade In Right"
+            },
+            {
+              "value": "fadeInUp",
+              "label": "Fade In Up"
+            },
+            {
+              "value": "flipInX",
+              "label": "Flip In X"
+            },
+            {
+              "value": "flipInY",
+              "label": "Flip In Y"
+            },
+            {
+              "value": "lightSpeedIn",
+              "label": "Light Speed In"
+            },
+            {
+              "value": "slideInUp",
+              "label": "Slide In Up"
+            },
+            {
+              "value": "slideInRight",
+              "label": "Slide In Right"
+            },
+            {
+              "value": "slideInDown",
+              "label": "Slide In Down"
+            },
+            {
+              "value": "slideInLeft",
+              "label": "Slide In Left"
+            },
+            {
+              "value": "zoomIn",
+              "label": "Zoom In"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "block_buton",
+          "label": "Button slideshow",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "block_url",
+          "label": "URL button slideshow",
+          "default": "/collections/all"
+        },
+        {
+          "type": "select",
+          "id": "effect_button",
+          "label": "Choose The Effect Button",
+          "info": "[Reference effect in here](https://animate.style/)",
+          "options": [
+            {
+              "value": "bounce",
+              "label": "Bounce"
+            },
+            {
+              "value": "flash",
+              "label": "Flash"
+            },
+            {
+              "value": "pulse",
+              "label": "Pulse"
+            },
+            {
+              "value": "rubberBand",
+              "label": "Rubberband"
+            },
+            {
+              "value": "shake",
+              "label": "Shake"
+            },
+            {
+              "value": "swing",
+              "label": "Swing"
+            },
+            {
+              "value": "tada",
+              "label": "tada"
+            },
+            {
+              "value": "wobble",
+              "label": "Wobble"
+            },
+            {
+              "value": "jello",
+              "label": "Jello"
+            },
+            {
+              "value": "heartBeat",
+              "label": "HeartBeat"
+            },
+            {
+              "value": "backInDown",
+              "label": "Back In Down"
+            },
+            {
+              "value": "backInLeft",
+              "label": "Back In Left"
+            },
+            {
+              "value": "backInRight",
+              "label": "Back In Right"
+            },
+            {
+              "value": "backInUp",
+              "label": "Back In Up"
+            },
+            {
+              "value": "bounceIn",
+              "label": "BounceIn"
+            },
+            {
+              "value": "bounceInDown",
+              "label": "Bounce In Down"
+            },
+            {
+              "value": "bounceInLeft",
+              "label": "Bounce In Left"
+            },
+            {
+              "value": "bounceInRight",
+              "label": "Bounce In Right"
+            },
+            {
+              "value": "fadeIn",
+              "label": "Fade In"
+            },
+            {
+              "value": "fadeInDown",
+              "label": "Fade In Down"
+            },
+            {
+              "value": "fadeInLeft",
+              "label": "Fade In Left"
+            },
+            {
+              "value": "fadeInRight",
+              "label": "Fade In Right"
+            },
+            {
+              "value": "fadeInUp",
+              "label": "Fade In Up"
+            },
+            {
+              "value": "flipInX",
+              "label": "Flip In X"
+            },
+            {
+              "value": "flipInY",
+              "label": "Flip In Y"
+            },
+            {
+              "value": "lightSpeedIn",
+              "label": "Light Speed In"
+            },
+            {
+              "value": "slideInUp",
+              "label": "Slide In Up"
+            },
+            {
+              "value": "slideInRight",
+              "label": "Slide In Right"
+            },
+            {
+              "value": "slideInDown",
+              "label": "Slide In Down"
+            },
+            {
+              "value": "slideInLeft",
+              "label": "Slide In Left"
+            },
+            {
+              "value": "zoomIn",
+              "label": "Zoom In"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Background & color button"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_block_button",
+          "label": "Background Color button",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color_block_button",
+          "label": "Color button",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_hover_button",
+          "label": "Background Hover Color",
+          "default": "#0057ff "
+        },
+        {
+          "type": "color",
+          "id": "color_hover_text",
+          "label": "Text Hover Color",
+          "default": "#fff"
+        }
+      ]
+    },
+    {
+      "type": "banner",
+      "name": "Banner item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "block_banner_img",
+          "label": "Image banner",
+          "info": "100 x 100px recommended"
+        },
+        {
+          "type": "url",
+          "id": "block_url",
+          "label": "URL banner",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Title banner",
+          "default": "Smartphones"
+        },
+        {
+          "type": "color",
+          "id": "color_block_title",
+          "label": "Color title banner",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "block_desc",
+          "label": "Description banner",
+          "default": "Up to 30% OFF"
+        },
+        {
+          "type": "color",
+          "id": "color_block_desc",
+          "label": "Color description banner",
+          "default": "#0057ff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SLIDESHOW BANNER V1",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_subtitle": "Under favorable smart watches",
+            "block_title": "Get 15% OFF on<br>Technology",
+            "block_subtitle2": "Use Code: <strong>SALE15 OFF</strong>"
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_subtitle": "Under favorable smart gadgets",
+            "block_title": "Get 30% OFF on<br>Virtual Reality",
+            "block_subtitle2": "Use Code: <strong>SALE30 OFF</strong>"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "block_title": "Smartphones",
+            "block_desc": "Up to 30% OFF"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "block_title": "Game Console",
+            "block_desc": "Up to 25% OFF"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "block_title": "Accessories",
+            "block_desc": "Up to 45% OFF"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,206 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v2" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %}">
+  <div class="section-banner-v2"> 
+    <div class="container container-v1">
+      <div class="banner-v2 js-banner-v2">
+        {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+        {% if block.type == "banner" %}
+        <div class="banner-item">
+          <div class="image">
+            {% if block.settings.block_bg_img != blank %}
+            <a href="{{ block.settings.block_url }}">
+              <img loading="lazy" width="" height="" data-src="{{ block.settings.block_bg_img | image_url }}" class="lazyload img-fluid w-100" alt="_img_banner_">
+            </a>
+            {% else %}
+            <a href="{{ block.settings.block_url }}">
+              <img loading="lazy" width="" height="" data-src="//via.placeholder.com/1920x500" class="lazyload img-fluid w-100" alt="_img_banner_">
+            </a>
+            {% endif %}
+          </div>
+          <div class="content-banner text-center">
+            {% if block.settings.block_title != blank %}
+            <h3 class="title-banner" style="color: {{block.settings.color_title}}">
+              {{block.settings.block_title}}
+            </h3>
+            {% endif %}
+            {% if block.settings.block_subtitle != blank %}
+            <p class="subtitle" style="color: {{block.settings.color_block_subtitle}}">
+              {{block.settings.block_subtitle}}
+            </p>
+            {% endif %}
+            {% if block.settings.block_buton != blank %}
+            <div class="btn-animation-{{ block.id }}">
+              <a class="button-main1 button-shop-{{ block.id }}" href="{{ block.settings.block_url }}">
+                {{ block.settings.block_buton }}
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .section-banner-v2 .slick-arrow {
+    color: {{section.settings.color_arrows}};
+  }
+  {% if section.blocks.size > 0 %}
+  {% for block in section.blocks %}
+  {% if block.type == "banner" %}
+  .section-banner-v2 .banner-v2 .content-banner .button-shop-{{ block.id }} {
+    color: {{block.settings.color_block_button}};
+    background: {{block.settings.bg_block_button}};
+  }
+  .section-banner-v2 .banner-v2 .content-banner .button-shop-{{ block.id }}:hover {
+    color: {{block.settings.color_button_hover}};
+    background: {{block.settings.bg_block_button_hover}};
+  }
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+</style>
+
+{% schema %}
+{
+  "name": "BANNER V2",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_arrows",
+      "label": "Color Arrows",
+      "info": "#00"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "block_bg_img",
+          "label": "Background Image",
+          "info": "1920 x 700px recommended"
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Title Banner",
+          "default": "Valentine's Day Deal"
+        },
+        {
+          "type": "color",
+          "id": "color_block_title",
+          "label": "Color Title",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "block_subtitle",
+          "label": "Block Sub title",
+          "default": "Up To 50% Off"
+        },
+        {
+          "type": "color",
+          "id": "color_block_subtitle",
+          "label": "Color Subtitle",
+          "default": "#000"
+        },
+        {
+          "type": "header",
+          "content": "Button Slideshow"
+        },
+        {
+          "type": "text",
+          "id": "block_buton",
+          "label": "Button",
+          "default": "Shop now"
+        },
+        {
+          "type": "color",
+          "id": "color_block_button",
+          "label": "Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "bg_block_button",
+          "label": "Background Color",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color_button_hover",
+          "label": "Color Text Hover",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "bg_block_button_hover",
+          "label": "Background Color Hover",
+          "default": "#000"
+        },
+        {
+          "type": "url",
+          "id": "block_url",
+          "label": "URL Button",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BANNER V2",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "banner",
+          "settings": {
+            "block_title": "Valentine's Day Deal",
+            "color_block_title": "#000",
+            "block_subtitle": "Up To 50% Off",
+            "color_block_subtitle": "#000"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "block_title": "Shop Holiday Deal",
+            "color_block_title": "#000",
+            "block_subtitle": "100% Authentic",
+            "color_block_subtitle": "#000"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
