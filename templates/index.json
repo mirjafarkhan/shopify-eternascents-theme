@@ -259,48 +259,67 @@
     "section_info_v1_pfY4ew": {
       "type": "section-info-v1",
       "blocks": {
-        "info_fXnqHV": {
-          "type": "Info",
+        "pillar_delivery": {
+          "type": "pillar",
           "settings": {
-            "img_content": "shopify://shop_images/shipping-box.jpg",
-            "mini_title": "Free Delivery",
-            "mini_des": "FREE UK DELIVERY OVER £50"
+            "icon": "delivery",
+            "pillar_title": "Free UK Delivery",
+            "pillar_desc": "On all orders over £50"
           }
         },
-        "info_2_dPRmDK": {
-          "type": "Info-2",
+        "pillar_sample": {
+          "type": "pillar",
           "settings": {
-            "banner_url": "shopify://collections/all",
-            "img_content_2": "shopify://shop_images/person-working-support_1212-37.avif",
-            "mini_title_right": "Support",
-            "mini_des_right": "FIRST-CLASS SUPPORT Available"
+            "icon": "gift",
+            "pillar_title": "Free Sample",
+            "pillar_desc": "With every full bottle order"
+          }
+        },
+        "pillar_authentic": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "pillar_title": "100% Authentic",
+            "pillar_desc": "Sourced direct from the brands"
+          }
+        },
+        "pillar_support": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "pillar_title": "Expert Advice",
+            "pillar_desc": "7 days a week fragrance help"
           }
         }
       },
       "block_order": [
-        "info_fXnqHV",
-        "info_2_dPRmDK"
+        "pillar_delivery",
+        "pillar_sample",
+        "pillar_authentic",
+        "pillar_support"
       ],
       "name": "INFO V1",
       "settings": {
-        "margin_top": "",
-        "margin_bottom": "",
-        "enable_margin_top": true,
-        "bg_color": "#f4f4f4",
+        "margin_top": "0",
+        "margin_bottom": "0",
+        "enable_margin_top": false,
+        "bg_color": "#071321",
         "info_title": "Our Promise",
         "info_des": "Quality service, quick delivery, and support when you need it.",
-        "img_banner_info": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png"
+        "img_banner_info": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png",
+        "text_color": "#ffffff",
+        "accent_color": "#C9A646"
       }
     }
   },
   "order": [
     "16545716817290dfb6",
     "section_product_v3_h6Yn7f",
+    "section_info_v1_pfY4ew",
     "1657338808c94fcad3",
     "section_banner_v7_tVbrxi",
     "165457174636311816",
     "section_product_v1_7eEHxb",
-    "section_banner_v7_waaCBb",
-    "section_info_v1_pfY4ew"
+    "section_banner_v7_waaCBb"
   ]
 }
