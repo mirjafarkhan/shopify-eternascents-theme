@@ -1,5 +1,8 @@
 
-{% if section.settings.spd_style == "pd_large_img" %}
+{% if section.settings.spd_style == "pd_luxury" %}
+{% include 'product-luxury' %}
+
+{% elsif section.settings.spd_style == "pd_large_img" %}
 {% include 'product-details-large-image' %}
 
 {% elsif section.settings.spd_style =="pd_extended" %}
@@ -174,6 +177,10 @@ addons can override it.
       "label": "Select Main Layout",
       "info": "[View Samples](https://cdn.shopify.com/s/files/1/0579/5568/0414/files/Product-Detail-Styles.jpg?v=1627286659)",
       "options": [
+        {
+          "value": "pd_luxury",
+          "label": "00.Product Luxury"
+        },
         {
           "value": "pd_extended",
           "label": "01.Product Extended"

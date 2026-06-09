@@ -1,0 +1,353 @@
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+{% assign sold_out = true %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% endif %}
+
+<style>
+  .prod-luxury {
+    background: #faf9f7;
+  }
+  .prod-luxury__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+  }
+  @media (max-width: 768px) {
+    .prod-luxury__inner { grid-template-columns: 1fr; }
+  }
+  .prod-luxury__gallery {
+    position: relative;
+    background: #f0ede8;
+    overflow: hidden;
+  }
+  .prod-luxury__main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prod-luxury__thumbnails {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .prod-luxury__thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    opacity: 0.75;
+  }
+  .prod-luxury__thumb:hover,
+  .prod-luxury__thumb.active {
+    border-color: #b8976a;
+    opacity: 1;
+  }
+  .prod-luxury__badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+  }
+  .prod-luxury__info {
+    padding: 60px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #faf9f7;
+  }
+  @media (max-width: 991px) {
+    .prod-luxury__info { padding: 40px 28px; }
+  }
+  .prod-luxury__breadcrumb {
+    margin-bottom: 28px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .prod-luxury__breadcrumb a {
+    color: #999;
+    text-decoration: none;
+  }
+  .prod-luxury__breadcrumb a:hover { color: #1a1a1a; }
+  .prod-luxury__brand {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b8976a;
+    margin-bottom: 12px;
+  }
+  .prod-luxury__title {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: #1a1a1a;
+    margin: 0 0 20px;
+    line-height: 1.25;
+  }
+  .prod-luxury__divider {
+    width: 40px;
+    height: 1px;
+    background: #b8976a;
+    margin-bottom: 20px;
+  }
+  .prod-luxury__price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .prod-luxury__price {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    letter-spacing: 0.02em;
+  }
+  .prod-luxury__price--compare {
+    font-size: 1rem;
+    color: #aaa;
+    text-decoration: line-through;
+  }
+  .prod-luxury__save {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b8976a;
+  }
+  .prod-luxury__summary {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .prod-luxury__variants { margin-bottom: 24px; }
+  .prod-luxury__variants .selector-wrapper label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .prod-luxury__qty-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .prod-luxury__qty-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    min-width: 60px;
+  }
+  .prod-luxury__qty-input {
+    width: 64px;
+    height: 44px;
+    border: 1px solid #d8d0c4;
+    text-align: center;
+    font-size: 0.95rem;
+    background: transparent;
+    outline: none;
+    color: #1a1a1a;
+  }
+  .prod-luxury__atc {
+    width: 100%;
+    padding: 16px 32px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 12px;
+  }
+  .prod-luxury__atc:hover { background: #b8976a; }
+  .prod-luxury__atc.disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  .prod-luxury__sku {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+  }
+  .prod-luxury__sku span { color: #1a1a1a; }
+  .prod-luxury__share {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .prod-luxury__share-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .prod-luxury__share a {
+    color: #999;
+    font-size: 15px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .prod-luxury__share a:hover { color: #b8976a; }
+</style>
+
+<div class="prod-luxury">
+  {% include 'breadcrumb' %}
+  <div class="prod-luxury__inner">
+
+    <!-- Gallery -->
+    <div class="prod-luxury__gallery">
+      {% if on_sale %}
+        <span class="prod-luxury__badge">{{ 'products.product.on_sale' | t }}</span>
+      {% endif %}
+      {% if sold_out %}
+        <span class="prod-luxury__badge">{{ 'products.product.sold_out' | t }}</span>
+      {% endif %}
+
+      {% assign first_image = product.featured_image %}
+      <img
+        id="luxury-main-img"
+        class="prod-luxury__main-image engoj_img_main {% if section.settings.ena_zoom %}js-zoom-img zoom-image{% endif %}"
+        src="{{ first_image | image_url: width: 1200 }}"
+        alt="{{ first_image.alt | escape | default: product.title }}"
+        width="1200"
+        height="1200"
+        loading="eager"
+      >
+
+      {% if product.images.size > 1 %}
+        <div class="prod-luxury__thumbnails">
+          {% for image in product.images %}
+            <img
+              class="prod-luxury__thumb {% if forloop.first %}active{% endif %} engoj_img_variant engoj-nav-item"
+              src="{{ image | image_url: width: 120 }}"
+              alt="{{ image.alt | escape | default: product.title }}"
+              width="64"
+              height="64"
+              loading="lazy"
+              onclick="document.getElementById('luxury-main-img').src='{{ image | image_url: width: 1200 }}'; document.querySelectorAll('.prod-luxury__thumb').forEach(function(t){t.classList.remove('active')}); this.classList.add('active');"
+            >
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Info -->
+    <div class="prod-luxury__info">
+
+      {% if product.vendor != blank %}
+        <p class="prod-luxury__brand">{{ product.vendor }}</p>
+      {% endif %}
+
+      <h1 class="prod-luxury__title">{{ product.title }}</h1>
+      <div class="prod-luxury__divider"></div>
+
+      <div class="prod-luxury__price-wrap">
+        <span class="prod-luxury__price enj-product-price">
+          {{ product.selected_or_first_available_variant.price | money }}
+        </span>
+        {% if on_sale %}
+          <span class="prod-luxury__price--compare enj-product-price-compare">
+            {{ product.selected_or_first_available_variant.compare_at_price | money }}
+          </span>
+          <span class="prod-luxury__save">
+            {{ 'products.product.on_sale' | t }}
+          </span>
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_sdes %}
+        <div class="prod-luxury__summary">
+          {% if product.metafields.engo_summary.summary_content != blank %}
+            {{ product.metafields.engo_summary.summary_content }}
+          {% else %}
+            {{ product.description | strip_html | truncatewords: 50 }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="cart clearfix">
+        <select name="id" id="productSelect" class="product-single__variants">
+          {% for variant in product.variants %}
+            {% if variant.available %}
+              <option {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+                data-sku="{{ variant.sku }}" value="{{ variant.id }}">
+                {{ variant.title }} - {{ variant.price | money_with_currency }}
+              </option>
+            {% else %}
+              <option disabled="disabled">
+                {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+              </option>
+            {% endif %}
+          {% endfor %}
+        </select>
+
+        <div class="prod-luxury__variants">
+          {% if product.available and product.variants.size > 1 %}
+            {% for option in product.options %}
+              {% include 'swatch' with option %}
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        {% if section.settings.show_quantity %}
+          <div class="prod-luxury__qty-row">
+            <span class="prod-luxury__qty-label">{{ 'products.product.quantity' | t }}</span>
+            <input type="number" id="Quantity" name="quantity" value="1" min="1" class="prod-luxury__qty-input">
+          </div>
+        {% endif %}
+
+        {% unless settings.enable_catalog_mode %}
+          {% if product.metafields.engo_external.external_name != blank %}
+            <a href="{{ product.metafields.engo_external.external_url }}" class="prod-luxury__atc" style="display:inline-block;text-align:center;text-decoration:none;">
+              {{ product.metafields.engo_external.external_name }}
+            </a>
+          {% else %}
+            <input type="submit"
+              name="add"
+              id="AddToCart"
+              class="prod-luxury__atc engoj-btn-addtocart {% if sold_out %}disabled{% endif %}"
+              value="{% if sold_out %}{{ 'products.product.sold_out' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}"
+              {% if sold_out %}disabled="disabled"{% endif %}
+            >
+          {% endif %}
+        {% endunless %}
+      </form>
+
+      {% if section.settings.show_sku %}
+        <p class="prod-luxury__sku">
+          SKU: <span class="engoj-variant-sku">{{ product.selected_or_first_available_variant.sku }}</span>
+        </p>
+      {% endif %}
+
+      {% if section.settings.show_social_share %}
+        <div class="prod-luxury__share">
+          <span class="prod-luxury__share-label">{{ 'general.social.share' | t }}</span>
+          {% include 'social_share-product' %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
