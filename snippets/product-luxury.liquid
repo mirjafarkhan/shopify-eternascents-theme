@@ -405,30 +405,58 @@
 <div class="zp-related-grid">
   {%- for p in related_col.products limit: 5 -%}
     {%- unless p.handle == current_handle -%}
-    <a href="{{ p.url }}" class="zp-related-card">
-      <div class="zp-related-img">
-        <img src="{{ p.featured_image | image_url: width: 400, height: 400, crop: 'center' }}"
-             alt="{{ p.title | escape }}" width="400" height="400" loading="lazy">
-      </div>
+    <div class="zp-related-card">
+      <a href="{{ p.url }}" class="zp-related-img-link">
+        <div class="zp-related-img">
+          <img src="{{ p.featured_image | image_url: width: 400, height: 400, crop: 'center' }}"
+               alt="{{ p.title | escape }}" width="400" height="400" loading="lazy">
+        </div>
+      </a>
       <div class="zp-related-info">
-        <p class="zp-related-name">{{ p.title | truncatewords: 6 }}</p>
+        <a href="{{ p.url }}" class="zp-related-name-link">
+          <p class="zp-related-name">{{ p.title | truncatewords: 6 }}</p>
+        </a>
         <p class="zp-related-price">{{ p.price | money }}</p>
+        {%- if p.available -%}
+          {%- if p.variants.size == 1 -%}
+          <form action="/cart/add" method="post" class="zp-related-form">
+            <input type="hidden" name="id" value="{{ p.variants.first.id }}">
+            <button type="submit" class="zp-related-atc enj-add-to-cart-btn">
+              Add to Cart
+            </button>
+          </form>
+          {%- else -%}
+          <a href="{{ p.url }}" class="zp-related-options">
+            Choose Options
+          </a>
+          {%- endif -%}
+        {%- else -%}
+        <span class="zp-related-soldout">Sold Out</span>
+        {%- endif -%}
       </div>
-    </a>
+    </div>
     {%- endunless -%}
   {%- endfor -%}
 </div>
 
 <style>
 .zp-related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.zp-related-card{text-decoration:none;border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;background:#fff;transition:border-color .2s}
+.zp-related-card{border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;background:#fff;transition:border-color .2s;display:flex;flex-direction:column}
 .zp-related-card:hover{border-color:#C9A646}
+.zp-related-img-link{display:block;text-decoration:none}
 .zp-related-img{aspect-ratio:1/1;overflow:hidden;background:#f8f8f8}
 .zp-related-img img{width:100%;height:100%;object-fit:contain;padding:12px;transition:transform .4s}
 .zp-related-card:hover .zp-related-img img{transform:scale(1.05)}
-.zp-related-info{padding:10px 12px}
-.zp-related-name{font-size:12px;font-weight:600;color:#1a1a1a;margin:0 0 4px;line-height:1.3}
+.zp-related-info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.zp-related-name-link{text-decoration:none}
+.zp-related-name{font-size:12px;font-weight:600;color:#1a1a1a;margin:0;line-height:1.3}
 .zp-related-price{font-size:14px;font-weight:700;color:#C9A646;margin:0}
+.zp-related-form{margin-top:auto}
+.zp-related-atc{width:100%;background:#C9A646;color:#fff;border:none;border-radius:6px;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background .2s}
+.zp-related-atc:hover{background:#b8952e}
+.zp-related-options{display:block;width:100%;background:transparent;color:#C9A646;border:1px solid #C9A646;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;text-decoration:none;margin-top:8px;transition:background .2s,color .2s}
+.zp-related-options:hover{background:#C9A646;color:#fff}
+.zp-related-soldout{display:block;width:100%;background:#f0f0f0;color:#999;border-radius:6px;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:8px}
 @media(max-width:600px){.zp-related-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 {%- endif -%}
