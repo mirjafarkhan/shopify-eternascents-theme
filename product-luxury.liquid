@@ -1,0 +1,1260 @@
+{%- comment -%}
+  snippets/product-luxury.liquid — EternaScents Clean PDP
+  Layout inspired by Zimaya / premium fragrance store style.
+
+  Structure:
+  ┌─────────────────────────────────────────────────────┐
+  │ [Image card]      [Title, Price, Brand,             │
+  │  Zoom icon        PayPal, Trust badges,             │
+  │  Thumbnails]      Qty + ATC, SKU/Category]          │
+  ├─────────────────────────────────────────────────────┤
+  │ Description accordion (default open)                │
+  │  → Description text                                 │
+  │  → Fragrance Profile card (if notes exist)          │
+  ├─────────────────────────────────────────────────────┤
+  │ Additional Information accordion                    │
+  ├─────────────────────────────────────────────────────┤
+  │ Reviews accordion                                   │
+  ├─────────────────────────────────────────────────────┤
+  │ You May Also Like                                   │
+  └─────────────────────────────────────────────────────┘
+
+  JS compatibility kept:
+  id="productSelect", id="Quantity", id="AddToCartForm"
+  class="engoj-btn-addtocart", class="enj-product-price"
+  class="enj-product-price-compare"
+{%- endcomment -%}
+
+{%- assign on_sale  = false -%}
+{%- assign sold_out = false -%}
+{%- if product.compare_at_price > product.price -%}{%- assign on_sale = true -%}{%- endif -%}
+{%- unless product.available -%}{%- assign sold_out = true -%}{%- endunless -%}
+
+{%- comment -%} Fragrance notes — metafields first, tag fallback {%- endcomment -%}
+{%- assign mf         = product.metafields.fragrance -%}
+{%- assign top_notes  = mf.top_notes   | default: '' -%}
+{%- assign mid_notes  = mf.heart_notes | default: '' -%}
+{%- assign base_notes = mf.base_notes  | default: '' -%}
+
+{%- for tag in product.tags -%}
+  {%- if tag contains 'top:'   and top_notes  == '' -%}{%- assign top_notes  = tag | remove: 'top:'   | strip -%}{%- endif -%}
+  {%- if tag contains 'heart:' and mid_notes   == '' -%}{%- assign mid_notes  = tag | remove: 'heart:' | strip -%}{%- endif -%}
+  {%- if tag contains 'base:'  and base_notes == '' -%}{%- assign base_notes = tag | remove: 'base:'  | strip -%}{%- endif -%}
+{%- endfor -%}
+
+{%- assign has_notes = false -%}
+{%- if top_notes != '' or mid_notes != '' or base_notes != '' -%}{%- assign has_notes = true -%}{%- endif -%}
+
+{%- comment -%} Inspired by tag {%- endcomment -%}
+{%- assign inspired_by = '' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'inspired:' -%}{%- assign inspired_by = tag | remove: 'inspired:' | strip -%}{%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Delivery estimate {%- endcomment -%}
+{%- assign today_hour = 'now' | date: '%H' | plus: 0 -%}
+{%- if today_hour < 14 -%}{%- assign delivery_msg = 'Same-day dispatch if ordered before 2pm' -%}
+{%- else -%}{%- assign delivery_msg = 'Next working day dispatch' -%}{%- endif -%}
+
+{%- comment -%} Variant price for installment display {%- endcomment -%}
+{%- assign inst_price = product.price | divided_by: 3 | money -%}
+
+<!-------- BREADCRUMB -------->
+<div class="zp-breadcrumb">
+  <div class="zp-wrap">
+    {%- render 'breadcrumb' -%}
+  </div>
+</div>
+
+<!-------- HERO -------->
+<section class="zp-hero">
+  <div class="zp-wrap">
+    <div class="zp-hero__grid">
+
+      <!-------- GALLERY -------->
+      <div class="zp-gallery">
+
+        {%- if product.images.size > 1 -%}
+        <div class="zp-gallery__thumbs" id="zp-thumbs">
+          {%- for image in product.images -%}
+          <button
+            type="button"
+            class="zp-gallery__thumb{% if forloop.first %} zp-gallery__thumb--active{% endif %}"
+            data-src="{{ image | image_url: width: 800 }}"
+            data-full="{{ image | image_url: 'master' }}"
+            data-alt="{{ image.alt | default: product.title | escape }}"
+            aria-label="Image {{ forloop.index }}">
+            <img src="{{ image | image_url: width: 120, height: 120, crop: 'center' }}" alt="" width="120" height="120" loading="lazy">
+          </button>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        <div class="zp-gallery__main-card">
+          <a
+            href="{{ product.featured_image | image_url: 'master' }}"
+            data-fancybox="zp-gallery"
+            class="zp-gallery__zoom-btn"
+            aria-label="Zoom image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+          </a>
+          {%- if product.featured_image -%}
+          <img
+            id="zp-main-img"
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            width="800" height="800"
+            loading="eager" fetchpriority="high"
+            class="zp-gallery__main-img engoj_img_main">
+          {%- endif -%}
+        </div>
+
+      </div>
+      <!-------- END GALLERY -------->
+
+      <!-------- DETAILS -------->
+      <div class="zp-details">
+
+        <!---- Title ---->
+        <h1 class="zp-details__title">{{ product.title }}</h1>
+
+        <!---- Price ---->
+        <div class="zp-details__price-row">
+          <span class="zp-details__price enj-product-price">
+            {%- if product.price_varies -%}From {%- endif -%}
+            {{ product.price | money }}
+          </span>
+          {%- if on_sale -%}
+          <span class="zp-details__price-old enj-product-price-compare">{{ product.compare_at_price | money }}</span>
+          <span class="zp-details__save">Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>
+          {%- endif -%}
+        </div>
+
+        <!---- Brand ---->
+        <p class="zp-details__vendor">{{ product.vendor }}</p>
+
+        {%- if inspired_by != blank -%}
+        <p class="zp-details__inspired">Inspired by <strong>{{ inspired_by }}</strong></p>
+        {%- endif -%}
+
+        <!---- Rating ---->
+        {%- if section.settings.show_rating -%}
+        <div class="zp-details__rating">
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+        </div>
+        {%- endif -%}
+
+        <!---- PayPal installment ---->
+        <div class="zp-details__paypal">
+          <svg viewBox="0 0 24 24" fill="#003087" aria-hidden="true"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/></svg>
+          Pay in 3 × <strong>{{ inst_price }}</strong> interest-free with PayPal &amp; Klarna
+        </div>
+
+        <div class="zp-details__divider"></div>
+
+        <!---- Trust badges ---->
+        <div class="zp-trust">
+          <div class="zp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+            <span class="zp-trust__label">100% Authentic</span>
+            <span class="zp-trust__sub">Guaranteed Genuine</span>
+          </div>
+          <div class="zp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+            <span class="zp-trust__label">Fast Dispatch</span>
+            <span class="zp-trust__sub">{{ delivery_msg }}</span>
+          </div>
+          <div class="zp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+            <span class="zp-trust__label">Secure Shipping</span>
+            <span class="zp-trust__sub">Tracked UK Delivery</span>
+          </div>
+        </div>
+
+        <div class="zp-details__divider"></div>
+
+        <!---- Form ---->
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="zp-form">
+
+          <select name="id" id="productSelect" class="product-single__variants" style="display:none">
+            {%- for variant in product.variants -%}
+            {%- if variant.available -%}
+            <option
+              {%- if variant == product.selected_or_first_available_variant %} selected="selected"{%- endif -%}
+              value="{{ variant.id }}" data-sku="{{ variant.sku }}">
+              {{ variant.title }} — {{ variant.price | money }}
+            </option>
+            {%- else -%}
+            <option disabled="disabled">{{ variant.title }} — {{ 'products.product.sold_out' | t }}</option>
+            {%- endif -%}
+            {%- endfor -%}
+          </select>
+
+          {%- if product.variants.size > 1 -%}
+          <div class="zp-form__options proVariants">
+            {%- for option in product.options -%}
+              {%- render 'swatch' with option -%}
+            {%- endfor -%}
+          </div>
+          {%- endif -%}
+
+          <!---- Stock + variant label ---->
+          <div class="zp-form__stock-row">
+            <span class="zp-form__variant-title">{{ product.selected_or_first_available_variant.title | replace: 'Default Title', '' }}</span>
+            {%- if sold_out -%}
+            <span class="zp-form__stock zp-form__stock--out">Out of Stock</span>
+            {%- else -%}
+            <span class="zp-form__stock zp-form__stock--in">
+              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="4"/></svg>
+              In Stock
+            </span>
+            {%- endif -%}
+          </div>
+
+          <!---- Qty + ATC ---->
+          {%- unless sold_out -%}
+          <div class="zp-form__atc-row">
+            <div class="zp-form__qty">
+              <button type="button" class="zp-qty-btn zp-qty-minus" aria-label="Decrease">−</button>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="zp-qty-input" aria-label="Quantity">
+              <button type="button" class="zp-qty-btn zp-qty-plus" aria-label="Increase">+</button>
+            </div>
+            <button type="submit" name="add" class="zp-form__atc enj-add-to-cart-btn engoj-btn-addtocart">
+              ADD TO CART
+            </button>
+          </div>
+
+          <div class="zp-form__payment-btns">
+            {%- form 'product', product -%}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              {{ form | payment_button }}
+            {%- endform -%}
+          </div>
+          {%- else -%}
+          <div class="zp-form__soldout">Currently Out of Stock</div>
+          {%- endunless -%}
+
+        </form>
+
+        <!---- Meta info ---->
+        <div class="zp-meta">
+          {%- if section.settings.show_sku and product.selected_or_first_available_variant.sku != blank -%}
+          <div class="zp-meta__row">
+            <span class="zp-meta__key">SKU:</span>
+            <span class="zp-meta__val engoj-variant-sku">{{ product.selected_or_first_available_variant.sku }}</span>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.show_cate and product.collections.size > 0 -%}
+          <div class="zp-meta__row">
+            <span class="zp-meta__key">Category:</span>
+            <span class="zp-meta__val">
+              {%- for col in product.collections limit: 2 -%}
+                {%- unless col.handle == 'frontpage' or col.handle == 'all' -%}
+                <a href="{{ col.url }}" class="zp-meta__link">{{ col.title }}</a>{% unless forloop.last %}, {% endunless %}
+                {%- endunless -%}
+              {%- endfor -%}
+            </span>
+          </div>
+          {%- endif -%}
+          <div class="zp-meta__row">
+            <span class="zp-meta__key">Brand:</span>
+            <span class="zp-meta__val">
+              <a href="/collections/{{ product.vendor | handle }}" class="zp-meta__link zp-meta__link--bold">{{ product.vendor }}</a>
+            </span>
+          </div>
+        </div>
+
+        <!---- Wishlist + share ---->
+        <div class="zp-details__actions">
+          {%- render 'add-wishlist-pd' -%}
+          {%- if section.settings.show_social_share -%}
+            {%- render 'social_share-product' -%}
+          {%- endif -%}
+        </div>
+
+      </div>
+      <!-------- END DETAILS -------->
+
+    </div>
+  </div>
+</section>
+
+<!-------- ACCORDIONS -------->
+<div class="zp-accordions">
+  <div class="zp-wrap">
+
+    <!---- Description (open by default) ---->
+    <div class="zp-accord" id="zp-accord-desc">
+      <button type="button" class="zp-accord__trigger is-open" aria-expanded="true">
+        <span>Description</span>
+        <span class="zp-accord__icon">
+          <svg class="zp-accord__minus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 10h10"/></svg>
+          <svg class="zp-accord__plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 5v10M5 10h10"/></svg>
+        </span>
+      </button>
+      <div class="zp-accord__panel is-open">
+
+        {%- if product.description != blank -%}
+        <div class="zp-accord__desc">{{ product.description }}</div>
+        {%- endif -%}
+
+        {%- if has_notes -%}
+        <div class="zp-notes-card">
+          <h3 class="zp-notes-card__title">Fragrance Profile</h3>
+          <table class="zp-notes-card__table">
+            {%- if top_notes != blank -%}
+            <tr>
+              <th>TOP NOTES:</th>
+              <td>{{ top_notes }}</td>
+            </tr>
+            {%- endif -%}
+            {%- if mid_notes != blank -%}
+            <tr>
+              <th>MIDDLE NOTES:</th>
+              <td>{{ mid_notes }}</td>
+            </tr>
+            {%- endif -%}
+            {%- if base_notes != blank -%}
+            <tr>
+              <th>BASE NOTES:</th>
+              <td>{{ base_notes }}</td>
+            </tr>
+            {%- endif -%}
+          </table>
+        </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+    <!---- Additional Information ---->
+    <div class="zp-accord" id="zp-accord-info">
+      <button type="button" class="zp-accord__trigger" aria-expanded="false">
+        <span>Additional Information</span>
+        <span class="zp-accord__icon">
+          <svg class="zp-accord__minus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 10h10"/></svg>
+          <svg class="zp-accord__plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 5v10M5 10h10"/></svg>
+        </span>
+      </button>
+      <div class="zp-accord__panel">
+        <table class="zp-info-table">
+          <tr><th>Brand</th><td>{{ product.vendor }}</td></tr>
+          <tr><th>Type</th><td>Eau de Parfum</td></tr>
+          {%- if product.selected_or_first_available_variant.sku != blank -%}
+          <tr><th>SKU</th><td>{{ product.selected_or_first_available_variant.sku }}</td></tr>
+          {%- endif -%}
+          {%- for col in product.collections limit: 3 -%}
+          {%- unless col.handle == 'frontpage' or col.handle == 'all' -%}
+          <tr><th>Collection</th><td>{{ col.title }}</td></tr>
+          {%- endunless -%}
+          {%- endfor -%}
+        </table>
+      </div>
+    </div>
+
+    <!---- Delivery & Returns ---->
+    <div class="zp-accord" id="zp-accord-delivery">
+      <button type="button" class="zp-accord__trigger" aria-expanded="false">
+        <span>Delivery &amp; Returns</span>
+        <span class="zp-accord__icon">
+          <svg class="zp-accord__minus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 10h10"/></svg>
+          <svg class="zp-accord__plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 5v10M5 10h10"/></svg>
+        </span>
+      </button>
+      <div class="zp-accord__panel">
+        <ul class="zp-delivery-list">
+          <li><strong>Standard UK Delivery</strong> — 2–3 working days · FREE on orders over £50</li>
+          <li><strong>Express UK Delivery</strong> — Next working day · £4.99 (order before 2pm)</li>
+          <li><strong>International</strong> — 5–10 working days · from £8.99</li>
+        </ul>
+        <p>Returns accepted on sealed, unopened items within 30 days. Email <a href="mailto:returns@eternascents.com">returns@eternascents.com</a> to start a return.</p>
+      </div>
+    </div>
+
+    <!---- Reviews ---->
+    <div class="zp-accord" id="zp-accord-reviews">
+      <button type="button" class="zp-accord__trigger" aria-expanded="false">
+        <span>Reviews</span>
+        <span class="zp-accord__icon">
+          <svg class="zp-accord__minus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 10h10"/></svg>
+          <svg class="zp-accord__plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 5v10M5 10h10"/></svg>
+        </span>
+      </button>
+      <div class="zp-accord__panel">
+        <div id="shopify-product-reviews" data-id="{{ product.id }}">
+          {{ product.metafields.spr.reviews }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-------- YOU MAY ALSO LIKE -------->
+<section class="zp-related">
+  <div class="zp-wrap">
+    <h2 class="zp-section-title">You May Also Like</h2>
+    {%- assign current_handle = product.handle -%}
+{%- assign found_collection = false -%}
+{%- for col in product.collections -%}
+  {%- if found_collection == false and col.handle != 'frontpage' and col.handle != 'all' and col.products_count > 1 -%}
+    {%- assign found_collection = true -%}
+    {%- assign related_col = col -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if found_collection -%}
+<div class="zp-related-grid">
+  {%- for p in related_col.products limit: 5 -%}
+    {%- unless p.handle == current_handle -%}
+    <div class="zp-related-card">
+      <a href="{{ p.url }}" class="zp-related-img-link">
+        <div class="zp-related-img">
+          <img src="{{ p.featured_image | image_url: width: 400, height: 400, crop: 'center' }}"
+               alt="{{ p.title | escape }}" width="400" height="400" loading="lazy">
+        </div>
+      </a>
+      <div class="zp-related-info">
+        <a href="{{ p.url }}" class="zp-related-name-link">
+          <p class="zp-related-name">{{ p.title | truncatewords: 6 }}</p>
+        </a>
+        <p class="zp-related-price">{{ p.price | money }}</p>
+        {%- if p.available -%}
+          {%- if p.variants.size == 1 -%}
+          <form action="/cart/add" method="post" class="zp-related-form">
+            <input type="hidden" name="id" value="{{ p.variants.first.id }}">
+            <button type="submit" class="zp-related-atc enj-add-to-cart-btn">
+              Add to Cart
+            </button>
+          </form>
+          {%- else -%}
+          <a href="{{ p.url }}" class="zp-related-options">
+            Choose Options
+          </a>
+          {%- endif -%}
+        {%- else -%}
+        <span class="zp-related-soldout">Sold Out</span>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- endunless -%}
+  {%- endfor -%}
+</div>
+
+<style>
+.zp-related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.zp-related-card{border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;background:#fff;transition:border-color .2s;display:flex;flex-direction:column}
+.zp-related-card:hover{border-color:#C9A646}
+.zp-related-img-link{display:block;text-decoration:none}
+.zp-related-img{aspect-ratio:1/1;overflow:hidden;background:#f8f8f8}
+.zp-related-img img{width:100%;height:100%;object-fit:contain;padding:12px;transition:transform .4s}
+.zp-related-card:hover .zp-related-img img{transform:scale(1.05)}
+.zp-related-info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.zp-related-name-link{text-decoration:none}
+.zp-related-name{font-size:12px;font-weight:600;color:#1a1a1a;margin:0;line-height:1.3}
+.zp-related-price{font-size:14px;font-weight:700;color:#C9A646;margin:0}
+.zp-related-form{margin-top:auto}
+.zp-related-atc{width:100%;background:#C9A646;color:#fff;border:none;border-radius:6px;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background .2s}
+.zp-related-atc:hover{background:#b8952e}
+.zp-related-options{display:block;width:100%;background:transparent;color:#C9A646;border:1px solid #C9A646;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;text-decoration:none;margin-top:8px;transition:background .2s,color .2s}
+.zp-related-options:hover{background:#C9A646;color:#fff}
+.zp-related-soldout{display:block;width:100%;background:#f0f0f0;color:#999;border-radius:6px;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:8px}
+@media(max-width:600px){.zp-related-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+{%- endif -%}
+  </div>
+</section>
+
+<!-------- STICKY ATC (mobile) -------->
+{%- unless sold_out -%}
+<div class="zp-sticky" id="zp-sticky" aria-hidden="true">
+  <div class="zp-sticky__inner">
+    <div>
+      <p class="zp-sticky__title">{{ product.title | truncatewords: 5 }}</p>
+      <p class="zp-sticky__price enj-product-price">{{ product.price | money }}</p>
+    </div>
+    <button type="button" class="zp-sticky__btn" onclick="document.querySelector('.engoj-btn-addtocart').click()">
+      ADD TO CART
+    </button>
+  </div>
+</div>
+{%- endunless -%}
+
+<!-------- CSS -------->
+<style>
+:root {
+  --zp-gold:   #C9A646;
+  --zp-dark:   #1a1a1a;
+  --zp-muted:  #666;
+  --zp-border: #e8e8e8;
+  --zp-bg:     #f8f8f8;
+  --zp-white:  #ffffff;
+  --zp-radius: 12px;
+}
+
+.zp-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.zp-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--zp-dark);
+  margin: 0 0 28px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.zp-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 2px;
+  background: var(--zp-gold);
+  border-radius: 2px;
+}
+
+/* ─── Breadcrumb ───────────────────────────── */
+.zp-breadcrumb {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--zp-border);
+  font-size: 13px;
+}
+
+/* ─── Hero ─────────────────────────────────── */
+.zp-hero {
+  padding: 36px 0 48px;
+  background: #faf8f5;
+}
+
+.zp-hero__grid {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ─── Gallery ──────────────────────────────── */
+.zp-gallery {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.zp-gallery__main-card {
+  position: relative;
+  background: var(--zp-white);
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  flex: 1;
+  min-width: 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.zp-gallery__main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  padding: 20px;
+  transition: transform .5s ease;
+}
+
+.zp-gallery__main-card:hover .zp-gallery__main-img {
+  transform: scale(1.04);
+}
+
+.zp-gallery__zoom-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  background: rgba(255,255,255,.9);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--zp-dark);
+  transition: background .2s, color .2s;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+.zp-gallery__zoom-btn:hover {
+  background: var(--zp-gold);
+  color: #fff;
+}
+
+.zp-gallery__zoom-btn svg { width: 16px; height: 16px; }
+
+/* Vertical thumb strip on the LEFT */
+.zp-gallery__thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 74px;
+  flex-shrink: 0;
+  max-height: 520px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.zp-gallery__thumbs::-webkit-scrollbar { display: none; }
+
+.zp-gallery__thumb {
+  background: var(--zp-white);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  aspect-ratio: 1/1;
+  width: 74px;
+  flex-shrink: 0;
+  transition: border-color .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+
+.zp-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.zp-gallery__thumb--active,
+.zp-gallery__thumb:hover {
+  border-color: var(--zp-gold);
+}
+
+/* ─── Details ──────────────────────────────── */
+.zp-details__title {
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 700;
+  color: var(--zp-dark);
+  margin: 0 0 14px;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+}
+
+.zp-details__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.zp-details__price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--zp-dark);
+}
+
+.zp-details__price-old {
+  font-size: 16px;
+  color: #bbb;
+  text-decoration: line-through;
+}
+
+.zp-details__save {
+  background: #fff3e0;
+  color: #e65100;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: .05em;
+}
+
+.zp-details__vendor {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--zp-gold);
+  margin: 0 0 8px;
+}
+
+.zp-details__inspired {
+  font-size: 12px;
+  color: var(--zp-muted);
+  margin: 0 0 8px;
+}
+
+.zp-details__rating {
+  min-height: 20px;
+  margin-bottom: 12px;
+}
+
+.zp-details__paypal {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--zp-muted);
+  margin-bottom: 4px;
+}
+
+.zp-details__paypal svg { width: 18px; height: 18px; flex-shrink: 0; }
+.zp-details__paypal strong { color: var(--zp-dark); }
+
+.zp-details__divider {
+  height: 1px;
+  background: var(--zp-border);
+  margin: 16px 0;
+}
+
+/* ─── Trust badges ─────────────────────────── */
+.zp-trust {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.zp-trust__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px 8px;
+  border-radius: 10px;
+  background: var(--zp-white);
+  border-top: 3px solid var(--zp-gold);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  gap: 5px;
+}
+
+.zp-trust__item svg {
+  width: 20px;
+  height: 20px;
+  color: var(--zp-gold);
+  flex-shrink: 0;
+}
+
+.zp-trust__label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--zp-dark);
+  line-height: 1.2;
+}
+
+.zp-trust__sub {
+  font-size: 10px;
+  color: var(--zp-muted);
+  line-height: 1.3;
+}
+
+/* ─── Form ─────────────────────────────────── */
+.zp-form { margin: 0; }
+
+.zp-form__options { margin-bottom: 14px; }
+
+.zp-form__stock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  min-height: 24px;
+}
+
+.zp-form__variant-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--zp-dark);
+}
+
+.zp-form__stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.zp-form__stock svg { width: 8px; height: 8px; }
+
+.zp-form__stock--in {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.zp-form__stock--out {
+  background: #fce4e4;
+  color: #c62828;
+}
+
+.zp-form__atc-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Qty stepper */
+.zp-form__qty {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--zp-border);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--zp-white);
+}
+
+.zp-qty-btn {
+  width: 42px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--zp-dark);
+  transition: background .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zp-qty-btn:hover { background: var(--zp-bg); }
+
+.zp-qty-input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--zp-border);
+  border-right: 1px solid var(--zp-border);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--zp-dark);
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.zp-qty-input::-webkit-inner-spin-button,
+.zp-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* ATC button */
+.zp-form__atc {
+  flex: 1;
+  background: var(--zp-gold);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 0 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: background .2s, transform .1s, box-shadow .2s;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(201,166,70,.35);
+}
+
+.zp-form__atc:hover { background: #b8952e; box-shadow: 0 6px 20px rgba(201,166,70,.45); }
+.zp-form__atc:active { transform: scale(.98); }
+
+.zp-form__atc.disabled,
+.zp-form__atc:disabled { opacity: .5; cursor: not-allowed; }
+
+.zp-form__soldout {
+  background: #f0f0f0;
+  color: #999;
+  padding: 14px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.zp-form__payment-btns { margin-bottom: 4px; }
+
+.zp-form__payment-btns .shopify-payment-button__button {
+  border-radius: 8px !important;
+}
+
+/* Meta */
+.zp-meta {
+  padding: 16px 0 0;
+  border-top: 1px solid var(--zp-border);
+  margin-top: 12px;
+}
+
+.zp-meta__row {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 6px;
+  align-items: baseline;
+}
+
+.zp-meta__key {
+  font-weight: 600;
+  color: var(--zp-dark);
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.zp-meta__val { color: var(--zp-muted); }
+
+.zp-meta__link { color: var(--zp-muted); text-decoration: underline; }
+.zp-meta__link:hover { color: var(--zp-gold); }
+.zp-meta__link--bold { font-weight: 600; color: var(--zp-dark); }
+
+.zp-details__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--zp-border);
+}
+
+/* ─── Accordions ───────────────────────────── */
+.zp-accordions {
+  padding: 0 0 48px;
+  border-top: 2px solid var(--zp-border);
+}
+
+.zp-accord {
+  border-bottom: 1px solid var(--zp-border);
+}
+
+.zp-accord__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--zp-gold);
+  text-align: left;
+  gap: 12px;
+}
+
+.zp-accord__trigger:not(.is-open) {
+  color: var(--zp-dark);
+}
+
+.zp-accord__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--zp-muted);
+}
+
+.zp-accord__plus,
+.zp-accord__minus { width: 20px; height: 20px; }
+
+.zp-accord__trigger .zp-accord__plus { display: block; }
+.zp-accord__trigger .zp-accord__minus { display: none; }
+.zp-accord__trigger.is-open .zp-accord__plus { display: none; }
+.zp-accord__trigger.is-open .zp-accord__minus { display: block; }
+
+.zp-accord__panel {
+  display: none;
+  padding: 0 0 24px;
+  font-size: 14px;
+  color: var(--zp-muted);
+  line-height: 1.75;
+}
+
+.zp-accord__panel.is-open { display: block; }
+
+.zp-accord__desc { margin-bottom: 20px; }
+.zp-accord__desc h1, .zp-accord__desc h2, .zp-accord__desc h3 {
+  font-size: 16px;
+  color: var(--zp-dark);
+  margin: 0 0 8px;
+}
+.zp-accord__desc p { margin: 0 0 10px; }
+
+/* ─── Fragrance Profile card ───────────────── */
+.zp-notes-card {
+  background: var(--zp-white);
+  border: 1px solid var(--zp-border);
+  border-left: 4px solid var(--zp-gold);
+  border-radius: 0 10px 10px 0;
+  padding: 20px 24px;
+}
+
+.zp-notes-card__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--zp-dark);
+  margin: 0 0 16px;
+  letter-spacing: .02em;
+}
+
+.zp-notes-card__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.zp-notes-card__table tr {
+  border-bottom: 1px solid var(--zp-border);
+}
+
+.zp-notes-card__table tr:last-child { border-bottom: none; }
+
+.zp-notes-card__table th {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--zp-dark);
+  padding: 10px 16px 10px 0;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 140px;
+  text-align: left;
+}
+
+.zp-notes-card__table td {
+  font-size: 13px;
+  color: var(--zp-muted);
+  padding: 10px 0;
+  vertical-align: top;
+}
+
+/* ─── Additional info table ────────────────── */
+.zp-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.zp-info-table tr { border-bottom: 1px solid var(--zp-border); }
+.zp-info-table tr:last-child { border-bottom: none; }
+.zp-info-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--zp-dark);
+  padding: 10px 24px 10px 0;
+  width: 160px;
+  vertical-align: top;
+}
+.zp-info-table td {
+  padding: 10px 0;
+  color: var(--zp-muted);
+  vertical-align: top;
+}
+
+/* Delivery list */
+.zp-delivery-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.zp-delivery-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--zp-border);
+  font-size: 13px;
+}
+
+.zp-delivery-list li:last-child { border-bottom: none; }
+.zp-delivery-list strong { color: var(--zp-dark); }
+
+/* ─── Related ──────────────────────────────── */
+.zp-related {
+  padding: 48px 0;
+  background: var(--zp-bg);
+  border-top: 1px solid var(--zp-border);
+}
+
+/* ─── Sticky ATC ───────────────────────────── */
+.zp-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--zp-white);
+  border-top: 1px solid var(--zp-border);
+  transform: translateY(100%);
+  transition: transform .3s ease;
+  display: none;
+  box-shadow: 0 -4px 16px rgba(0,0,0,.08);
+}
+
+.zp-sticky.is-visible { transform: translateY(0); }
+
+.zp-sticky__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.zp-sticky__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--zp-dark);
+  margin: 0 0 2px;
+}
+
+.zp-sticky__price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--zp-dark);
+  margin: 0;
+}
+
+.zp-sticky__btn {
+  background: var(--zp-gold);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  cursor: pointer;
+  border-radius: 50px;
+  flex-shrink: 0;
+  transition: background .2s;
+  box-shadow: 0 4px 14px rgba(201,166,70,.35);
+}
+
+.zp-sticky__btn:hover { background: #b8952e; }
+
+/* ─── Mobile ───────────────────────────────── */
+@media (max-width: 900px) {
+  .zp-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .zp-trust {
+    gap: 6px;
+  }
+
+  .zp-trust__item {
+    padding: 10px 6px;
+  }
+
+  .zp-sticky { display: block; }
+}
+
+@media (max-width: 575px) {
+  .zp-wrap { padding: 0 16px; }
+
+  /* On small mobile, thumbs go back to a horizontal row below main image */
+  .zp-gallery { flex-direction: column; }
+
+  .zp-gallery__thumbs {
+    flex-direction: row;
+    width: 100%;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
+  .zp-gallery__thumb {
+    width: 64px;
+    flex-shrink: 0;
+  }
+
+  .zp-form__atc { font-size: 12px; padding: 0 16px; }
+
+  .zp-hero { padding: 20px 0 32px; }
+
+  .zp-trust {
+    flex-wrap: wrap;
+  }
+
+  .zp-trust__item {
+    flex: 1 1 calc(33% - 6px);
+    min-width: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zp-gallery__main-img,
+  .zp-sticky { transition: none; }
+}
+</style>
+
+<!-------- JS -------->
+<script>
+(function() {
+
+  /* Gallery thumb switcher */
+  var mainImg = document.getElementById('zp-main-img');
+  var thumbs  = document.getElementById('zp-thumbs');
+  var zoomBtn = mainImg && mainImg.closest('a');
+
+  if (thumbs && mainImg) {
+    thumbs.addEventListener('click', function(e) {
+      var btn = e.target.closest('.zp-gallery__thumb');
+      if (!btn) return;
+      thumbs.querySelectorAll('.zp-gallery__thumb').forEach(function(t) {
+        t.classList.remove('zp-gallery__thumb--active');
+      });
+      btn.classList.add('zp-gallery__thumb--active');
+      mainImg.src = btn.dataset.src;
+      mainImg.alt = btn.dataset.alt;
+      if (zoomBtn) zoomBtn.href = btn.dataset.full;
+    });
+  }
+
+  /* Qty stepper */
+  var qtyInput = document.getElementById('Quantity');
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('zp-qty-minus') && qtyInput) {
+      qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) - 1);
+    }
+    if (e.target.classList.contains('zp-qty-plus') && qtyInput) {
+      qtyInput.value = parseInt(qtyInput.value, 10) + 1;
+    }
+  });
+
+  /* Accordions */
+  document.querySelectorAll('.zp-accord__trigger').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var panel  = btn.nextElementSibling;
+      var isOpen = btn.classList.contains('is-open');
+
+      btn.classList.toggle('is-open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('is-open', !isOpen);
+    });
+  });
+
+  /* Sticky ATC */
+  var sticky = document.getElementById('zp-sticky');
+  var atcBtn = document.querySelector('.zp-form__atc');
+
+  if (sticky && atcBtn && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        sticky.classList.toggle('is-visible', !entry.isIntersecting);
+        sticky.setAttribute('aria-hidden', String(entry.isIntersecting));
+      });
+    }, { rootMargin: '-60px 0px 0px 0px' }).observe(atcBtn);
+  }
+
+})();
+</script>
