@@ -1,0 +1,314 @@
+<!-- sections/page-cart.liquid -->
+<div class="wrap-bread-crumb breadcrumb_cart">
+  <div class="container container-v1">
+    {%- render 'breadcrumb' -%}
+  </div>
+</div>
+
+<section class="page-cart">
+  <div class="content-pages">
+    <div class="container container-v1">
+      <div class="content-about content-cart-page">
+
+        {%- if cart.item_count > 0 -%}
+
+        {%- comment -%}
+          Single form wraps the entire cart — quantity inputs AND the
+          update submit button must live inside the same form.
+          Previously a second <form> was opened inside the <table> which
+          browsers ignore, placing the submit button outside any form.
+        {%- endcomment -%}
+        <form action="/cart" method="post" novalidate id="cart-form">
+
+          <div class="table-responsive">
+            <table class="shop_table table--responsive cart table">
+              <thead>
+                <tr class="cart-title">
+                  <th colspan="2" class="product-thumbnail">{{ 'cart.label.product' | t }}</th>
+                  <th class="product-price">{{ 'cart.label.price' | t }}</th>
+                  <th class="product-quantity">{{ 'cart.label.quantity' | t }}</th>
+                  <th class="product-subtotal">{{ 'cart.label.total' | t }}</th>
+                  <th class="product-remove">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for item in cart.items -%}
+                <tr class="cart_item" data-line="{{ forloop.index }}">
+
+                  <td data-label="{{ 'cart.label.product' | t }}" class="product-thumbnail">
+                    <a href="{{ item.url }}">
+                      <img
+                        src="{{ item | image_url: width: 100, height: 100 }}"
+                        alt="{{ item.title | escape }}"
+                        width="100"
+                        height="100"
+                        loading="lazy">
+                    </a>
+                  </td>
+
+                  <td class="product-name-thumb" data-title="{{ 'cart.label.product' | t }}">
+                    <a href="{{ item.url }}">{{ item.product.title }}</a>
+                    {%- unless item.variant.title contains 'Default' -%}
+                    <small class="cart-variant-title">{{ item.variant.title }}</small>
+                    {%- endunless -%}
+                    {%- if settings.cart_vendor_enable -%}
+                    <p class="cart-vendor">{{ item.vendor }}</p>
+                    {%- endif -%}
+                  </td>
+
+                  <td data-label="{{ 'cart.label.price' | t }}" class="product-price" data-title="{{ 'cart.label.price' | t }}">
+                    <span class="amount">{{ item.price | money }}</span>
+                  </td>
+
+                  <td data-label="{{ 'cart.label.quantity' | t }}" class="product-quantity" data-title="{{ 'cart.label.quantity' | t }}">
+                    <div class="cart-qty-wrapper">
+                      <button
+                        type="button"
+                        class="cart-qty-btn cart-qty-minus"
+                        aria-label="{{ 'cart.label.decrease_quantity' | t | default: 'Decrease quantity' }}"
+                        data-line="{{ forloop.index }}">−</button>
+                      <input
+                        type="number"
+                        name="updates[]"
+                        id="updates_{{ item.id }}"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        aria-label="{{ 'cart.label.quantity' | t }}">
+                      <button
+                        type="button"
+                        class="cart-qty-btn cart-qty-plus"
+                        aria-label="{{ 'cart.label.increase_quantity' | t | default: 'Increase quantity' }}"
+                        data-line="{{ forloop.index }}">+</button>
+                    </div>
+                  </td>
+
+                  <td data-label="{{ 'cart.label.total' | t }}" class="product-subtotal" data-title="{{ 'cart.label.total' | t }}">
+                    <span class="amount" id="subtotal-{{ forloop.index }}">{{ item.line_price | money }}</span>
+                  </td>
+
+                  <td class="product-remove">
+                    <button
+                      type="button"
+                      class="remove set-12-svg cart-remove-btn"
+                      data-line="{{ forloop.index }}"
+                      aria-label="{{ 'cart.label.remove' | t | default: 'Remove item' }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 298.667 298.667" aria-hidden="true" focusable="false">
+                        <g><g><polygon points="298.667,30.187 268.48,0 149.333,119.147 30.187,0 0,30.187 119.147,149.333 0,268.48 30.187,298.667 149.333,179.52 268.48,298.667 298.667,268.48 179.52,149.333"/></g></g>
+                      </svg>
+                    </button>
+                  </td>
+
+                </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="cart_totals">
+            <div class="cart-update">
+              {%- comment -%}
+                This submit button is now correctly inside the single form.
+                Previously the nested form bug placed this outside any form.
+              {%- endcomment -%}
+              <input
+                type="submit"
+                value="{{ 'cart.general.update' | t }}"
+                name="update_cart"
+                class="button bg-color"
+                id="cart-update-btn">
+            </div>
+
+            <div class="continue-shopping-1">
+              <a href="/collections/all">{{ 'cart.general.continue' | t }}</a>
+            </div>
+
+            <div class="cart-check">
+              <h2 class="cart-title">{{ 'cart.label.cart_total' | t }}</h2>
+              <table class="total-checkout">
+                <tbody>
+                  <tr>
+                    <th class="cart-label">{{ 'cart.label.total' | t }}</th>
+                    <td class="cart-amount">
+                      <strong><span class="amount" id="cart-total-price">{{ cart.total_price | money }}</span></strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="wc-proceed-to-checkout clearfix">
+                <a class="checkout-button button alt wc-forward bg-color" href="/checkout">
+                  {{ 'cart.general.checkout' | t }}
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+        {%- else -%}
+        <div class="cart-empty">
+          <p>{{ 'cart.general.empty' | t }}</p>
+          <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+        </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart Page",
+  "settings": []
+}
+{% endschema %}
+
+{% stylesheet %}
+.cart-qty-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  max-width: 120px;
+}
+
+.cart-qty-wrapper input[type="number"] {
+  width: 44px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  height: 38px;
+  padding: 0;
+  font-size: 14px;
+  -moz-appearance: textfield;
+}
+
+.cart-qty-wrapper input[type="number"]::-webkit-inner-spin-button,
+.cart-qty-wrapper input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-qty-btn {
+  width: 38px;
+  height: 38px;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #333;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.cart-qty-btn:hover {
+  background: #e8e8e8;
+}
+
+.cart-qty-minus {
+  border-radius: 4px 0 0 4px;
+}
+
+.cart-qty-plus {
+  border-radius: 0 4px 4px 0;
+}
+
+.cart-variant-title {
+  display: block;
+  color: #959595;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.cart-vendor {
+  font-size: 12px;
+  color: #aaa;
+  margin: 2px 0 0;
+}
+
+.cart-remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-remove-btn svg {
+  width: 12px;
+  height: 12px;
+  fill: #999;
+  transition: fill 0.2s;
+}
+
+.cart-remove-btn:hover svg {
+  fill: #333;
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  var cartForm = document.getElementById('cart-form');
+  if (!cartForm) return;
+
+  // +/- quantity buttons
+  cartForm.addEventListener('click', function(e) {
+    var btn = e.target.closest('.cart-qty-btn');
+    if (!btn) return;
+
+    var wrapper = btn.closest('.cart-qty-wrapper');
+    var input   = wrapper.querySelector('input[type="number"]');
+    var current = parseInt(input.value, 10) || 0;
+
+    if (btn.classList.contains('cart-qty-plus')) {
+      input.value = current + 1;
+    } else if (btn.classList.contains('cart-qty-minus')) {
+      input.value = Math.max(0, current - 1);
+    }
+  });
+
+  // AJAX remove — no full page reload for item removal
+  cartForm.addEventListener('click', function(e) {
+    var removeBtn = e.target.closest('.cart-remove-btn');
+    if (!removeBtn) return;
+
+    e.preventDefault();
+    var line  = parseInt(removeBtn.getAttribute('data-line'), 10);
+    var row   = removeBtn.closest('tr.cart_item');
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify({ line: line, quantity: 0 })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(cart) {
+      if (row) row.remove();
+
+      // Update total
+      var totalEl = document.getElementById('cart-total-price');
+      if (totalEl && window.Shopify && window.money_format) {
+        totalEl.textContent = Shopify.formatMoney(cart.total_price, window.money_format);
+      }
+
+      // If cart is now empty, reload to show empty state
+      if (cart.item_count === 0) {
+        window.location.reload();
+      }
+    })
+    .catch(function() {
+      // Fallback to page reload if fetch fails
+      window.location.reload();
+    });
+  });
+
+})();
+{% endjavascript %}

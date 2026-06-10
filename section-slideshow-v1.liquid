@@ -1,0 +1,868 @@
+{%- comment -%}
+  sections/section-slideshow-v1.liquid
+  Luxury cinematic hero slideshow — EternaScents
+  Inspired by premium Arabic fragrance store UX (Zaoud-style),
+  adapted for EternaScents brand identity.
+
+  Changes from original:
+  - Removed all-or-nothing {% if heading AND subheading2 AND button %} gate
+    Each element now renders independently
+  - First slide image: loading="eager" for LCP (Core Web Vitals)
+  - Cinematic gradient overlay per slide (opacity configurable)
+  - Luxury type hierarchy: eyebrow → headline → CTA
+  - Gold ghost CTA button with fill-on-hover
+  - Slick fade transition (cinematic, not slide-across)
+  - Preserves all existing schema settings (backward compatible)
+  - New: overlay_opacity per block, autoplay/speed at section level
+{%- endcomment -%}
+
+{%- comment -%} Google Fonts — only if merchant has set a custom font {%- endcomment -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'slideshow' -%}
+    {%- if block.settings.fonts_title_top != blank -%}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family={{ block.settings.fonts_title_top | url_encode }}:wght@300;400;600&display=swap" rel="stylesheet">
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} LCP preload — first slide desktop image only {%- endcomment -%}
+{%- assign first_block = section.blocks | first -%}
+{%- if first_block.settings.block_banerimage != blank -%}
+  <link rel="preload" as="image" href="{{ first_block.settings.block_banerimage | image_url: width: 1920 }}" fetchpriority="high">
+{%- endif -%}
+
+<div
+  id="es-hero-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="section-slideshow-v1"
+  class="es-hero-slideshow"
+  style="
+    {%- if section.settings.margin_top != blank -%}margin-top:{{ section.settings.margin_top }}px;{%- endif -%}
+    {%- if section.settings.margin_bottom != blank -%}margin-bottom:{{ section.settings.margin_bottom }}px;{%- endif -%}
+  ">
+
+  <div class="es-hero-slideshow__inner js-slideshow-v1 slick-side-h1"
+    data-autoplay="{{ section.settings.autoplay }}"
+    data-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
+    data-fade="true">
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'slideshow' -%}
+
+        {%- assign is_first   = forloop.first -%}
+        {%- assign overlay_op = block.settings.overlay_opacity | default: 40 | divided_by: 100.0 -%}
+        {%- assign pos        = block.settings.select_position_content | default: 'center' -%}
+        {%- assign align      = block.settings.select_textalign_content | default: 'center' -%}
+
+        <div class="es-hero__slide" {{ block.shopify_attributes }}>
+
+          {%- comment -%} ── Background Image ─────────────────────────────── {%- endcomment -%}
+          <div class="es-hero__img-wrap">
+
+            {%- comment -%} Desktop image {%- endcomment -%}
+            {%- if block.settings.ena_slide_video and block.settings.url_ytb_video != blank -%}
+              <div class="es-hero__video-wrap">
+                <div class="es-hero__video-overlay"></div>
+                {{ block.settings.url_ytb_video }}
+              </div>
+            {%- else -%}
+              {%- assign desk_img = block.settings.block_banerimage -%}
+              {%- assign mob_img  = block.settings.block_banerimage_mb | default: desk_img -%}
+
+              {%- comment -%}
+                First slide: eager + fetchpriority high for LCP.
+                Subsequent slides: lazy.
+              {%- endcomment -%}
+              {%- if desk_img != blank -%}
+                <picture>
+                  <source
+                    media="(max-width: 575px)"
+                    srcset="{{ mob_img | image_url: width: 600 }} 600w, {{ mob_img | image_url: width: 900 }} 900w"
+                    sizes="100vw">
+                  <source
+                    media="(min-width: 576px)"
+                    srcset="{{ desk_img | image_url: width: 1200 }} 1200w, {{ desk_img | image_url: width: 1920 }} 1920w"
+                    sizes="100vw">
+                  <img
+                    src="{{ desk_img | image_url: width: 1200 }}"
+                    alt="{{ block.settings.block_title_top | default: shop.name | escape }}"
+                    class="es-hero__img{% unless is_first %} lazyload{% endunless %}"
+                    {%- if is_first -%}
+                      loading="eager"
+                      fetchpriority="high"
+                      width="1920"
+                      height="900"
+                    {%- else -%}
+                      loading="lazy"
+                      data-src="{{ desk_img | image_url: width: 1920 }}"
+                      width="1920"
+                      height="900"
+                    {%- endif -%}>
+                </picture>
+              {%- else -%}
+                <div class="es-hero__img-placeholder"></div>
+              {%- endif -%}
+            {%- endif -%}
+
+            {%- comment -%} ── Cinematic gradient overlay ─────────────────── {%- endcomment -%}
+            <div
+              class="es-hero__overlay"
+              style="opacity: {{ overlay_op }};"></div>
+
+          </div>
+          {%- comment -%} ── Content ──────────────────────────────────────── {%- endcomment -%}
+          <div class="es-hero__content-wrap es-hero__content-wrap--{{ pos }}">
+            <div class="es-hero__content es-hero__content--{{ align }}
+              {%- if is_first %} es-hero__content--first{%- endif -%}">
+
+              {%- comment -%} Eyebrow — subheading 1 (brand/collection name) {%- endcomment -%}
+              {%- if block.settings.block_title_top1 != blank -%}
+                <p
+                  class="es-hero__eyebrow"
+                  style="color: {{ block.settings.color_block_title_top1 | default: '#C9A646' }};">
+                  {{ block.settings.block_title_top1 }}
+                </p>
+              {%- endif -%}
+
+              {%- comment -%} Main headline {%- endcomment -%}
+              {%- if block.settings.block_title_top != blank -%}
+                <h2
+                  class="es-hero__heading"
+                  style="
+                    color: {{ block.settings.color_block_title_top | default: '#ffffff' }};
+                    {%- if block.settings.fonts_title_top != blank -%}font-family:'{{ block.settings.fonts_title_top }}',serif;{%- endif -%}
+                  ">
+                  {{ block.settings.block_title_top }}
+                </h2>
+              {%- endif -%}
+
+              {%- comment -%} Subheading 2 — descriptor / tagline {%- endcomment -%}
+              {%- if block.settings.block_title_top2 != blank -%}
+                <p
+                  class="es-hero__tagline"
+                  style="color: {{ block.settings.color_block_title_top2 | default: '#e5e5e5' }};">
+                  {{ block.settings.block_title_top2 }}
+                </p>
+              {%- endif -%}
+
+              {%- comment -%} CTA button {%- endcomment -%}
+              {%- if block.settings.block_buton != blank -%}
+                <div class="es-hero__cta-wrap">
+                  <a
+                    class="es-hero__cta es-hero__cta--{{ block.id }}"
+                    href="{{ block.settings.block_url | default: '/collections/all' }}"
+                    style="
+                      color: {{ block.settings.color_block_button | default: '#C9A646' }};
+                      border-color: {{ block.settings.color_block_button | default: '#C9A646' }};
+                    ">
+                    <span>{{ block.settings.block_buton }}</span>
+                    <svg class="es-hero__cta-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                      <path d="M4 10h12M11 5l5 5-5 5"/>
+                    </svg>
+                  </a>
+                </div>
+              {%- endif -%}
+
+            </div>
+          </div>
+
+        </div>
+
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+
+  {%- comment -%} Slide counter — bottom right, luxury minimal style {%- endcomment -%}
+  {%- if section.blocks.size > 1 -%}
+    <div class="es-hero__counter" aria-hidden="true">
+      <span class="es-hero__counter-current">01</span>
+      <span class="es-hero__counter-sep">/</span>
+      <span class="es-hero__counter-total">0{{ section.blocks.size }}</span>
+    </div>
+  {%- endif -%}
+
+</div>
+
+<style>
+/* ─── Hero Slideshow ────────────────────────────────────────────────── */
+.es-hero-slideshow {
+  position: relative;
+  width: 100%;
+  background: #071321;
+  overflow: hidden;
+}
+
+/* Slick wrapper reset */
+.es-hero-slideshow .slick-list,
+.es-hero-slideshow .slick-track {
+  height: 100%;
+}
+
+/* ─── Slide ─────────────────────────────────────────────────────────── */
+.es-hero__slide {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  min-height: 520px;
+  max-height: 920px;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .es-hero__slide {
+    height: 70vh;
+    min-height: 480px;
+  }
+}
+
+/* ─── Image ─────────────────────────────────────────────────────────── */
+.es-hero__img-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.es-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* Subtle Ken Burns on active slide */
+  transform: scale(1.04);
+  transition: transform 8s ease-out;
+}
+
+.slick-active .es-hero__img {
+  transform: scale(1);
+}
+
+.es-hero__img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #0d1f33;
+}
+
+/* ─── Video ─────────────────────────────────────────────────────────── */
+.es-hero__video-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.es-hero__video-wrap iframe,
+.es-hero__video-wrap video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.78vh;
+  min-width: 100%;
+  height: 56.25vw;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.es-hero__video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ─── Cinematic Overlay ─────────────────────────────────────────────── */
+/*
+  Gradient: darkest at bottom (where content sits),
+  fades to transparent at top (lets image breathe).
+  merchant controls opacity via overlay_opacity setting.
+*/
+.es-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    #071321 0%,
+    rgba(7, 19, 33, 0.6) 35%,
+    rgba(7, 19, 33, 0.15) 65%,
+    rgba(7, 19, 33, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── Content positioning ───────────────────────────────────────────── */
+.es-hero__content-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;   /* Content anchored to bottom, above gradient dark zone */
+  padding: 0 0 7% 0;
+}
+
+.es-hero__content-wrap--left   { justify-content: flex-start; }
+.es-hero__content-wrap--center { justify-content: center; }
+.es-hero__content-wrap--right  { justify-content: flex-end; }
+
+.es-hero__content {
+  width: 100%;
+  max-width: 680px;
+  padding: 0 48px;
+}
+
+.es-hero__content--left   { text-align: left; }
+.es-hero__content--center { text-align: center; }
+.es-hero__content--right  { text-align: right; }
+
+/* ─── Eyebrow ───────────────────────────────────────────────────────── */
+.es-hero__eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  color: #C9A646;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+}
+
+/* ─── Headline ──────────────────────────────────────────────────────── */
+.es-hero__heading {
+  font-size: clamp(32px, 5vw, 62px);
+  font-weight: 300;         /* Elegant light weight for luxury feel */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.75s ease 0.25s, transform 0.75s ease 0.25s;
+}
+
+/* ─── Tagline ───────────────────────────────────────────────────────── */
+.es-hero__tagline {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 28px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s;
+}
+
+/* ─── CTA button ────────────────────────────────────────────────────── */
+.es-hero__cta-wrap {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease 0.55s, transform 0.7s ease 0.55s;
+}
+
+.es-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 28px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #C9A646;
+  border: 1px solid #C9A646;
+  background: transparent;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  white-space: nowrap;
+}
+
+.es-hero__cta:hover {
+  background: #C9A646;
+  color: #071321;
+  border-color: #C9A646;
+}
+
+.es-hero__cta-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+
+.es-hero__cta:hover .es-hero__cta-arrow {
+  transform: translateX(4px);
+}
+
+/* ─── Animate in on active slide ────────────────────────────────────── */
+.slick-active .es-hero__eyebrow,
+.slick-active .es-hero__heading,
+.slick-active .es-hero__tagline,
+.slick-active .es-hero__cta-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* First slide: animate in immediately on page load (no Slick wait) */
+.es-hero__content--first .es-hero__eyebrow,
+.es-hero__content--first .es-hero__heading,
+.es-hero__content--first .es-hero__tagline,
+.es-hero__content--first .es-hero__cta-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Slide counter ─────────────────────────────────────────────────── */
+.es-hero__counter {
+  position: absolute;
+  bottom: 28px;
+  right: 32px;
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+
+.es-hero__counter-current {
+  color: #C9A646;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ─── Slick dots — replaced by counter above, but kept for a11y ─────── */
+.es-hero-slideshow .slick-dots {
+  display: none !important;
+}
+
+/* Custom slim progress bar at very bottom */
+.es-hero-slideshow .slick-prev,
+.es-hero-slideshow .slick-next {
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+}
+
+.es-hero-slideshow .slick-prev { left: 20px; }
+.es-hero-slideshow .slick-next { right: 20px; }
+
+.es-hero-slideshow .slick-prev:before,
+.es-hero-slideshow .slick-next:before {
+  font-size: 28px;
+  color: rgba(255,255,255,0.5);
+  transition: color 0.2s;
+}
+
+.es-hero-slideshow .slick-prev:hover:before,
+.es-hero-slideshow .slick-next:hover:before {
+  color: #C9A646;
+}
+
+/* ─── Mobile ────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .es-hero__content {
+    padding: 0 24px;
+    max-width: 100%;
+  }
+
+  .es-hero__content-wrap {
+    padding-bottom: 10%;
+  }
+
+  .es-hero__cta {
+    padding: 11px 22px;
+    font-size: 11px;
+  }
+
+  .es-hero__counter {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-hero__img { transition: none; transform: none; }
+  .es-hero__eyebrow,
+  .es-hero__heading,
+  .es-hero__tagline,
+  .es-hero__cta-wrap { transition: none; opacity: 1; transform: none; }
+}
+
+/* ─── Per-block hover colour overrides (from schema settings) ────────── */
+{% for block in section.blocks %}
+{% if block.type == 'slideshow' %}
+.es-hero__cta--{{ block.id }}:hover {
+  background: {{ block.settings.color_hover_button | default: '#C9A646' }};
+  border-color: {{ block.settings.color_hover_button | default: '#C9A646' }};
+  color: {{ block.settings.color_hover_text | default: '#071321' }};
+}
+{% endif %}
+{% endfor %}
+</style>
+
+<script>
+(function() {
+  // Update slide counter on Slick change
+  var section = document.getElementById('es-hero-{{ section.id }}');
+  if (!section) return;
+
+  var currentEl = section.querySelector('.es-hero__counter-current');
+  if (!currentEl) return;
+
+  var slider = section.querySelector('.js-slideshow-v1');
+  if (!slider) return;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  // Slick fires 'afterChange' on the slider element via jQuery
+  // Guard: only runs if jQuery + Slick are present (deferred)
+  if (typeof jQuery !== 'undefined') {
+    jQuery(slider).on('afterChange', function(e, slick, currentSlide) {
+      currentEl.textContent = pad(currentSlide + 1);
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SLIDESHOW V1",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slideshow behaviour"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Seconds per slide",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin top (px)",
+      "info": "Number only, no 'px'"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin bottom (px)",
+      "info": "Number only, no 'px'"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image or Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "block_banerimage",
+          "label": "Desktop image",
+          "info": "1920 × 900px recommended. Used as fallback on mobile if no mobile image set."
+        },
+        {
+          "type": "image_picker",
+          "id": "block_banerimage_mb",
+          "label": "Mobile image",
+          "info": "600 × 750px recommended (portrait crop)"
+        },
+        {
+          "type": "checkbox",
+          "id": "ena_slide_video",
+          "label": "Use video instead of image",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "url_ytb_video",
+          "label": "Video iframe (YouTube / Vimeo embed code)"
+        },
+        {
+          "type": "header",
+          "content": "Overlay"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "label": "Overlay darkness",
+          "default": 40,
+          "info": "Higher = darker overlay, easier to read text on busy images"
+        },
+        {
+          "type": "header",
+          "content": "Content position"
+        },
+        {
+          "type": "select",
+          "id": "select_position_content",
+          "label": "Horizontal position",
+          "options": [
+            { "value": "left",   "label": "Left"   },
+            { "value": "center", "label": "Centre" },
+            { "value": "right",  "label": "Right"  }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "select_textalign_content",
+          "label": "Text alignment",
+          "options": [
+            { "value": "left",   "label": "Left"   },
+            { "value": "center", "label": "Centre" },
+            { "value": "right",  "label": "Right"  }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Eyebrow (brand / collection name)"
+        },
+        {
+          "type": "text",
+          "id": "block_title_top1",
+          "label": "Eyebrow text",
+          "default": "New Arrival",
+          "info": "Appears above the main heading in gold. E.g. 'Ahmed Al Maghribi'"
+        },
+        {
+          "type": "color",
+          "id": "color_block_title_top1",
+          "label": "Eyebrow colour",
+          "default": "#C9A646"
+        },
+        {
+          "type": "range",
+          "id": "font_size_top1",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "label": "Eyebrow font size",
+          "default": 11
+        },
+        {
+          "type": "text",
+          "id": "fonts_sub_1",
+          "label": "Eyebrow font family (Google Fonts name)"
+        },
+        {
+          "type": "select",
+          "id": "effect_title1",
+          "label": "Eyebrow entrance effect",
+          "options": [
+            { "value": "fadeIn",     "label": "Fade In"      },
+            { "value": "fadeInUp",   "label": "Fade In Up"   },
+            { "value": "fadeInDown", "label": "Fade In Down" },
+            { "value": "bounce",     "label": "Bounce"       }
+          ],
+          "default": "fadeIn"
+        },
+        {
+          "type": "header",
+          "content": "Main heading"
+        },
+        {
+          "type": "text",
+          "id": "block_title_top",
+          "label": "Heading",
+          "default": "Discover Your Signature Scent",
+          "info": "Main hero headline. Use line breaks sparingly."
+        },
+        {
+          "type": "color",
+          "id": "color_block_title_top",
+          "label": "Heading colour",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "font_size_title_top",
+          "min": 28,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Heading font size (desktop max)",
+          "default": 62
+        },
+        {
+          "type": "text",
+          "id": "fonts_title_top",
+          "label": "Heading font family (Google Fonts name)",
+          "info": "E.g. Playfair Display — leave blank for theme default"
+        },
+        {
+          "type": "select",
+          "id": "effect_title",
+          "label": "Heading entrance effect",
+          "options": [
+            { "value": "fadeIn",     "label": "Fade In"      },
+            { "value": "fadeInUp",   "label": "Fade In Up"   },
+            { "value": "fadeInDown", "label": "Fade In Down" },
+            { "value": "bounce",     "label": "Bounce"       }
+          ],
+          "default": "fadeInUp"
+        },
+        {
+          "type": "header",
+          "content": "Tagline / descriptor"
+        },
+        {
+          "type": "text",
+          "id": "block_title_top2",
+          "label": "Tagline",
+          "info": "Short descriptor below the heading. E.g. 'The art of Arabian perfumery'"
+        },
+        {
+          "type": "color",
+          "id": "color_block_title_top2",
+          "label": "Tagline colour",
+          "default": "#e5e5e5"
+        },
+        {
+          "type": "range",
+          "id": "font_size_top2",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Tagline font size",
+          "default": 15
+        },
+        {
+          "type": "text",
+          "id": "fonts_sub_2",
+          "label": "Tagline font family"
+        },
+        {
+          "type": "select",
+          "id": "effect_title2",
+          "label": "Tagline entrance effect",
+          "options": [
+            { "value": "fadeIn",   "label": "Fade In"    },
+            { "value": "fadeInUp", "label": "Fade In Up" }
+          ],
+          "default": "fadeIn"
+        },
+        {
+          "type": "header",
+          "content": "CTA button"
+        },
+        {
+          "type": "text",
+          "id": "block_buton",
+          "label": "Button label",
+          "default": "Shop Now",
+          "info": "Leave blank to hide button"
+        },
+        {
+          "type": "url",
+          "id": "block_url",
+          "label": "Button URL",
+          "default": "/collections/all"
+        },
+        {
+          "type": "color",
+          "id": "color_block_button",
+          "label": "Button colour (border + text)",
+          "default": "#C9A646"
+        },
+        {
+          "type": "color",
+          "id": "color_hover_button",
+          "label": "Button hover background",
+          "default": "#C9A646"
+        },
+        {
+          "type": "color",
+          "id": "color_hover_text",
+          "label": "Button hover text colour",
+          "default": "#071321"
+        },
+        {
+          "type": "range",
+          "id": "font_size_button",
+          "min": 10,
+          "max": 18,
+          "step": 1,
+          "unit": "px",
+          "label": "Button font size",
+          "default": 12
+        },
+        {
+          "type": "text",
+          "id": "fonts_button",
+          "label": "Button font family"
+        },
+        {
+          "type": "select",
+          "id": "effect_title3",
+          "label": "Button entrance effect",
+          "options": [
+            { "value": "fadeIn",   "label": "Fade In"    },
+            { "value": "fadeInUp", "label": "Fade In Up" }
+          ],
+          "default": "fadeIn"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SLIDESHOW V1",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_title_top1": "New Arrival",
+            "block_title_top": "Discover Your Signature Scent",
+            "block_title_top2": "Authentic Arabic Perfumery, Delivered to Your Door",
+            "block_buton": "Shop Now",
+            "block_url": "/collections/all",
+            "overlay_opacity": 40
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

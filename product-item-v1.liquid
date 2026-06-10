@@ -1,0 +1,2381 @@
+{% if settings.product_style == "style_1" %}
+<div class="product-item-v1">
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative" >
+      <div style="{% if sold_out %} opacity: 0.3 {% endif %}"> 
+        <a  href="{{ product.url | within: collection }}" class="engoj_find_img">
+          <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        </a>
+      </div>
+
+      <!--     label product -->
+
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        {{ settings.sale_label_name }}
+      </figure>
+      {% endif %}
+      {% endif %}
+      {% if product_label_new %}
+      {% if settings.show_new_label %}
+      <figure style= "background : {{ settings.new_label_color }}; color: {{ settings.new_label_text_color }}"  class="absolute uppercase label-new text-center">
+        {{ settings.new_label_name }}
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      {% if settings.enable_catalog_mode == false %}
+      <div class="product-icon-action">
+        <div class="add-wishlist">
+          {% include 'add-wishlist' %} 
+        </div>
+
+        <div class="add-to-cart">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart margin_right_10 box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+            {% if settings.pia_sold_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_sold_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_sold }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart margin_right_10 box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+            {% if settings.pia_selectoption_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_selectoption_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_selectoption }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart margin_right_10 box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {% if settings.pia_addcart_svg != blank %}
+              <i class="fsz-unset">{{ settings.pia_addcart_svg }}</i>
+              {% else %}
+              <i class="{{ settings.pia_addcart }}" style="font-size: 22px;"></i>
+              {% endif %}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </div>
+
+        <div class="quick-view">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+      {% endif %}
+      <!--     END ICON -->
+
+      {% if product.metafields.engo_countdown_prod.countdown_datetime != blank %}
+      <div class="countdown-timer text-center">
+        <ul data-countdown="countdown-v1" data-date="{{ product.metafields.engo_countdown_prod.countdown_datetime }}">
+
+        </ul>
+      </div> 
+      {% endif %}
+
+    </div>
+
+
+    <div class="info-product">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+      <h4 class="des-font capital title-product mb-0 flex">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+
+      </h4>
+      <!--     PRICE -->
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+      {% if settings.enable_catalog_mode == false %}
+      <p class="price-product">
+        <span class="price">{{ product.price | money }}</span>
+        {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+
+      </p>
+      {% endif %}
+      <!-- END PRODUCT     -->
+
+      <!-- VARIANT PRODUCT -->
+
+      <!--     <nav class="engoj_select_color">
+{% for option in product.options %}
+{% if option == 'Color' or option == 'Colour' %}
+{% assign index = forloop.index0 %}
+{% assign colorlist = '' %}
+{% assign color = '' %}
+{% for variant in product.variants %}
+{% capture color %}{{ variant.options[index] }}{% endcapture %}
+{% unless colorlist contains color %}
+
+{% assign text = color | handleize %}
+<span class="">
+<a class="circle" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+</span>
+
+{% capture tempList %}
+{{ colorlist | append: color | append: ' ' }}
+{% endcapture %}
+
+{% assign colorlist = tempList %}
+{% endunless %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+</nav>
+-->
+
+      <!-- END VARIANT     -->
+
+      <!--     THUMBNAIL PRODUCT -->
+
+      {% if product.variants.size > 1 %}
+      <div class="d-flex align-items-center image-thumbnail">
+        <div class="variant-image-group engoj_select_color ">
+          {% for option in product.options %}
+          {% if option == 'Color' %}  
+          {% assign index = forloop.index0 %}
+          {% assign colorlist = '' %}
+          {% assign color = '' %}
+          {% for variant in product.variants limit: 4 %}
+          {% capture color %}{{ variant.options[index] }}{% endcapture %}
+          {% unless colorlist contains color %}
+          {% assign text = color | handleize %}
+          <span class=" border_thumbnail">
+            <a  class="{% if forloop.first %}active {% endif %}circle-thumb js_change_border" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+          </span>
+
+          {% capture tempList %}
+          {{ colorlist | append: color | append: ' ' }}
+          {% endcapture %}
+
+          {% assign colorlist = tempList %}
+          {% endunless %}
+          {% endfor %}
+
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="more_variant">
+
+          {% for option in product.options_with_values %}
+          {% if option.name == 'Color' %} 
+          {% for value in option.values %}
+          {% if forloop.index > 4 %}
+          <a href="{{ product.url | within: collection }}">+ {{ forloop.index | minus : 4 }}</a>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {%endif%}
+
+      <!-- END THUMBNAIL     -->
+    </div>
+  </div>
+</div>  
+
+{% elsif settings.product_style == "style_2" %}
+<div class="product-item-v2">
+
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img">
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>
+
+      <!--     label product -->
+
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <ul class="product-icon-action list-unstyled mb-0 text-center">     
+
+        <li class="add-to-cart mr-0">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+            {% if settings.pia_sold_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_sold_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_sold }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+            {% if settings.pia_selectoption_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_selectoption_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_selectoption }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {% if settings.pia_addcart_svg != blank %}
+              <i class="fsz-unset">{{ settings.pia_addcart_svg }}</i>
+              {% else %}
+              <i class="{{ settings.pia_addcart }}"></i>
+              {% endif %}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </li>  
+        <li class="quick-view mr-0">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </li>
+        <li class="add-wishlist mr-0">
+          {% include 'add-wishlist' %} 
+        </li>
+
+
+      </ul>
+      <!--     END ICON -->
+
+
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a> 
+      <p class="price-product mb-0">
+        {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+        <span class="price">{{ product.price | money }}</span>
+      </p>
+    </h4>
+    <!--     PRICE -->
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+
+    <!-- END PRODUCT     -->
+
+    <!-- VARIANT PRODUCT -->
+
+    <nav class="engoj_select_color variant-product">
+      {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="">
+        <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </nav>
+
+
+    <!-- END VARIANT     -->
+
+
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+  </div>
+
+</div>  
+{% elsif settings.product_style == "style_3" %}
+<div class="product-item-v3">
+
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img">
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>
+
+      <!--     label product -->
+
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <ul class="product-icon-action list-unstyled mb-0 text-center">          
+        <li class="add-to-cart mr-0">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+            {% if settings.pia_sold_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_sold_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_sold }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+            {% if settings.pia_selectoption_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_selectoption_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_selectoption }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {% if settings.pia_addcart_svg != blank %}
+              <i class="fsz-unset">{{ settings.pia_addcart_svg }}</i>
+              {% else %}
+              <i class="{{ settings.pia_addcart }}"></i>
+              {% endif %}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </li>  
+        <li class="quick-view mr-0">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </li>
+        <li class="add-wishlist mr-0">
+          {% include 'add-wishlist' %} 
+        </li>
+      </ul>
+      <!--     END ICON -->
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>     
+      <!--     PRICE -->
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      <p class="price-product mb-0">
+        {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+        <span class="price">{{ product.price | money }}</span>
+      </p>
+    </h4>
+
+    <!-- END PRODUCT     -->
+
+    <!-- VARIANT PRODUCT -->
+
+    <nav class="engoj_select_color variant-product">
+      {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="">
+        <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </nav>
+
+
+    <!-- END VARIANT     -->
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+  </div>
+
+</div>  
+{% elsif settings.product_style == "style_4" %}
+<div class="product-item-v4">
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img">
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>
+
+      <!--     label product -->
+
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+
+
+
+
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <ul class="product-icon-action list-unstyled mb-0 text-center">     
+
+        <li class="add-to-cart mr-0">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+            {% if settings.pia_sold_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_sold_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_sold }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+            {% if settings.pia_selectoption_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_selectoption_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_selectoption }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {% if settings.pia_addcart_svg != blank %}
+              <i class="fsz-unset">{{ settings.pia_addcart_svg }}</i>
+              {% else %}
+              <i class="{{ settings.pia_addcart }}"></i>
+              {% endif %}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </li>  
+        <li class="quick-view mr-0">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </li>
+        <li class="add-wishlist mr-0">
+          {% include 'add-wishlist' %} 
+        </li>
+
+
+      </ul>
+      <!--     END ICON -->
+
+
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      <p class="price-product mb-0">
+        {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+        <span class="price">{{ product.price | money }}</span>
+      </p>
+    </h4>
+    <!--     PRICE -->
+
+    <!-- END PRODUCT     -->
+
+    <!-- VARIANT PRODUCT -->
+
+    <nav class="engoj_select_color variant-product">
+      {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="">
+        <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </nav>
+
+
+    <!-- END VARIANT     -->
+
+
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+  </div>
+
+</div>  
+{% elsif settings.product_style == "style_5"  %}
+<div class="product-item-v5">
+
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img"> 
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" datasrc="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>
+
+      <!--     label product -->
+
+
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      {% if product_label_new %}
+      {% if settings.show_new_label %}
+      <figure style= "background : {{ settings.new_label_color }}; color: {{ settings.new_label_text_color }}"  class="absolute uppercase label-new text-center">
+        {{ settings.new_label_name }}
+      </figure>
+      {% endif %}
+      {% endif %}
+
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <div class="product-icon-action d-flex mb-0 text-center">      
+
+        <div class="add-wishlist mr-0 w-50">
+          {% include 'add-wishlist' %} 
+        </div>
+
+        <div class="quick-view mr-0 w-50">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </div>
+
+      </div>
+      <!--     END ICON -->
+
+
+      <nav class="engoj_select_color variant-product">
+        {% for option in product.options %}
+        {% if option == 'Color' or option == 'Colour' %}
+        {% assign index = forloop.index0 %}
+        {% assign colorlist = '' %}
+        {% assign color = '' %}
+        {% for variant in product.variants %}
+        {% capture color %}{{ variant.options[index] }}{% endcapture %}
+        {% unless colorlist contains color %}
+
+        {% assign text = color | handleize %}
+        <span class="">
+          <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+        </span>
+
+        {% capture tempList %}
+        {{ colorlist | append: color | append: ' ' }}
+        {% endcapture %}
+
+        {% assign colorlist = tempList %}
+        {% endunless %}
+
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+      </nav>
+      
+      {% if product.metafields.engo_countdown_prod.countdown_datetime != blank %}
+      <div class="countdown-timer text-center">
+        <ul data-countdown="countdown-v1" data-date="{{ product.metafields.engo_countdown_prod.countdown_datetime }}">
+
+        </ul>
+      </div> 
+      {% endif %}
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>      
+    </h4>
+    <!--     PRICE -->
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+    <p class="price-product mb-0">
+      <span class="price">{{ product.price | money }}</span>
+      {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+
+    </p>
+    <!-- END PRODUCT     -->
+
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+    <div class="add-to-cart mr-0">
+      {% if sold_out %}
+      <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+        {{ settings.pia_sold_name }}
+      </a>
+      {% else %}
+      {% if product.variants.size > 1 %}
+      <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+        {{ settings.pia_selectoption_name }}
+      </a>
+      {% else %}
+      <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+        <button type="submit" name="add" class="enj-add-to-cart-btn ">
+          {{ settings.pia_addcart_name }}
+        </button>
+      </form>
+      {% endif %}
+      {% endif %}
+    </div>
+
+  </div>
+  
+
+</div>  
+{% elsif settings.product_style == "style_6" %}
+{%- comment -%}
+  product-item-v1.liquid — style_6 (EternaScents luxury card)
+  Zaoud-inspired dual-hover product card.
+
+  Features:
+  - Dual image hover: primary → secondary (CSS opacity, no JS)
+  - No loading.gif placeholder — CSS aspect-ratio background
+  - Explicit image dimensions — fixes CLS
+  - "Inspired by X" badge from product tag format: inspired:Name
+  - Shopify Reviews badge (star rating + count)
+  - Quick Add: AJAX for single-variant, link for multi-variant
+  - Price range: "From £X" for multi-variant products
+  - Wishlist via existing add-wishlist snippet
+  - Sold out: badge + 60% opacity on image
+{%- endcomment -%}
+
+{%- comment -%} ── Computed flags ─────────────────────────────────── {%- endcomment -%}
+{%- assign on_sale   = false -%}
+{%- assign sold_out  = false -%}
+{%- assign is_new    = false -%}
+{%- assign is_hot    = false -%}
+{%- assign is_popular = false -%}
+
+{%- if product.compare_at_price > product.price -%}{%- assign on_sale = true -%}{%- endif -%}
+{%- unless product.available -%}{%- assign sold_out = true -%}{%- endunless -%}
+{%- if product.tags contains 'hot' -%}{%- assign is_hot = true -%}{%- endif -%}
+{%- if product.tags contains 'popular' -%}{%- assign is_popular = true -%}{%- endif -%}
+
+{%- capture _new_cutoff -%}{{ settings.product_new_time | default: 30 | times: 86400 }}{%- endcapture -%}
+{%- assign _now = 'now' | date: '%s' | plus: 0 -%}
+{%- assign _published = product.published_at | date: '%s' | plus: 0 -%}
+{%- assign _cutoff = _now | minus: _new_cutoff -%}
+{%- if _published > _cutoff -%}{%- assign is_new = true -%}{%- endif -%}
+
+{%- comment -%} ── "Inspired by" tag extraction ─────────────────── {%- endcomment -%}
+{%- assign inspired_by = '' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'inspired:' -%}
+    {%- assign inspired_by = tag | remove: 'inspired:' | strip -%}
+  {%- elsif tag contains 'inspired_by:' -%}
+    {%- assign inspired_by = tag | remove: 'inspired_by:' | strip -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} ── Second image for hover ──────────────────────────
+  product.images[1] is the second uploaded image — the standard
+  convention for lifestyle/notes photography.
+  Only renders the hover layer if a second image exists.
+{%- endcomment -%}
+{%- assign hover_img = product.images[1] -%}
+
+<div class="es-product-card product-item-v6 mb-30">
+
+  {%- comment -%} ── IMAGE ZONE ──────────────────────────────────── {%- endcomment -%}
+  <div class="es-product-card__img-wrap">
+
+    <a href="{{ product.url | within: collection }}" class="es-product-card__img-link" tabindex="0" aria-label="{{ product.title | escape }}">
+
+      {%- comment -%} Primary image {%- endcomment -%}
+      <div class="es-product-card__img-primary{% if sold_out %} es-product-card__img-primary--soldout{% endif %}">
+        {%- if product.featured_image -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 600, height: 600, crop: 'center' }}"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            width="600"
+            height="600"
+            loading="lazy"
+            class="es-product-card__img">
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'es-product-card__img es-product-card__img--placeholder' }}
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Hover image — only if second image exists {%- endcomment -%}
+      {%- if hover_img -%}
+        <div class="es-product-card__img-hover">
+          <img
+            src="{{ hover_img | image_url: width: 600, height: 600, crop: 'center' }}"
+            alt="{{ hover_img.alt | default: product.title | escape }}"
+            width="600"
+            height="600"
+            loading="lazy"
+            class="es-product-card__img">
+        </div>
+      {%- endif -%}
+
+    </a>
+
+    {%- comment -%} ── LABELS (top-left) ─────────────────────────── {%- endcomment -%}
+    <div class="es-product-card__labels">
+      {%- if sold_out -%}
+        <span class="es-product-card__label es-product-card__label--soldout">Sold Out</span>
+      {%- elsif on_sale and settings.enable_sale_label -%}
+        {%- assign sale_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+        <span class="es-product-card__label es-product-card__label--sale"
+          style="background:{{ settings.sale_label_color }};color:{{ settings.sale_label_text_color }}">
+          -{{ sale_pct }}%
+        </span>
+      {%- elsif is_new -%}
+        <span class="es-product-card__label es-product-card__label--new">New</span>
+      {%- elsif is_hot -%}
+        <span class="es-product-card__label es-product-card__label--hot">Hot</span>
+      {%- elsif is_popular -%}
+        <span class="es-product-card__label es-product-card__label--popular">Popular</span>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── QUICK ADD (bottom, slides up on hover) ────── {%- endcomment -%}
+    {%- unless sold_out -%}
+      <div class="es-product-card__quick-add">
+        {%- if product.variants.size > 1 -%}
+          <a href="{{ product.url | within: collection }}" class="es-product-card__quick-btn">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 6v4m0 0v4m0-4h4m-4 0H6"/><circle cx="10" cy="10" r="8"/></svg>
+            Choose Options
+          </a>
+        {%- else -%}
+          <form method="post" action="/cart/add" class="es-product-card__atc-form">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <button type="submit" name="add" class="es-product-card__quick-btn enj-add-to-cart-btn">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5M17 13l1.4 5M9 18a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z"/></svg>
+              Quick Add
+            </button>
+          </form>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+
+  </div>
+  {%- comment -%} ── END IMAGE ZONE ──────────────────────────────── {%- endcomment -%}
+
+  {%- comment -%} ── CARD BODY ────────────────────────────────────── {%- endcomment -%}
+  <div class="es-product-card__body">
+
+    {%- comment -%} "Inspired by" badge {%- endcomment -%}
+    {%- if inspired_by != blank -%}
+      <p class="es-product-card__inspired">
+        <span class="es-product-card__inspired-label">Inspired by</span>
+        {{ inspired_by }}
+      </p>
+    {%- endif -%}
+
+    {%- comment -%} Reviews stars (Shopify Product Reviews app) {%- endcomment -%}
+    <div class="es-product-card__rating">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>
+
+    {%- comment -%} Title {%- endcomment -%}
+    <h3 class="es-product-card__title">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+    </h3>
+
+    {%- comment -%} Vendor {%- endcomment -%}
+    {%- if product.vendor != blank -%}
+      <p class="es-product-card__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Price {%- endcomment -%}
+    <p class="es-product-card__price">
+      {%- if on_sale -%}
+        <s class="es-product-card__price-compare">{{ product.compare_at_price | money }}</s>
+        <span class="es-product-card__price-current es-product-card__price-current--sale">
+          {%- if product.price_varies -%}From {%- endif -%}
+          {{ product.price | money }}
+        </span>
+      {%- else -%}
+        <span class="es-product-card__price-current">
+          {%- if product.price_varies -%}From {%- endif -%}
+          {{ product.price | money }}
+        </span>
+      {%- endif -%}
+    </p>
+
+  </div>
+  {%- comment -%} ── END CARD BODY ────────────────────────────────── {%- endcomment -%}
+
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
+/* ─── Product Card (style_6) ────────────────────────────────────────── */
+.es-product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Image zone ────────────────────────────────────────────────────── */
+.es-product-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #fdf8f0; /* warm ivory — exact match to luxury PDP palette */
+  /* Force square aspect ratio without loading.gif */
+  aspect-ratio: 1 / 1;
+}
+
+.es-product-card__img-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Primary image */
+.es-product-card__img-primary {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+.es-product-card__img-primary--soldout {
+  opacity: 0.55;
+}
+
+/* Hover image — sits on top, starts invisible */
+.es-product-card__img-hover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Trigger hover: fade in second image, slightly scale primary */
+.es-product-card__img-wrap:hover .es-product-card__img-hover {
+  opacity: 1;
+}
+
+.es-product-card__img-wrap:hover .es-product-card__img-primary {
+  transform: scale(1.03);
+}
+
+.es-product-card__img-primary {
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+
+.es-product-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.es-product-card__img--placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Labels ────────────────────────────────────────────────────────── */
+.es-product-card__labels {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.es-product-card__label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  line-height: 1.4;
+}
+
+.es-product-card__label--soldout {
+  background: #071321;
+  color: #ffffff;
+}
+
+.es-product-card__label--new {
+  background: #C9A646;
+  color: #071321;
+}
+
+.es-product-card__label--hot {
+  background: #e12c43;
+  color: #ffffff;
+}
+
+.es-product-card__label--popular {
+  background: #2d6a4f;
+  color: #ffffff;
+}
+
+
+/* ─── Quick Add ─────────────────────────────────────────────────────── */
+.es-product-card__quick-add {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.es-product-card__img-wrap:hover .es-product-card__quick-add {
+  transform: translateY(0);
+}
+
+.es-product-card__quick-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: #071321;
+  color: #C9A646;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.es-product-card__quick-btn:hover {
+  background: #C9A646;
+  color: #071321;
+}
+
+.es-product-card__quick-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.es-product-card__atc-form {
+  width: 100%;
+  margin: 0;
+}
+
+/* ─── Card body ─────────────────────────────────────────────────────── */
+.es-product-card__body {
+  padding: 12px 4px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ─── Inspired by ───────────────────────────────────────────────────── */
+.es-product-card__inspired {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #C9A646;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.es-product-card__inspired-label {
+  color: #999;
+  margin-right: 3px;
+}
+
+/* ─── Reviews ───────────────────────────────────────────────────────── */
+.es-product-card__rating {
+  min-height: 16px; /* reserve space so layout doesn't shift when SPR loads */
+}
+
+.es-product-card__rating .shopify-product-reviews-badge {
+  display: block;
+}
+
+/* ─── Title — Playfair Display serif, matching luxury PDP ───────────── */
+.es-product-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.es-product-card__title a {
+  color: #071321;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.es-product-card__title a:hover {
+  color: #C9A646;
+}
+
+/* ─── Vendor ────────────────────────────────────────────────────────── */
+.es-product-card__vendor {
+  font-size: 11px;
+  color: #999;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Price ─────────────────────────────────────────────────────────── */
+.es-product-card__price {
+  font-size: 13px;
+  margin: 2px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.es-product-card__price-compare {
+  color: #bbb;
+  font-size: 11px;
+  text-decoration: line-through;
+}
+
+.es-product-card__price-current {
+  color: #071321;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #C9A646;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+.es-product-card__price-current--sale {
+  color: #C9A646;
+}
+
+/* ─── Mobile: always show quick add (no hover on touch) ─────────────── */
+@media (hover: none) and (pointer: coarse) {
+  .es-product-card__quick-add {
+    transform: translateY(0);
+  }
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-product-card__img-hover,
+  .es-product-card__img-primary,
+  .es-product-card__quick-add { transition: none; }
+}
+</style>
+
+{% elsif settings.product_style == "style_7"  %}
+<div class="product-item-v7">
+
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img">
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>  
+      <!--     label product -->
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <ul class="product-icon-action list-unstyled mb-0 text-center">     
+
+        <li class="add-to-cart mr-0">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+            {% if settings.pia_sold_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_sold_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_sold }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+            {% if settings.pia_selectoption_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_selectoption_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_selectoption }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {% if settings.pia_addcart_svg != blank %}
+              <i class="fsz-unset">{{ settings.pia_addcart_svg }}</i>
+              {% else %}
+              <i class="{{ settings.pia_addcart }}"></i>
+              {% endif %}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </li>  
+        <li class="quick-view mr-0">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </li>
+        <li class="add-wishlist mr-0">
+          {% include 'add-wishlist' %} 
+        </li>
+
+
+      </ul>
+      <!--     END ICON -->
+      
+      {% if product.metafields.engo_countdown_prod.countdown_datetime != blank %}
+      <div class="countdown-timer text-center">
+        <ul data-countdown="countdown-v1" data-date="{{ product.metafields.engo_countdown_prod.countdown_datetime }}">
+
+        </ul>
+      </div> 
+      {% endif %}
+
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title | strip_html | truncatewords : 4 }}</a>      
+    </h4>
+    <!--     PRICE -->
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+    <p class="price-product mb-0">
+      {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+      <span class="price">{{ product.price | money }}</span>
+    </p>
+    <!-- END PRODUCT     -->
+
+    <!-- VARIANT PRODUCT -->
+
+    <nav class="engoj_select_color variant-product">
+      {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="">
+        <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </nav>
+
+
+    <!-- END VARIANT     -->
+
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+  </div>
+
+</div>  
+{% elsif settings.product_style == "style_8" %}
+<div class="product-item-v8">
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  {% assign label_popular = true %}
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  {% assign label_hot = true %}
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img">
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>  
+      <!--     label product -->
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      {% assign label_popular = false %}
+      {% if product.tags contains "popular" %}
+      {% assign label_popular = true %}
+      {% endif %} 
+
+      {% assign label_hot = false %}
+      {% if product.tags contains "hot" %}
+      {% assign label_hot = true %}
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+      {% if product.metafields.engo_countdown_prod.countdown_datetime != blank %}
+      <div class="countdown-timer text-center">
+        <ul data-countdown="countdown-v1" data-date="{{ product.metafields.engo_countdown_prod.countdown_datetime }}">
+
+        </ul>
+      </div> 
+      {% endif %}
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>      
+    </h4>
+    <!--     PRICE -->
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+    <p class="price-product mb-0">
+      {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+      <span class="price">{{ product.price | money }}</span>
+    </p>
+    <!-- END PRODUCT     -->
+
+    <!-- VARIANT PRODUCT -->
+
+    <nav class="engoj_select_color variant-product">
+      {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="">
+        <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </nav>
+    <!-- END VARIANT     -->
+
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+    <div class="info_bottom">
+
+      {% if product.description != blank %}
+      <div class="prod_des">
+        <p class="mb-0">{{ product.description | strip_html | truncatewords : 30 }}</p>
+      </div>
+      {% endif %}
+
+      <!--     ICON PRODUCT -->   
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <ul class="product-icon-action list-unstyled mb-0 text-center">      
+
+
+        <li class="quick-view mr-0">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </li>
+
+        <li class="add-to-cart mr-0">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow">
+            {{ settings.pia_sold_name }}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" >
+            {{ settings.pia_selectoption_name }}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow" >
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {{ settings.pia_addcart_name }}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </li>
+
+        <li class="add-wishlist mr-0">
+          {% include 'add-wishlist' %} 
+        </li>
+
+      </ul>
+      <!--     END ICON -->
+    </div>
+
+  </div>
+
+</div>  
+{% elsif settings.product_style == "style_9" %}
+<div class="product-item-v9">
+  {% assign product_label_new = false %}
+  {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+  {% assign time = _time | plus: 0 %}
+  {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+  {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+  {% assign value = _value | plus: 0 %}
+
+  {% if now < value %}
+  {% assign product_label_new = true %}
+  {% endif %}
+
+
+  {% assign label_popular = false %}
+  {% if product.tags contains "popular" %}
+  
+  {% endif %} 
+
+  {% assign label_hot = false %}
+  {% if product.tags contains "hot" %}
+  
+  {% endif %}
+
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% endif %}
+
+  {% assign sold_out = true %}
+  {% if product.available %}
+  {% assign sold_out = false %}
+  {% endif %}
+  <div class="product mb-30 engoj_grid_parent relative">
+    <div class="img-product relative">
+      <a href="{{ product.url | within: collection }}" class="engoj_find_img">
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ product.featured_image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive" alt="{{ product.featured_image.alt | escape }}">
+        {% for image in product.images %}
+        {% if forloop.last %}
+        <img loading="lazy" width="" height="" style="width: 100%" data-src="{{ image.src | image_url }}" src="{{ 'loading.gif' | asset_url }}" class="lazyload img-responsive absolute img-product-hover" alt="{{ product.featured_image.alt | escape }}">
+        {% endif %}
+        {% endfor %}
+      </a>  
+      <!--     label product -->
+      {% assign product_label_new = false %}
+      {% capture _time %}{{ settings.product_new_time | times: 86400 }}{% endcapture %} 
+      {% assign time = _time | plus: 0 %}
+      {% assign now = 'now' | date: '%s' | plus: 0 %}
+
+      {% capture _value %}{{ product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+      {% assign value = _value | plus: 0 %}
+
+      {% if now < value %}
+      {% assign product_label_new = true %}
+      {% endif %}
+
+
+      
+      {% if product.tags contains "popular" %}
+      
+      {% endif %} 
+
+      
+      {% if product.tags contains "hot" %}
+      
+      {% endif %}
+
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}
+      {% assign on_sale = true %}
+      {% endif %}
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}	
+      {% if on_sale %}
+      {% if settings.show_sale_label %}
+      {% assign sale= product.price | minus : product.compare_at_price | times : 100 | divided_by: product.compare_at_price %}
+      <figure style= "background : {{ settings.sale_label_color }}; color: {{ settings.sale_label_text_color }}" class="absolute uppercase label-sale text-center">
+        <span class="sale-percent">{{sale}}%</span>
+      </figure>
+      {% endif %}
+      {% endif %}
+
+      <!--     END LABEL -->
+
+
+      <!--     ICON PRODUCT -->
+
+      {% assign sold_out = true %}
+      {% if product.available %}
+      {% assign sold_out = false %}
+      {% endif %}
+      <ul class="product-icon-action list-unstyled mb-0 text-center px-0">     
+
+        <li class="add-to-cart mr-0">
+          {% if sold_out %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_sold_name }}">
+            {% if settings.pia_sold_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_sold_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_sold }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="inline-block icon-addcart  box-shadow" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_selectoption_name }}">
+            {% if settings.pia_selectoption_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_selectoption_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_selectoption }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <form method="post" action="/cart/add" enctype="multipart/form-data" class="inline-block icon-addcart  box-shadow"  data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_addcart_name }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+            <button type="submit" name="add" class="enj-add-to-cart-btn ">
+              {% if settings.pia_addcart_svg != blank %}
+              <i class="fsz-unset">{{ settings.pia_addcart_svg }}</i>
+              {% else %}
+              <i class="{{ settings.pia_addcart }}"></i>
+              {% endif %}
+            </button>
+          </form>
+          {% endif %}
+          {% endif %}
+        </li>  
+        <li class="quick-view mr-0">
+          <a href="javascript:void(0)" class="engoj_btn_quickview icon-quickview inline-block box-shadow" data-id="{{ product.handle }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ settings.pia_quickview_name }}">
+            {% if settings.pia_quickview_svg != blank %}
+            <i class="fsz-unset">{{ settings.pia_quickview_svg }}</i>
+            {% else %}
+            <i class="{{ settings.pia_quickview }}"></i>
+            {% endif %}
+          </a>
+        </li>
+        <li class="add-wishlist mr-0">
+          {% include 'add-wishlist' %} 
+        </li>
+
+      </ul>
+      <!--     END ICON -->
+
+    </div>
+
+    <h4 class="des-font capital title-product mb-0">
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>      
+    </h4>
+    <!--     PRICE -->
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+    <p class="price-product mb-0">
+      {% if on_sale %}<s class="price-old">{{ product.compare_at_price | money }}</s>{% endif %}
+      <span class="price">{{ product.price | money }}</span>
+    </p>
+    <!-- END PRODUCT     -->
+
+    <!-- VARIANT PRODUCT -->
+
+    <nav class="engoj_select_color variant-product">
+      {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="">
+        <a class="circle mr-0" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-color: {{ color | split: ' ' | last | handle }};"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </nav>
+
+
+    <!-- END VARIANT     -->
+
+    <!--     THUMBNAIL PRODUCT -->
+
+    {% if settings.show_thumbnai_pd %}
+    {% if product.variants.size > 1 %}
+
+    <div class="variant-image-group engoj_select_color space_top_20">
+      {% for option in product.options %}
+      {% if option == 'Color' %}
+      {% assign index = forloop.index0 %}
+      {% assign colorlist = '' %}
+      {% assign color = '' %}
+      {% for variant in product.variants %}
+      {% capture color %}{{ variant.options[index] }}{% endcapture %}
+      {% unless colorlist contains color %}
+
+      {% assign text = color | handleize %}
+      <span class="border">
+        <a  class="circle-thumb" href="javascript:void(0)" {% if variant.image != null %}data-engojvariant-img="{{ variant.image.src | product_img_url: 'grande' }}"{% endif %} style="{% if text == 'white' %}border: 1px solid #bcbcbc; {% endif %}background-image: url({{ variant.image.src | product_img_url: 'grande' }});background-size:cover;"></a>
+      </span>
+
+      {% capture tempList %}
+      {{ colorlist | append: color | append: ' ' }}
+      {% endcapture %}
+
+      {% assign colorlist = tempList %}
+      {% endunless %}
+
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {%endif%}
+    {% endif %}
+
+    <!-- END THUMBNAIL     -->
+
+  </div>
+
+</div>  
+{% endif %}

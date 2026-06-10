@@ -1,0 +1,325 @@
+{
+  "sections": {
+    "16545716817290dfb6": {
+      "type": "section-slideshow-v1",
+      "blocks": {
+        "slideshow_yWgLiB": {
+          "type": "slideshow",
+          "settings": {
+            "select_position_content": "center",
+            "select_textalign_content": "center",
+            "block_title_top1": "New Collection",
+            "color_block_title_top1": "#C9A646",
+            "font_size_top1": 18,
+            "fonts_sub_1": "",
+            "effect_title1": "fadeIn",
+            "block_title_top": "Khamrah Waha",
+            "color_block_title_top": "#ffffff",
+            "font_size_title_top": 80,
+            "fonts_title_top": "",
+            "effect_title": "fadeInUp",
+            "block_title_top2": "The freshness of Oud, reimagined for today",
+            "color_block_title_top2": "#e5e5e5",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "effect_title2": "fadeIn",
+            "block_buton": "Shop Now",
+            "color_block_button": "#C9A646",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#C9A646",
+            "color_hover_text": "#071321",
+            "block_url": "/collections/lattafa-perfumes",
+            "effect_title3": "fadeIn",
+            "ena_slide_video": false,
+            "url_ytb_video": "",
+            "block_banerimage": "shopify://shop_images/2880x960a--scaled.webp",
+            "block_banerimage_mb": "shopify://shop_images/2880x960a--scaled.webp",
+            "overlay_opacity": 45
+          }
+        },
+        "slideshow_RGN7NW": {
+          "type": "slideshow",
+          "settings": {
+            "select_position_content": "left",
+            "select_textalign_content": "left",
+            "block_title_top1": "Latest Launch",
+            "color_block_title_top1": "#C9A646",
+            "font_size_top1": 18,
+            "fonts_sub_1": "",
+            "effect_title1": "fadeIn",
+            "block_title_top": "Éclaire Line",
+            "color_block_title_top": "#ffffff",
+            "font_size_title_top": 80,
+            "fonts_title_top": "",
+            "effect_title": "fadeInUp",
+            "block_title_top2": "Luminous. Radiant. Unmistakable.",
+            "color_block_title_top2": "#e5e5e5",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "effect_title2": "fadeIn",
+            "block_buton": "Explore the Collection",
+            "color_block_button": "#C9A646",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#C9A646",
+            "color_hover_text": "#071321",
+            "block_url": "/collections/all",
+            "effect_title3": "fadeIn",
+            "ena_slide_video": false,
+            "url_ytb_video": "",
+            "block_banerimage": "shopify://shop_images/New-Launches-Eclaire-Line_b93b0e7a-2ed8-4837-9b5e-1fb52fd91088.webp",
+            "block_banerimage_mb": "shopify://shop_images/New-Launches-Eclaire-Line_b93b0e7a-2ed8-4837-9b5e-1fb52fd91088.webp",
+            "overlay_opacity": 40
+          }
+        },
+        "slideshow_TQXtVb": {
+          "type": "slideshow",
+          "settings": {
+            "select_position_content": "right",
+            "select_textalign_content": "right",
+            "block_title_top1": "Rayhaan",
+            "color_block_title_top1": "#C9A646",
+            "font_size_top1": 18,
+            "fonts_sub_1": "",
+            "effect_title1": "fadeIn",
+            "block_title_top": "Aquatica",
+            "color_block_title_top": "#ffffff",
+            "font_size_title_top": 80,
+            "fonts_title_top": "",
+            "effect_title": "fadeInUp",
+            "block_title_top2": "A wave of cool marine Oud — free UK delivery over £50",
+            "color_block_title_top2": "#e5e5e5",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "effect_title2": "fadeIn",
+            "block_buton": "Shop Rayhaan",
+            "color_block_button": "#C9A646",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#C9A646",
+            "color_hover_text": "#071321",
+            "block_url": "/collections/rayhaan",
+            "effect_title3": "fadeIn",
+            "ena_slide_video": false,
+            "url_ytb_video": "",
+            "block_banerimage": "shopify://shop_images/Rayhaan_Aquatica.webp",
+            "block_banerimage_mb": "shopify://shop_images/Rayhaan_Aquatica.webp",
+            "overlay_opacity": 35
+          }
+        }
+      },
+      "block_order": [
+        "slideshow_yWgLiB",
+        "slideshow_RGN7NW",
+        "slideshow_TQXtVb"
+      ],
+      "custom_css": [],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": "",
+        "autoplay": true,
+        "autoplay_speed": 6
+      }
+    },
+    "section_product_v3_h6Yn7f": {
+      "type": "section-product-v3",
+      "name": "PRODUCT V3",
+      "settings": {
+        "title_heading": "Trending",
+        "color_title": "#c9a646",
+        "sub_title": "Lattafa Perfumes",
+        "color_sub_title": "#071321",
+        "select_collection": "ahmed-al-magribi",
+        "products_limit": 8,
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
+    "1657338808c94fcad3": {
+      "type": "section-banner-v2",
+      "custom_css": [
+        ".banner-item h3.title-banner {color: #fff !important;}"
+      ],
+      "settings": {
+        "color_arrows": "#ffffff",
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
+    "section_banner_v7_tVbrxi": {
+      "type": "section-banner-v7",
+      "custom_css": [
+        ".banner-center {text-align: center; padding: 20px;}",
+        ".section-banner-v7 h3.title,.section-banner-v7 p {color: #fff;}",
+        ".section-banner-v7 a {padding: 10px 20px;}"
+      ],
+      "name": "BANNER V7",
+      "settings": {
+        "bg_banner": "#c9a646",
+        "img_left": "shopify://shop_images/marj.webp",
+        "sub_top": "",
+        "color_sub_top": "#3e9f8e",
+        "title": "Ahmed Al Maghribi",
+        "color_title": "#ffffff",
+        "sub_bot": "Ahmed Al Maghribi is a prominent Arabic fragrance brand known for fusing traditional Middle Eastern perfume craftsmanship with modern sophistication. The brand emphasizes the meticulous use of high-quality, natural ingredients like oud, musk, and amber, reflecting a deep inspiration from Arabic cultural heritage. Founded in 2000 in Dubai, it has grown significantly across the GCC, offering rich, long-lasting scents designed to connect with memory and mood.",
+        "color_sub_title": "#ffffff",
+        "button_banner": "Buy now",
+        "color_btn": "#ffffff",
+        "bg_btn": "#000000",
+        "color_btn_hover": "#c9a646",
+        "bg_btn_hover": "#071321",
+        "url_banner": "shopify://collections/ahmed-al-magribi",
+        "img_right": "shopify://shop_images/Ahmed_Maghribi-39.webp",
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
+    "165457174636311816": {
+      "type": "section-product-v2",
+      "blocks": {
+        "1657504240d5fc2d73-0": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Lattafa",
+            "tab_collection": "lattafa-perfumes",
+            "tab_limit": 12
+          }
+        },
+        "1657504240d5fc2d73-2": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Ahmed Al Maghribi",
+            "tab_collection": "ahmed-al-magribi",
+            "tab_limit": 12
+          }
+        },
+        "1657504240d5fc2d73-1": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "RAYHAAN",
+            "tab_collection": "rayhaan",
+            "tab_limit": 12
+          }
+        }
+      },
+      "block_order": [
+        "1657504240d5fc2d73-0",
+        "1657504240d5fc2d73-2",
+        "1657504240d5fc2d73-1"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": "",
+        "title_heading": "Featured Collections",
+        "color_title": "#222222"
+      }
+    },
+    "section_product_v1_7eEHxb": {
+      "type": "section-product-v1",
+      "name": "PRODUCT V1",
+      "settings": {
+        "title_heading": "Signature Fragrances",
+        "color_title": "#222222",
+        "sub-title1": "Discover Our Most Popular Scents",
+        "select_collection": "signature-fragrances",
+        "products_limit": 3,
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
+    "section_banner_v7_waaCBb": {
+      "type": "section-banner-v7",
+      "custom_css": [
+        ".banner-center {text-align: center; padding: 20px;}",
+        ".section-banner-v7 h3.title,.section-banner-v7 p {color: #fff;}",
+        ".section-banner-v7 a {padding: 10px 20px;}"
+      ],
+      "name": "BANNER V7",
+      "settings": {
+        "bg_banner": "#c9a646",
+        "img_left": "shopify://shop_images/Ahmed_Maghribi-22.webp",
+        "sub_top": "",
+        "color_sub_top": "#3e9f8e",
+        "title": "Ahmed Al Maghribi",
+        "color_title": "#ffffff",
+        "sub_bot": "ROOTED IN HERITAGE, REFINED FOR THE PRESENT.A celebrated jewel in Dubai's illustrious perfume landscape!",
+        "color_sub_title": "#ffffff",
+        "button_banner": "Buy now",
+        "color_btn": "#ffffff",
+        "bg_btn": "#000000",
+        "color_btn_hover": "#c9a646",
+        "bg_btn_hover": "#071321",
+        "url_banner": "shopify://collections/ahmed-al-magribi",
+        "img_right": "shopify://shop_images/Ahmed_Maghribi-23.webp",
+        "margin_top": "0",
+        "margin_bottom": "0"
+      }
+    },
+    "section_info_v1_pfY4ew": {
+      "type": "section-info-v1",
+      "blocks": {
+        "pillar_delivery": {
+          "type": "pillar",
+          "settings": {
+            "icon": "delivery",
+            "pillar_title": "Free UK Delivery",
+            "pillar_desc": "On all orders over £50"
+          }
+        },
+        "pillar_sample": {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "pillar_title": "Free Sample",
+            "pillar_desc": "With every full bottle order"
+          }
+        },
+        "pillar_authentic": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "pillar_title": "100% Authentic",
+            "pillar_desc": "Sourced direct from the brands"
+          }
+        },
+        "pillar_support": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "pillar_title": "Expert Advice",
+            "pillar_desc": "7 days a week fragrance help"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_delivery",
+        "pillar_sample",
+        "pillar_authentic",
+        "pillar_support"
+      ],
+      "name": "INFO V1",
+      "settings": {
+        "margin_top": "0",
+        "margin_bottom": "0",
+        "enable_margin_top": false,
+        "bg_color": "#071321",
+        "info_title": "Our Promise",
+        "info_des": "Quality service, quick delivery, and support when you need it.",
+        "img_banner_info": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png",
+        "text_color": "#ffffff",
+        "accent_color": "#C9A646"
+      }
+    }
+  },
+  "order": [
+    "16545716817290dfb6",
+    "section_product_v3_h6Yn7f",
+    "section_info_v1_pfY4ew",
+    "1657338808c94fcad3",
+    "section_banner_v7_tVbrxi",
+    "165457174636311816",
+    "section_product_v1_7eEHxb",
+    "section_banner_v7_waaCBb"
+  ]
+}

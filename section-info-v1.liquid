@@ -1,0 +1,462 @@
+{%- comment -%}
+  sections/section-info-v1.liquid
+  Luxury 4-pillar trust strip — EternaScents
+  Zaoud-inspired horizontal trust bar adapted for EternaScents brand.
+
+  Changes from original:
+  - 4-pillar horizontal layout (was 3-col with logo centre, only 2 items)
+  - Inline SVG icons — no image files, no lazy-load, instant render
+  - Dark brand background #071321 with gold accent line
+  - Up to 4 configurable pillar blocks via Shopify editor
+  - Each pillar: icon select, title, description, optional link
+  - 2×2 grid on mobile, 4-col on desktop
+  - Subtle hover: gold icon colour lift
+{%- endcomment -%}
+
+{%- assign bg       = section.settings.bg_color | default: '#071321' -%}
+{%- assign text_col = section.settings.text_color | default: '#ffffff' -%}
+{%- assign gold     = section.settings.accent_color | default: '#C9A646' -%}
+
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="section-info-v1"
+  class="es-trust-strip"
+  style="
+    background: {{ bg }};
+    {%- if section.settings.margin_top != blank -%}margin-top:{{ section.settings.margin_top }}px;{%- endif -%}
+    {%- if section.settings.margin_bottom != blank -%}margin-bottom:{{ section.settings.margin_bottom }}px;{%- endif -%}
+  ">
+
+  {%- comment -%} Gold accent line at top {%- endcomment -%}
+  <div class="es-trust-strip__accent" style="background: {{ gold }};"></div>
+
+  <div class="es-trust-strip__inner">
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'pillar' -%}
+        {%- assign pillar_link = block.settings.pillar_link -%}
+
+        <div class="es-trust-pillar{% if pillar_link != blank %} es-trust-pillar--linked{% endif %}"
+          {{ block.shopify_attributes }}>
+
+          {%- if pillar_link != blank -%}
+            <a href="{{ pillar_link }}" class="es-trust-pillar__inner" aria-label="{{ block.settings.pillar_title }}">
+          {%- else -%}
+            <div class="es-trust-pillar__inner">
+          {%- endif -%}
+
+            <div class="es-trust-pillar__icon" style="color: {{ gold }};">
+              {%- case block.settings.icon -%}
+
+                {%- when 'delivery' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+                </svg>
+
+                {%- when 'gift' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1014.625 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 109.375 7.5H12m0 0H4.875M12 7.5h6.375M4.875 7.5A1.875 1.875 0 003 9.375v.75c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-.75A1.875 1.875 0 0019.125 7.5H4.875z"/>
+                </svg>
+
+                {%- when 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                </svg>
+
+                {%- when 'chat' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+                </svg>
+
+                {%- when 'star' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                </svg>
+
+                {%- when 'globe' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
+                </svg>
+
+                {%- when 'sample' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .9 2.7-.34 3.39A24.148 24.148 0 0112 21a24.15 24.15 0 01-9.46-1.81c-1.24-.692-1.34-2.39-.34-3.39L3.6 14.5"/>
+                </svg>
+
+                {%- else -%}
+                {%- comment -%} Default: checkmark badge {%- endcomment -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                </svg>
+
+              {%- endcase -%}
+            </div>
+
+            <div class="es-trust-pillar__text">
+              {%- if block.settings.pillar_title != blank -%}
+                <p class="es-trust-pillar__title" style="color: {{ text_col }};">
+                  {{ block.settings.pillar_title }}
+                </p>
+              {%- endif -%}
+              {%- if block.settings.pillar_desc != blank -%}
+                <p class="es-trust-pillar__desc" style="color: rgba({{ text_col | color_to_rgb | join: ',' }}, 0.6);">
+                  {{ block.settings.pillar_desc }}
+                </p>
+              {%- endif -%}
+            </div>
+
+          {%- if pillar_link != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+
+</div>
+
+<style>
+/* ─── Trust Strip ───────────────────────────────────────────────────── */
+.es-trust-strip {
+  position: relative;
+  width: 100%;
+}
+
+.es-trust-strip__accent {
+  height: 2px;
+  width: 100%;
+}
+
+.es-trust-strip__inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── Each pillar ───────────────────────────────────────────────────── */
+.es-trust-pillar {
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.es-trust-pillar:last-child {
+  border-right: none;
+}
+
+.es-trust-pillar__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.25s;
+}
+
+.es-trust-pillar--linked .es-trust-pillar__inner:hover {
+  background: rgba(201, 166, 70, 0.06);
+}
+
+/* ─── Icon ──────────────────────────────────────────────────────────── */
+.es-trust-pillar__icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.es-trust-pillar__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.es-trust-pillar--linked:hover .es-trust-pillar__icon {
+  transform: translateY(-2px);
+}
+
+/* ─── Text ──────────────────────────────────────────────────────────── */
+.es-trust-pillar__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.es-trust-pillar__title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.es-trust-pillar__desc {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── Mobile: 2×2 grid ──────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .es-trust-strip__inner {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 16px;
+  }
+
+  .es-trust-pillar {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  /* Remove bottom border from last row (items 3 and 4) */
+  .es-trust-pillar:nth-child(3),
+  .es-trust-pillar:nth-child(4) {
+    border-bottom: none;
+  }
+
+  /* Vertical divider between columns */
+  .es-trust-pillar:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .es-trust-pillar__inner {
+    padding: 20px 16px;
+    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .es-trust-pillar__icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .es-trust-pillar__title {
+    font-size: 11px;
+  }
+
+  .es-trust-pillar__desc {
+    font-size: 11px;
+  }
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-trust-pillar__icon,
+  .es-trust-pillar__inner { transition: none; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Trust Strip",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#071321"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / icon colour",
+      "default": "#C9A646"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin top (px)",
+      "info": "Number only, no 'px'"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin bottom (px)",
+      "info": "Number only, no 'px'"
+    },
+    {
+      "type": "header",
+      "content": "Legacy settings (unused — kept for compatibility)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_margin_top",
+      "label": "Enable margin top (legacy)",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "info_title",
+      "label": "Legacy title (not displayed)"
+    },
+    {
+      "type": "text",
+      "id": "info_des",
+      "label": "Legacy description (not displayed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner_info",
+      "label": "Legacy centre image (not displayed)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Trust Pillar",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "delivery", "label": "Delivery truck"    },
+            { "value": "gift",     "label": "Gift / sample box" },
+            { "value": "shield",   "label": "Shield / authentic"},
+            { "value": "chat",     "label": "Chat / support"    },
+            { "value": "star",     "label": "Star / quality"    },
+            { "value": "globe",    "label": "Globe / worldwide" },
+            { "value": "sample",   "label": "Sample / tester"   }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "pillar_title",
+          "label": "Title",
+          "default": "100% Authentic",
+          "info": "Keep under 25 characters"
+        },
+        {
+          "type": "text",
+          "id": "pillar_desc",
+          "label": "Description",
+          "default": "Every bottle sourced direct",
+          "info": "Keep under 40 characters"
+        },
+        {
+          "type": "url",
+          "id": "pillar_link",
+          "label": "Link (optional)",
+          "info": "Leave blank for non-clickable pillar"
+        }
+      ]
+    },
+    {
+      "type": "Info",
+      "name": "Legacy Info Left (hidden)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "img_content",
+          "label": "Legacy image"
+        },
+        {
+          "type": "text",
+          "id": "mini_title",
+          "label": "Legacy title"
+        },
+        {
+          "type": "text",
+          "id": "mini_des",
+          "label": "Legacy description"
+        }
+      ]
+    },
+    {
+      "type": "Info-2",
+      "name": "Legacy Info Right (hidden)",
+      "settings": [
+        {
+          "type": "url",
+          "id": "banner_url",
+          "label": "Legacy URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "img_content_2",
+          "label": "Legacy image"
+        },
+        {
+          "type": "text",
+          "id": "mini_title_right",
+          "label": "Legacy title"
+        },
+        {
+          "type": "text",
+          "id": "mini_des_right",
+          "label": "Legacy description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Strip",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "delivery",
+            "pillar_title": "Free UK Delivery",
+            "pillar_desc": "On all orders over £50"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "pillar_title": "Free Sample",
+            "pillar_desc": "With every full bottle order"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "pillar_title": "100% Authentic",
+            "pillar_desc": "Sourced direct from the brands"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "pillar_title": "Expert Advice",
+            "pillar_desc": "7 days a week fragrance help"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
