@@ -424,6 +424,23 @@ jQuery(document).ready(function($) {
   background: none !important;
 }
 
+/* Kill the theme's animated underline pseudo-element that creates visible lines */
+.es-hd__menu-wrap .nav-item .nav-link:after,
+.es-hd__menu-wrap .nav-item .nav-link:before,
+.es-hd__menu-wrap ul li a:after,
+.es-hd__menu-wrap ul li a:before {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Remove padding on first/last items that theme forces */
+.es-hd__menu-wrap .nav-item:first-child { padding-left: 0 !important; }
+.es-hd__menu-wrap .nav-item:last-child  { padding-right: 0 !important; }
+.es-hd__menu-wrap .nav-item { padding-left: 0 !important; padding-right: 0 !important; }
+
 /* Dropdown arrow colour */
 .es-hd__menu-wrap .nav-link .caret,
 .es-hd__menu-wrap .nav-link i { color: inherit !important; }
