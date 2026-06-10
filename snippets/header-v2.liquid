@@ -364,6 +364,7 @@ jQuery(document).ready(function($) {
 .es-hd__nav {
   background: #fff;
   padding: 0;
+  border-top: none;
 }
 
 .es-hd__menu-wrap {
@@ -371,16 +372,33 @@ jQuery(document).ready(function($) {
   justify-content: center;
 }
 
+/* Strip ALL borders/lines from every nav element */
+.es-hd__menu-wrap *,
+.es-hd__menu-wrap ul,
+.es-hd__menu-wrap li,
+.es-hd__menu-wrap a {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
 /* Centre the nav links */
 .es-hd__menu-wrap > ul,
 .es-hd__menu-wrap .navbar-nav {
   display: flex !important;
   justify-content: center !important;
+  align-items: center !important;
   flex-wrap: wrap;
   gap: 0;
   margin: 0 !important;
   padding: 0 !important;
   list-style: none !important;
+  background: none !important;
 }
 
 .es-hd__menu-wrap .nav-item > .nav-link,
@@ -390,17 +408,20 @@ jQuery(document).ready(function($) {
   letter-spacing: .08em !important;
   text-transform: uppercase !important;
   color: #071321 !important;
-  padding: 12px 18px !important;
+  padding: 13px 20px !important;
   text-decoration: none !important;
-  display: block;
+  display: block !important;
   transition: color .2s !important;
-  white-space: nowrap;
+  white-space: nowrap !important;
+  background: none !important;
+  line-height: 1.4 !important;
 }
 
 .es-hd__menu-wrap .nav-item > .nav-link:hover,
 .es-hd__menu-wrap ul > li > a:hover,
 .es-hd__menu-wrap .nav-item.active > .nav-link {
   color: #C9A646 !important;
+  background: none !important;
 }
 
 /* Dropdown arrow colour */
