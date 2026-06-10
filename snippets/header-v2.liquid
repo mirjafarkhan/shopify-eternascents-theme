@@ -83,9 +83,24 @@
   {%- comment -%} Row 2: Navigation {%- endcomment -%}
   <nav class="es-hd__nav" aria-label="Main navigation">
     <div class="container container-v1">
-      <div class="menu es-hd__menu-wrap {% if settings.enable_rtl_mode %}right{% else %}left{% endif %}">
-        {% include 'eveland-menu' %}
-      </div>
+      <ul class="es-hd__nav-list">
+        {%- assign nav_menu = section.settings.main_menu_store -%}
+        {%- for link in linklists[nav_menu].links -%}
+          <li class="es-hd__nav-item{% if link.links.size > 0 %} has-sub{% endif %}">
+            <a href="{{ link.url }}" class="es-hd__nav-link{% if link.active %} active{% endif %}">
+              {{- link.title -}}
+              {%- if link.links.size > 0 -%}<svg class="es-hd__caret" width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 6.5L1 2.5h8z"/></svg>{%- endif -%}
+            </a>
+            {%- if link.links.size > 0 -%}
+              <ul class="es-hd__sub">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}" class="es-hd__sub-link">{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
     </div>
   </nav>
 
@@ -180,9 +195,24 @@ jQuery(document).ready(function($) {
   {%- comment -%} Row 2: Navigation {%- endcomment -%}
   <nav class="es-hd__nav" aria-label="Main navigation">
     <div class="container container-v1">
-      <div class="menu es-hd__menu-wrap {% if settings.enable_rtl_mode %}right{% else %}left{% endif %}">
-        {% include 'eveland-menu' %}
-      </div>
+      <ul class="es-hd__nav-list">
+        {%- assign nav_menu = section.settings.main_menu_store -%}
+        {%- for link in linklists[nav_menu].links -%}
+          <li class="es-hd__nav-item{% if link.links.size > 0 %} has-sub{% endif %}">
+            <a href="{{ link.url }}" class="es-hd__nav-link{% if link.active %} active{% endif %}">
+              {{- link.title -}}
+              {%- if link.links.size > 0 -%}<svg class="es-hd__caret" width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 6.5L1 2.5h8z"/></svg>{%- endif -%}
+            </a>
+            {%- if link.links.size > 0 -%}
+              <ul class="es-hd__sub">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}" class="es-hd__sub-link">{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
     </div>
   </nav>
 
@@ -364,86 +394,97 @@ jQuery(document).ready(function($) {
 .es-hd__nav {
   background: #fff;
   padding: 0;
-  border-top: none;
 }
 
-.es-hd__menu-wrap {
+/* Nav list */
+.es-hd__nav-list {
   display: flex;
+  align-items: center;
   justify-content: center;
-}
-
-/* Strip ALL borders/lines from every nav element */
-.es-hd__menu-wrap *,
-.es-hd__menu-wrap ul,
-.es-hd__menu-wrap li,
-.es-hd__menu-wrap a {
-  border: none !important;
-  border-top: none !important;
-  border-bottom: none !important;
-  border-left: none !important;
-  border-right: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background-image: none !important;
-}
-
-/* Centre the nav links */
-.es-hd__menu-wrap > ul,
-.es-hd__menu-wrap .navbar-nav {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   gap: 0;
-  margin: 0 !important;
-  padding: 0 !important;
-  list-style: none !important;
-  background: none !important;
 }
 
-.es-hd__menu-wrap .nav-item > .nav-link,
-.es-hd__menu-wrap ul > li > a {
-  font-size: .82rem !important;
-  font-weight: 700 !important;
-  letter-spacing: .08em !important;
-  text-transform: uppercase !important;
-  color: #071321 !important;
-  padding: 13px 20px !important;
-  text-decoration: none !important;
-  display: block !important;
-  transition: color .2s !important;
-  white-space: nowrap !important;
-  background: none !important;
-  line-height: 1.4 !important;
+/* Nav item */
+.es-hd__nav-item {
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 
-.es-hd__menu-wrap .nav-item > .nav-link:hover,
-.es-hd__menu-wrap ul > li > a:hover,
-.es-hd__menu-wrap .nav-item.active > .nav-link {
-  color: #C9A646 !important;
-  background: none !important;
+/* Nav link */
+.es-hd__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 13px 18px;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #071321;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .2s;
+  line-height: 1;
 }
 
-/* Kill the theme's animated underline pseudo-element that creates visible lines */
-.es-hd__menu-wrap .nav-item .nav-link:after,
-.es-hd__menu-wrap .nav-item .nav-link:before,
-.es-hd__menu-wrap ul li a:after,
-.es-hd__menu-wrap ul li a:before {
-  display: none !important;
-  content: none !important;
-  border: none !important;
-  width: 0 !important;
-  height: 0 !important;
+.es-hd__nav-link:hover,
+.es-hd__nav-link.active {
+  color: #C9A646;
 }
 
-/* Remove padding on first/last items that theme forces */
-.es-hd__menu-wrap .nav-item:first-child { padding-left: 0 !important; }
-.es-hd__menu-wrap .nav-item:last-child  { padding-right: 0 !important; }
-.es-hd__menu-wrap .nav-item { padding-left: 0 !important; padding-right: 0 !important; }
+/* Caret */
+.es-hd__caret {
+  opacity: .5;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
 
-/* Dropdown arrow colour */
-.es-hd__menu-wrap .nav-link .caret,
-.es-hd__menu-wrap .nav-link i { color: inherit !important; }
+.es-hd__nav-item:hover .es-hd__caret {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Dropdown sub-menu */
+.es-hd__sub {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e8e0d0;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(7,19,33,.10);
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  z-index: 1000;
+}
+
+.es-hd__nav-item:hover .es-hd__sub {
+  display: block;
+}
+
+.es-hd__sub-link {
+  display: block;
+  padding: 9px 18px;
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: #071321;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .15s, background .15s;
+}
+
+.es-hd__sub-link:hover {
+  color: #C9A646;
+  background: #fdf8f0;
+}
 
 /* Sticky shadow state */
 .es-hd.menu_scroll_v2 .es-hd__top,
