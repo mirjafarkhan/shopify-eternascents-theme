@@ -45,15 +45,15 @@
                 alt="{{ block.settings.image_alt | default: 'Eterna Scents luxury fragrance' }}"
                 width="1920"
                 height="{{ height }}"
-                loading="{{ forloop.index | minus: 1 | lte: 0 | ternary: 'eager', 'lazy' }}"
-                fetchpriority="{{ forloop.first | ternary: 'high', 'auto' }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
                 decoding="async"
                 class="es-hs__slide-img">
               <div class="es-hs__slide-dim" style="opacity: {{ block.settings.dim_opacity | default: 55 | divided_by: 100.0 }};"></div>
             </div>
           {%- else -%}
             <div class="es-hs__slide-bg es-hs__slide-bg--placeholder" aria-hidden="true"
-              style="background: linear-gradient(135deg, #{{ forloop.index | times: 11 | plus: 71321 | remove: '0x' }} 0%, #0d2035 100%);">
+              style="background: linear-gradient(135deg, #071321 0%, #0d2035 100%);">
             </div>
           {%- endif -%}
 
