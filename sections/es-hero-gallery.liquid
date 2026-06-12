@@ -56,7 +56,7 @@
             {%- else -%}
               <div class="es-hs__slide-placeholder"></div>
             {%- endif -%}
-            <div class="es-hs__slide-dim" style="opacity: {{ dim | times: 1 | divided_by: 100.0 }};"></div>
+            {{- '' -}}
           </div>
 
           {%- assign badge = block.settings.badge | default: '' -%}
@@ -221,13 +221,7 @@
 }
 
 .es-hs__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
+  display: none;
 }
 
 .es-hs__overlay-inner {
@@ -415,14 +409,7 @@
 }
 
 .es-hs__fade-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(to bottom, transparent, rgba(7,19,33,0.5));
-  z-index: 5;
-  pointer-events: none;
+  display: none;
 }
 
 @media (max-width: 768px) {
