@@ -1328,6 +1328,11 @@
       {%- endif -%}
     </div>
 
+    {%- comment -%} ── WISHLIST (top-right) ──────────────────────── {%- endcomment -%}
+    <div class="es-product-card__wishlist">
+      {%- render 'add-wishlist' -%}
+    </div>
+
     {%- comment -%} ── QUICK ADD (bottom, slides up on hover) ────── {%- endcomment -%}
     {%- unless sold_out -%}
       <div class="es-product-card__quick-add">
@@ -1510,6 +1515,21 @@
   color: #ffffff;
 }
 
+/* ─── Wishlist ──────────────────────────────────────────────────────── */
+.es-product-card__wishlist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+  opacity: 0;
+  transform: translateX(4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.es-product-card__img-wrap:hover .es-product-card__wishlist {
+  opacity: 1;
+  transform: translateX(0);
+}
 
 /* ─── Quick Add ─────────────────────────────────────────────────────── */
 .es-product-card__quick-add {
@@ -1657,13 +1677,18 @@
   .es-product-card__quick-add {
     transform: translateY(0);
   }
+  .es-product-card__wishlist {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ─── Reduced motion ────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .es-product-card__img-hover,
   .es-product-card__img-primary,
-  .es-product-card__quick-add { transition: none; }
+  .es-product-card__quick-add,
+  .es-product-card__wishlist { transition: none; }
 }
 </style>
 
