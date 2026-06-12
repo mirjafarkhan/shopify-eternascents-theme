@@ -1,0 +1,156 @@
+<div class="es-brands" style="{% if section.settings.bg_color != blank %}background:{{ section.settings.bg_color }};{% endif %}">
+  <div class="container container-v1">
+
+    <div class="es-brands__head">
+      <p class="es-brands__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="es-brands__title">{{ section.settings.title }}</h2>
+    </div>
+
+    <div class="es-brands__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'brand' -%}
+          <a href="{{ block.settings.url }}" class="es-brand-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.logo != blank -%}
+              <div class="es-brand-card__logo">
+                <img src="{{ block.settings.logo | image_url: width: 200 }}"
+                     alt="{{ block.settings.name }}"
+                     width="140" height="60"
+                     loading="lazy">
+              </div>
+            {%- else -%}
+              <div class="es-brand-card__name">{{ block.settings.name }}</div>
+            {%- endif -%}
+            <p class="es-brand-card__count">{{ block.settings.count }} fragrances</p>
+            <span class="es-brand-card__arrow">Explore →</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+
+.es-brands {
+  padding: 60px 0;
+  background: #fdf8f0;
+}
+
+.es-brands__head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.es-brands__eyebrow {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #C9A646;
+  margin-bottom: 8px;
+}
+
+.es-brands__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #071321;
+}
+
+.es-brands__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.es-brand-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 28px 20px;
+  background: #fff;
+  border: 1px solid #e8e0d0;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  text-align: center;
+}
+
+.es-brand-card:hover {
+  border-color: #C9A646;
+  box-shadow: 0 4px 20px rgba(201,166,70,.12);
+  transform: translateY(-2px);
+}
+
+.es-brand-card__logo img {
+  max-width: 140px;
+  max-height: 56px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: .75;
+  transition: filter .2s, opacity .2s;
+}
+
+.es-brand-card:hover .es-brand-card__logo img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.es-brand-card__name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #071321;
+}
+
+.es-brand-card__count {
+  font-size: .72rem;
+  color: #888;
+  letter-spacing: .05em;
+}
+
+.es-brand-card__arrow {
+  font-size: .72rem;
+  font-weight: 700;
+  color: #C9A646;
+  letter-spacing: .05em;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.es-brand-card:hover .es-brand-card__arrow { opacity: 1; }
+
+@media (max-width: 600px) {
+  .es-brands__grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+{% schema %}
+{
+  "name": "ES — Brands Grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trusted Names" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Shop by Brand" },
+    { "type": "color", "id": "bg_color", "label": "Background colour", "default": "#fdf8f0" }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Brand name" },
+        { "type": "image_picker", "id": "logo", "label": "Brand logo" },
+        { "type": "url", "id": "url", "label": "Collection link" },
+        { "type": "text", "id": "count", "label": "Product count", "default": "0" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "ES — Brands Grid" }]
+}
+{% endschema %}

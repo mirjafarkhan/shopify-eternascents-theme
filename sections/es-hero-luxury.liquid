@@ -1,0 +1,180 @@
+<div class="es-hero">
+  <div class="es-hero__inner">
+
+    {%- comment -%} Decorative gold lines {%- endcomment -%}
+    <div class="es-hero__ornament">
+      <span class="es-hero__line"></span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5L12 2Z" fill="#C9A646" opacity="0.7"/>
+      </svg>
+      <span class="es-hero__line"></span>
+    </div>
+
+    <p class="es-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h1 class="es-hero__title">{{ section.settings.title }}</h1>
+    <p class="es-hero__sub">{{ section.settings.subtitle }}</p>
+
+    <div class="es-hero__ctas">
+      <a href="{{ section.settings.btn1_url }}" class="es-hero__btn es-hero__btn--primary">
+        {{ section.settings.btn1_label }}
+      </a>
+      <a href="{{ section.settings.btn2_url }}" class="es-hero__btn es-hero__btn--secondary">
+        {{ section.settings.btn2_label }}
+      </a>
+    </div>
+
+    <div class="es-hero__ornament es-hero__ornament--bottom">
+      <span class="es-hero__line"></span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="8" cy="8" r="3" fill="#C9A646" opacity="0.5"/>
+      </svg>
+      <span class="es-hero__line"></span>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+.es-hero {
+  background: #071321;
+  min-height: {{ section.settings.hero_height }}px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.es-hero:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, #0d2035 0%, #071321 100%);
+  pointer-events: none;
+}
+
+.es-hero__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.es-hero__ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.es-hero__ornament--bottom {
+  margin-top: 32px;
+  margin-bottom: 0;
+}
+
+.es-hero__line {
+  display: block;
+  height: 1px;
+  width: 80px;
+  background: linear-gradient(90deg, transparent, #C9A646, transparent);
+}
+
+.es-hero__eyebrow {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: #C9A646;
+  margin-bottom: 16px;
+}
+
+.es-hero__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.es-hero__sub {
+  font-size: 1rem;
+  color: #c8bfb0;
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+
+.es-hero__ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.es-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 32px;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background .2s, color .2s, border-color .2s;
+}
+
+.es-hero__btn--primary {
+  background: #C9A646;
+  color: #071321;
+  border: 1.5px solid #C9A646;
+}
+
+.es-hero__btn--primary:hover {
+  background: #e0bc5a;
+  border-color: #e0bc5a;
+}
+
+.es-hero__btn--secondary {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,.35);
+}
+
+.es-hero__btn--secondary:hover {
+  border-color: #C9A646;
+  color: #C9A646;
+}
+
+@media (max-width: 600px) {
+  .es-hero { min-height: 360px; padding: 56px 20px; }
+  .es-hero__line { width: 48px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "ES — Luxury Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Authentic Arabic Perfumery" },
+    { "type": "text", "id": "title", "label": "Headline", "default": "The Art of Arabian Fragrance" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Authentic oud, rose and amber fragrances from the heart of the Arabian Peninsula — delivered to your door across the UK." },
+    { "type": "range", "id": "hero_height", "min": 300, "max": 700, "step": 20, "label": "Min height (px)", "default": 520 },
+    { "type": "header", "content": "Button 1" },
+    { "type": "text", "id": "btn1_label", "label": "Label", "default": "Shop Now" },
+    { "type": "url", "id": "btn1_url", "label": "Link" },
+    { "type": "header", "content": "Button 2" },
+    { "type": "text", "id": "btn2_label", "label": "Label", "default": "Explore Brands" },
+    { "type": "url", "id": "btn2_url", "label": "Link" }
+  ],
+  "presets": [{ "name": "ES — Luxury Hero" }]
+}
+{% endschema %}
