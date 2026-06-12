@@ -1531,6 +1531,55 @@
   transform: translateX(0);
 }
 
+/* ─── Constrain wishlist button & its SVG to icon size ─────────────────
+   The add-wishlist snippet renders settings.pia_wishlist_svg at native
+   size. These rules cap the button and any child SVG/img/i to 36×36px
+   so they never overflow the card image zone.
+─────────────────────────────────────────────────────────────────────── */
+.es-product-card__wishlist .maxus-product__wishlist,
+.es-product-card__wishlist button,
+.es-product-card__wishlist a {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  background: rgba(255,255,255,0.92);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.es-product-card__wishlist .maxus-product__wishlist:hover,
+.es-product-card__wishlist button:hover,
+.es-product-card__wishlist a:hover {
+  background: #C9A646;
+}
+
+.es-product-card__wishlist .fsz-unset,
+.es-product-card__wishlist i {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 18px !important;
+  height: 18px !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+}
+
+.es-product-card__wishlist svg,
+.es-product-card__wishlist .fsz-unset svg,
+.es-product-card__wishlist i svg {
+  width: 18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  display: block;
+}
+
 /* ─── Quick Add ─────────────────────────────────────────────────────── */
 .es-product-card__quick-add {
   position: absolute;
