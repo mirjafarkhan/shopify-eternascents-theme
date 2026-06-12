@@ -1,132 +1,41 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "es_hero_gallery_wPU77G": {
-      "type": "es-hero-gallery",
+    "es_hero_luxury": {
+      "type": "es-hero-slideshow",
       "blocks": {
-        "bottle_N8Gtyg": {
-          "type": "bottle",
-          "settings": {
-            "image": "shopify://shop_images/mobile-banner-1.png",
-            "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 60
-          }
-        },
-        "bottle_B7YXbj": {
-          "type": "bottle",
-          "settings": {
-            "image": "shopify://shop_images/2880x960a--scaled.webp",
-            "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 55
-          }
-        },
-        "bottle_9dYrEy": {
-          "type": "bottle",
-          "settings": {
-            "image": "shopify://shop_images/Rayhaan_Aquatica_8722d6ad-1a3f-4fac-85ce-38cbf83d5a77.webp",
-            "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 45
-          }
-        },
-        "bottle_bLTzad": {
-          "type": "bottle",
-          "settings": {
-            "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 55
-          }
-        },
-        "bottle_cgftW4": {
-          "type": "bottle",
-          "settings": {
-            "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 60
-          }
-        }
+        "slide_1": { "type": "slide", "settings": { "image_alt": "Luxury Arabian perfume collection", "dim_opacity": 50, "badge": "Bestsellers" } },
+        "slide_2": { "type": "slide", "settings": { "image_alt": "Premium oud fragrance bottles", "dim_opacity": 45, "badge": "New Arrivals" } },
+        "slide_3": { "type": "slide", "settings": { "image_alt": "Signature Arabic scents for men", "dim_opacity": 50, "badge": "Men's Collection" } },
+        "slide_4": { "type": "slide", "settings": { "image_alt": "Rose and amber luxury perfumes", "dim_opacity": 48, "badge": "Women's Collection" } },
+        "slide_5": { "type": "slide", "settings": { "image_alt": "Gift-ready luxury perfume sets", "dim_opacity": 52, "badge": "Gift Sets" } }
       },
-      "block_order": [
-        "bottle_N8Gtyg",
-        "bottle_B7YXbj",
-        "bottle_9dYrEy",
-        "bottle_bLTzad",
-        "bottle_cgftW4"
-      ],
-      "name": "Hero — Gallery Strip",
+      "block_order": ["slide_1", "slide_2", "slide_3", "slide_4", "slide_5"],
       "settings": {
         "eyebrow": "Authentic Arabian Perfumery",
         "title": "The Art of Arabian Fragrance",
         "subtitle": "Luxury oud, rose & amber — delivered across the UK",
-        "btn1_label": "Shop Now",
-        "btn1_url": "",
-        "btn2_label": "Explore Brands",
-        "btn2_url": "",
+        "transition": "fade",
+        "autoplay": true,
+        "autoplay_speed": 4000,
         "hero_height": 640,
+        "btn1_label": "Shop Now",
+        "btn1_url": "/collections/all",
+        "btn2_label": "Explore Brands",
+        "btn2_url": "/collections",
         "show_trust": true
       }
     },
-    "es_logo_grid_a6WcAh": {
+    "es_logo_grid": {
       "type": "es-logo-grid",
       "blocks": {
-        "logo_YXQBWb": {
-          "type": "logo",
-          "settings": {
-            "name": "Lattafa",
-            "logo": "shopify://shop_images/lattafa-emirates-oud_fdb89518-a953-4e6c-881c-7d1e190bfa27.webp",
-            "url": "/collections/lattafa-perfumes"
-          }
-        },
-        "logo_Uh9NRA": {
-          "type": "logo",
-          "settings": {
-            "name": "Rasasi",
-            "url": "/collections/rasasi"
-          }
-        },
-        "logo_fz3bRn": {
-          "type": "logo",
-          "settings": {
-            "name": "Swiss Arabian",
-            "url": "/collections/swiss-arabian"
-          }
-        },
-        "logo_7U6dqj": {
-          "type": "logo",
-          "settings": {
-            "name": "Ahmed Al Maghribi",
-            "url": "/collections/ahmed-al-magribi"
-          }
-        },
-        "logo_VBwAVn": {
-          "type": "logo",
-          "settings": {
-            "name": "Rayhaan",
-            "url": "/collections/rayhaan"
-          }
-        },
-        "logo_HfYdTX": {
-          "type": "logo",
-          "settings": {
-            "name": "Afnan",
-            "url": "/collections/all"
-          }
-        }
+        "logo_lattafa":        { "type": "logo", "settings": { "name": "Lattafa",          "url": "/collections/lattafa-perfumes" } },
+        "logo_rasasi":         { "type": "logo", "settings": { "name": "Rasasi",            "url": "/collections/rasasi" } },
+        "logo_swiss_arabian":  { "type": "logo", "settings": { "name": "Swiss Arabian",     "url": "/collections/swiss-arabian" } },
+        "logo_ahmed":          { "type": "logo", "settings": { "name": "Ahmed Al Maghribi", "url": "/collections/ahmed-al-magribi" } },
+        "logo_rayhaan":        { "type": "logo", "settings": { "name": "Rayhaan",           "url": "/collections/rayhaan" } },
+        "logo_afnan":          { "type": "logo", "settings": { "name": "Afnan",             "url": "/collections/all" } }
       },
-      "block_order": [
-        "logo_YXQBWb",
-        "logo_Uh9NRA",
-        "logo_fz3bRn",
-        "logo_7U6dqj",
-        "logo_VBwAVn",
-        "logo_HfYdTX"
-      ],
-      "name": "Brand Logo Grid",
+      "block_order": ["logo_lattafa","logo_rasasi","logo_swiss_arabian","logo_ahmed","logo_rayhaan","logo_afnan"],
       "settings": {
         "eyebrow": "Trusted Brands",
         "heading": "The World's Finest Fragrance Houses",
@@ -136,13 +45,68 @@
         "gold_color": "#C9A646"
       }
     },
+    "section_info_v1_pfY4ew": {
+      "type": "section-info-v1",
+      "blocks": {
+        "pillar_delivery": {
+          "type": "pillar",
+          "settings": {
+            "icon": "delivery",
+            "pillar_title": "Free UK Delivery",
+            "pillar_desc": "On all orders over £50"
+          }
+        },
+        "pillar_sample": {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "pillar_title": "Free Sample",
+            "pillar_desc": "With every full bottle order"
+          }
+        },
+        "pillar_authentic": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "pillar_title": "100% Authentic",
+            "pillar_desc": "Sourced direct from the brands"
+          }
+        },
+        "pillar_support": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "pillar_title": "Expert Advice",
+            "pillar_desc": "7 days a week fragrance help"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_delivery",
+        "pillar_sample",
+        "pillar_authentic",
+        "pillar_support"
+      ],
+      "name": "INFO V1",
+      "settings": {
+        "margin_top": "0",
+        "margin_bottom": "0",
+        "enable_margin_top": false,
+        "bg_color": "#071321",
+        "info_title": "Our Promise",
+        "info_des": "Quality service, quick delivery, and support when you need it.",
+        "img_banner_info": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png",
+        "text_color": "#ffffff",
+        "accent_color": "#C9A646"
+      }
+    },
     "section_product_v3_h6Yn7f": {
       "type": "section-product-v3",
       "name": "PRODUCT V3",
       "settings": {
-        "title_heading": "Trending",
+        "title_heading": "Bestsellers",
         "color_title": "#c9a646",
-        "sub_title": "Lattafa Perfumes",
+        "sub_title": "Our Most-Loved Fragrances",
         "color_sub_title": "#071321",
         "select_collection": "ahmed-al-magribi",
         "products_limit": 8,
@@ -150,43 +114,65 @@
         "margin_bottom": ""
       }
     },
-    "1657338808c94fcad3": {
-      "type": "section-banner-v2",
-      "custom_css": [
-        ".banner-item h3.title-banner {color: #fff !important;}"
+    "es_brands_grid": {
+      "type": "es-brands-grid",
+      "blocks": {
+        "brand_lattafa": {
+          "type": "brand",
+          "settings": {
+            "name": "Lattafa",
+            "url": "/collections/lattafa-perfumes",
+            "count": "50+"
+          }
+        },
+        "brand_rasasi": {
+          "type": "brand",
+          "settings": {
+            "name": "Rasasi",
+            "url": "/collections/rasasi",
+            "count": "30+"
+          }
+        },
+        "brand_swiss_arabian": {
+          "type": "brand",
+          "settings": {
+            "name": "Swiss Arabian",
+            "url": "/collections/swiss-arabian",
+            "count": "40+"
+          }
+        },
+        "brand_ahmed": {
+          "type": "brand",
+          "settings": {
+            "name": "Ahmed Al Maghrabi",
+            "url": "/collections/ahmed-al-magribi",
+            "count": "20+"
+          }
+        },
+        "brand_rayhaan": {
+          "type": "brand",
+          "settings": {
+            "name": "Rayhaan",
+            "url": "/collections/rayhaan",
+            "count": "15+"
+          }
+        }
+      },
+      "block_order": [
+        "brand_lattafa",
+        "brand_rasasi",
+        "brand_swiss_arabian",
+        "brand_ahmed",
+        "brand_rayhaan"
       ],
       "settings": {
-        "color_arrows": "#ffffff",
-        "margin_top": "",
-        "margin_bottom": ""
-      }
-    },
-    "section_banner_v7_tVbrxi": {
-      "type": "section-banner-v7",
-      "custom_css": [
-        ".banner-center {text-align: center; padding: 20px;}",
-        ".section-banner-v7 h3.title,.section-banner-v7 p {color: #fff;}",
-        ".section-banner-v7 a {padding: 10px 20px;}"
-      ],
-      "name": "BANNER V7",
-      "settings": {
-        "bg_banner": "#c9a646",
-        "img_left": "shopify://shop_images/marj.webp",
-        "sub_top": "",
-        "color_sub_top": "#3e9f8e",
-        "title": "Ahmed Al Maghribi",
-        "color_title": "#ffffff",
-        "sub_bot": "Ahmed Al Maghribi is a prominent Arabic fragrance brand known for fusing traditional Middle Eastern perfume craftsmanship with modern sophistication. The brand emphasizes the meticulous use of high-quality, natural ingredients like oud, musk, and amber, reflecting a deep inspiration from Arabic cultural heritage. Founded in 2000 in Dubai, it has grown significantly across the GCC, offering rich, long-lasting scents designed to connect with memory and mood.",
-        "color_sub_title": "#ffffff",
-        "button_banner": "Buy now",
-        "color_btn": "#ffffff",
-        "bg_btn": "#000000",
-        "color_btn_hover": "#c9a646",
-        "bg_btn_hover": "#071321",
-        "url_banner": "shopify://collections/ahmed-al-magribi",
-        "img_right": "shopify://shop_images/Ahmed_Maghribi-39.webp",
-        "margin_top": "",
-        "margin_bottom": ""
+        "eyebrow": "Trusted Names",
+        "title": "Shop by Brand",
+        "cta_label": "View All Brands",
+        "cta_url": "/collections",
+        "bg_color": "#fdf8f0",
+        "accent_color": "#C9A646",
+        "dark_color": "#071321"
       }
     },
     "165457174636311816": {
@@ -227,6 +213,91 @@
         "margin_bottom": "",
         "title_heading": "Featured Collections",
         "color_title": "#222222"
+      }
+    },
+    "section_banner_v7_tVbrxi": {
+      "type": "section-banner-v7",
+      "custom_css": [
+        ".banner-center {text-align: center; padding: 20px;}",
+        ".section-banner-v7 h3.title,.section-banner-v7 p {color: #fff;}",
+        ".section-banner-v7 a {padding: 10px 20px;}"
+      ],
+      "name": "BANNER V7",
+      "settings": {
+        "bg_banner": "#c9a646",
+        "img_left": "shopify://shop_images/marj.webp",
+        "sub_top": "",
+        "color_sub_top": "#3e9f8e",
+        "title": "Ahmed Al Maghribi",
+        "color_title": "#ffffff",
+        "sub_bot": "Ahmed Al Maghribi is a prominent Arabic fragrance brand known for fusing traditional Middle Eastern perfume craftsmanship with modern sophistication. The brand emphasizes the meticulous use of high-quality, natural ingredients like oud, musk, and amber, reflecting a deep inspiration from Arabic cultural heritage. Founded in 2000 in Dubai, it has grown significantly across the GCC, offering rich, long-lasting scents designed to connect with memory and mood.",
+        "color_sub_title": "#ffffff",
+        "button_banner": "Buy now",
+        "color_btn": "#ffffff",
+        "bg_btn": "#000000",
+        "color_btn_hover": "#c9a646",
+        "bg_btn_hover": "#071321",
+        "url_banner": "shopify://collections/ahmed-al-magribi",
+        "img_right": "shopify://shop_images/Ahmed_Maghribi-39.webp",
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
+    "es_brand_story": {
+      "type": "es-brand-story",
+      "blocks": {
+        "pillar_longlasting": {
+          "type": "pillar",
+          "settings": {
+            "icon": "clock",
+            "title": "Long-Lasting Fragrance",
+            "desc": "High-concentration Arabian-grade oils that last 12+ hours."
+          }
+        },
+        "pillar_natural": {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "title": "Premium Natural Oils",
+            "desc": "Pure oud, rose attar, amber and musk from authentic sources."
+          }
+        },
+        "pillar_gift": {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "title": "Beautifully Gift-Ready",
+            "desc": "Every order arrives in luxury packaging, perfect for gifting."
+          }
+        },
+        "pillar_delivery": {
+          "type": "pillar",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast UK Delivery",
+            "desc": "Free delivery on orders over £50. Tracked, insured shipping."
+          }
+        }
+      },
+      "block_order": [
+        "pillar_longlasting",
+        "pillar_natural",
+        "pillar_gift",
+        "pillar_delivery"
+      ],
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading": "Why Choose Eterna Scents?",
+        "lead": "We bring the finest Arabian perfumery directly from Dubai, Riyadh and the Gulf to your home in the UK.",
+        "body": "<p>Every bottle in our collection is sourced directly from the most respected Arabian fragrance houses. From the smoky depth of pure oud to the floral warmth of Taif rose — we carry only authentic, premium fragrances that tell a story.</p><p>Whether you're searching for a long-lasting signature scent, a luxurious gift for men or women, or exploring the world of Arabic perfumery for the first time, Eterna Scents is your trusted guide.</p>",
+        "stat1_number": "200+",
+        "stat1_label": "Premium Fragrances",
+        "cta_label": "Our Full Story",
+        "cta_url": "/pages/about",
+        "image_side": "right",
+        "bg_color": "#ffffff",
+        "gold_color": "#C9A646",
+        "navy_color": "#071321"
       }
     },
     "section_product_v1_7eEHxb": {
@@ -270,52 +341,92 @@
         "margin_bottom": "0"
       }
     },
-    "section_info_v1_pfY4ew": {
-      "type": "section-info-v1",
+    "es_testimonials": {
+      "type": "es-testimonials",
       "blocks": {
-        "info_fXnqHV": {
-          "type": "Info",
+        "review_1": {
+          "type": "review",
           "settings": {
-            "img_content": "shopify://shop_images/shipping-box.jpg",
-            "mini_title": "Free Delivery",
-            "mini_des": "FREE UK DELIVERY OVER £50"
+            "review_text": "Absolutely stunning fragrance. The oud is rich and authentic — nothing like the synthetic copies I've tried elsewhere. Eterna Scents is my go-to now.",
+            "stars": 5,
+            "name": "Sarah M.",
+            "location": "London, UK"
           }
         },
-        "info_2_dPRmDK": {
-          "type": "Info-2",
+        "review_2": {
+          "type": "review",
           "settings": {
-            "banner_url": "shopify://collections/all",
-            "img_content_2": "shopify://shop_images/person-working-support_1212-37.avif",
-            "mini_title_right": "Support",
-            "mini_des_right": "FIRST-CLASS SUPPORT Available"
+            "review_text": "Bought as a gift for my husband and he absolutely loves it. The packaging alone is worth it — beautifully presented and arrived within 2 days. Will definitely order again.",
+            "stars": 5,
+            "name": "Aisha K.",
+            "location": "Birmingham, UK"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "review_text": "I was sceptical about ordering Arabian perfume online, but Eterna Scents completely exceeded my expectations. The Lattafa selection is exceptional and the prices are very fair.",
+            "stars": 5,
+            "name": "James T.",
+            "location": "Manchester, UK"
           }
         }
       },
-      "block_order": [
-        "info_fXnqHV",
-        "info_2_dPRmDK"
-      ],
-      "name": "INFO V1",
+      "block_order": ["review_1", "review_2", "review_3"],
       "settings": {
-        "margin_top": "",
-        "margin_bottom": "",
-        "enable_margin_top": true,
-        "bg_color": "#f4f4f4",
-        "info_title": "Our Promise",
-        "info_des": "Quality service, quick delivery, and support when you need it.",
-        "img_banner_info": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png"
+        "eyebrow": "Customer Reviews",
+        "heading": "Loved by Fragrance Enthusiasts",
+        "cta_label": "Read All Reviews",
+        "bg_color": "#071321",
+        "gold_color": "#C9A646",
+        "text_color": "#ffffff"
+      }
+    },
+    "es_newsletter": {
+      "type": "es-newsletter",
+      "settings": {
+        "eyebrow": "Join the Community",
+        "heading": "Discover New Fragrances First",
+        "description": "Subscribe for exclusive offers, new Arabian perfume arrivals, and expert fragrance guides. Plus get 10% off your first order.",
+        "placeholder": "Your email address",
+        "btn_label": "Subscribe",
+        "success_message": "Thank you! You've been added to our list. Expect a welcome gift soon.",
+        "disclaimer": "By subscribing you agree to our Privacy Policy. Unsubscribe at any time.",
+        "show_perks": true,
+        "bg_color": "#0d1e2e",
+        "gold_color": "#C9A646",
+        "text_color": "#ffffff"
+      }
+    },
+    "es_seo_content": {
+      "type": "es-seo-content",
+      "settings": {
+        "heading": "Discover Authentic Arabian Perfumes & Luxury Fragrances in the UK",
+        "col1_heading": "Luxury Perfumes for Men & Women",
+        "col1_text": "<p>Eterna Scents offers an exceptional range of luxury perfumes for men and women, sourced directly from the world's finest Arabian fragrance houses. From powerful oud-forward masculines to delicate floral feminines, our collection spans every mood and occasion.</p><p>Whether you're searching for a signature daily scent or a statement fragrance for special events, our curated selection ensures you'll find the perfect match — all 100% authentic and long-lasting.</p>",
+        "col2_heading": "Gift Perfumes & Special Occasions",
+        "col2_text": "<p>Looking for the perfect gift? Our luxury perfume gift sets are beautifully packaged and ready to delight. Arabian fragrances make timeless, sophisticated gifts for birthdays, anniversaries, Eid, weddings and corporate occasions.</p><p>Every Eterna Scents order arrives with complimentary gift-ready packaging, making your purchase look as premium as it smells. A free fragrance sample is included with every full-bottle purchase.</p>",
+        "col3_heading": "Oud, Rose & Amber — The Heart of Arabian Perfumery",
+        "col3_text": "<p>Arabian perfumery is built on three legendary pillars: oud (agarwood), rose and amber. Oud — sometimes called 'liquid gold' — is one of the rarest and most precious fragrance ingredients in the world, prized for its deep, woody, smoky character.</p><p>At Eterna Scents, we stock authentic oud perfumes from Lattafa, Rasasi, Swiss Arabian and Ahmed Al Maghribi — all at accessible prices with fast UK delivery.</p>",
+        "bg_color": "#fdf8f0",
+        "navy_color": "#071321",
+        "gold_color": "#C9A646"
       }
     }
   },
   "order": [
-    "es_hero_gallery_wPU77G",
-    "es_logo_grid_a6WcAh",
+    "es_hero_luxury",
+    "es_logo_grid",
+    "section_info_v1_pfY4ew",
     "section_product_v3_h6Yn7f",
-    "1657338808c94fcad3",
-    "section_banner_v7_tVbrxi",
+    "es_brands_grid",
     "165457174636311816",
+    "section_banner_v7_tVbrxi",
+    "es_brand_story",
     "section_product_v1_7eEHxb",
     "section_banner_v7_waaCBb",
-    "section_info_v1_pfY4ew"
+    "es_testimonials",
+    "es_newsletter",
+    "es_seo_content"
   ]
 }

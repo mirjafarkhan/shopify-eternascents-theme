@@ -1,0 +1,728 @@
+{%- comment -%}
+  sections/es-hero-slideshow.liquid
+  Full-width auto-advancing hero slideshow — EternaScents luxury style.
+
+  Each block = one full-bleed slide image.
+  Shared luxury text overlay (eyebrow, H1, subtitle, CTAs, trust badges)
+  sits above all slides.
+  Uses Slick.js (already bundled in theme) for reliable cross-browser
+  fade/slide transitions with dot + arrow navigation.
+{%- endcomment -%}
+
+{%- assign gold    = '#C9A646' -%}
+{%- assign navy    = '#071321' -%}
+{%- assign height  = section.settings.hero_height | default: 640 -%}
+{%- assign speed   = section.settings.autoplay_speed | default: 4000 -%}
+{%- assign trans   = section.settings.transition | default: 'fade' -%}
+{%- assign autoplay = section.settings.autoplay | default: true -%}
+
+{%- assign slide_blocks = section.blocks | where: 'type', 'slide' -%}
+
+<section
+  id="es-hs-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="es-hero-slideshow"
+  class="es-hs"
+  style="--es-hs-height: {{ height }}px;"
+  aria-label="{{ section.settings.title | default: 'Hero' | escape }}">
+
+  {%- comment -%} ── Slide track ─────────────────────────────────────── {%- endcomment -%}
+  <div
+    class="es-hs__track"
+    data-es-slider
+    data-autoplay="{{ autoplay }}"
+    data-speed="{{ speed }}"
+    data-transition="{{ trans }}"
+    aria-live="polite">
+
+    {%- if slide_blocks.size > 0 -%}
+      {%- for block in slide_blocks -%}
+        <div class="es-hs__slide" {{ block.shopify_attributes }} role="group" aria-label="Slide {{ forloop.index }} of {{ slide_blocks.size }}">
+          {%- if block.settings.image != blank -%}
+            <div class="es-hs__slide-bg" aria-hidden="true">
+              <img
+                src="{{ block.settings.image | image_url: width: 1920 }}"
+                alt="{{ block.settings.image_alt | default: 'Eterna Scents luxury fragrance' }}"
+                width="1920"
+                height="{{ height }}"
+                loading="{{ forloop.index | minus: 1 | lte: 0 | ternary: 'eager', 'lazy' }}"
+                fetchpriority="{{ forloop.first | ternary: 'high', 'auto' }}"
+                decoding="async"
+                class="es-hs__slide-img">
+              <div class="es-hs__slide-dim" style="opacity: {{ block.settings.dim_opacity | default: 55 | divided_by: 100.0 }};"></div>
+            </div>
+          {%- else -%}
+            <div class="es-hs__slide-bg es-hs__slide-bg--placeholder" aria-hidden="true"
+              style="background: linear-gradient(135deg, #{{ forloop.index | times: 11 | plus: 71321 | remove: '0x' }} 0%, #0d2035 100%);">
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Optional per-slide collection badge {%- endcomment -%}
+          {%- if block.settings.badge != blank -%}
+            <div class="es-hs__slide-badge" style="color: {{ gold }};">
+              {{ block.settings.badge }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment -%} Placeholder when no slides added {%- endcomment -%}
+      {%- for i in (1..3) -%}
+        <div class="es-hs__slide">
+          <div class="es-hs__slide-bg es-hs__slide-bg--placeholder" aria-hidden="true"
+            style="background: linear-gradient(135deg, #071321 0%, #1a3a55 100%);"></div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+
+  </div>
+
+  {%- comment -%} ── Luxury text overlay (above all slides) ──────────── {%- endcomment -%}
+  <div class="es-hs__overlay" aria-hidden="false">
+
+    <div class="es-hs__overlay-inner">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="es-hs__eyebrow">
+          <span class="es-hs__eyebrow-gem" aria-hidden="true">◆</span>
+          {{ section.settings.eyebrow }}
+          <span class="es-hs__eyebrow-gem" aria-hidden="true">◆</span>
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h1 class="es-hs__title">{{ section.settings.title }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="es-hs__sub">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      <div class="es-hs__divider" aria-hidden="true">
+        <span class="es-hs__divider-line"></span>
+        <svg viewBox="0 0 10 10" fill="{{ gold }}" width="8" height="8"><polygon points="5,0 10,5 5,10 0,5"/></svg>
+        <span class="es-hs__divider-line"></span>
+      </div>
+
+      <div class="es-hs__ctas">
+        {%- if section.settings.btn1_label != blank -%}
+          <a href="{{ section.settings.btn1_url | default: '/collections/all' }}"
+            class="es-hs__btn es-hs__btn--primary">
+            {{ section.settings.btn1_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}
+          <a href="{{ section.settings.btn2_url | default: '/collections' }}"
+            class="es-hs__btn es-hs__btn--ghost">
+            {{ section.settings.btn2_label }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_trust -%}
+        <div class="es-hs__trust">
+          <span>
+            <svg viewBox="0 0 14 14" fill="none" stroke="{{ gold }}" stroke-width="1.5" width="11" height="11"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.2 3.8 11l.6-3.6L2 5l3.6-.5z"/></svg>
+            100% Authentic
+          </span>
+          <span class="es-hs__trust-dot" aria-hidden="true">◆</span>
+          <span>
+            <svg viewBox="0 0 14 14" fill="none" stroke="{{ gold }}" stroke-width="1.5" width="11" height="11"><path d="M1 4h12v7a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm2-1l1-2h6l1 2"/></svg>
+            Free UK Delivery
+          </span>
+          <span class="es-hs__trust-dot" aria-hidden="true">◆</span>
+          <span>
+            <svg viewBox="0 0 14 14" fill="none" stroke="{{ gold }}" stroke-width="1.5" width="11" height="11"><path d="M11 3H3a1 1 0 00-1 1v6a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1zM7 5v4M5 7h4"/></svg>
+            Gift Wrapped
+          </span>
+        </div>
+      {%- endif -%}
+
+    </div>
+
+  </div>
+
+  {%- comment -%} ── Custom navigation dots ──────────────────────────── {%- endcomment -%}
+  <div class="es-hs__nav" aria-label="Slideshow navigation">
+    <button class="es-hs__arrow es-hs__arrow--prev" data-es-prev aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="es-hs__dots" data-es-dots role="tablist" aria-label="Slide"></div>
+    <button class="es-hs__arrow es-hs__arrow--next" data-es-next aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  {%- comment -%} Bottom gradient fade {%- endcomment -%}
+  <div class="es-hs__fade-bottom" aria-hidden="true"></div>
+
+</section>
+
+<style>
+/* ─── Hero Slideshow ────────────────────────────────────────────────── */
+.es-hs {
+  position: relative;
+  width: 100%;
+  height: var(--es-hs-height, 640px);
+  overflow: hidden;
+  background: #071321;
+  isolation: isolate;
+}
+
+/* ─── Track (slick target) ─────────────────────────────────────────── */
+.es-hs__track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Slick sets display:block on slides — make each fill the container */
+.es-hs__track .slick-list,
+.es-hs__track .slick-track {
+  height: 100%;
+}
+
+/* ─── Individual slide ──────────────────────────────────────────────── */
+.es-hs__slide {
+  position: relative;
+  width: 100%;
+  height: var(--es-hs-height, 640px);
+  overflow: hidden;
+}
+
+/* ─── Slide background image ────────────────────────────────────────── */
+.es-hs__slide-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.es-hs__slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 6s ease;
+}
+
+/* Subtle Ken Burns zoom on active slide */
+.slick-active .es-hs__slide-img {
+  transform: scale(1.04);
+}
+
+/* Dark overlay per slide */
+.es-hs__slide-dim {
+  position: absolute;
+  inset: 0;
+  background: #071321;
+}
+
+.es-hs__slide-bg--placeholder {
+  position: absolute;
+  inset: 0;
+}
+
+/* ─── Per-slide badge ───────────────────────────────────────────────── */
+.es-hs__slide-badge {
+  position: absolute;
+  top: 28px;
+  left: 48px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+/* ─── Text overlay (above all slides) ──────────────────────────────── */
+.es-hs__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* let clicks through to slides below */
+}
+
+.es-hs__overlay-inner {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  padding: 40px 32px;
+  max-width: 780px;
+  width: 100%;
+}
+
+/* ─── Eyebrow ───────────────────────────────────────────────────────── */
+.es-hs__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #C9A646;
+  margin: 0;
+}
+
+.es-hs__eyebrow-gem {
+  font-size: 7px;
+  opacity: 0.7;
+}
+
+/* ─── Title ─────────────────────────────────────────────────────────── */
+.es-hs__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(36px, 6vw, 76px);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-shadow: 0 4px 32px rgba(7,19,33,0.9);
+}
+
+/* ─── Subtitle ──────────────────────────────────────────────────────── */
+.es-hs__sub {
+  font-size: clamp(14px, 1.7vw, 18px);
+  color: rgba(255,255,255,0.72);
+  margin: 0;
+  font-weight: 300;
+  line-height: 1.65;
+  max-width: 520px;
+  text-shadow: 0 2px 12px rgba(7,19,33,0.8);
+}
+
+/* ─── Gold divider ──────────────────────────────────────────────────── */
+.es-hs__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.es-hs__divider-line {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9A646, transparent);
+}
+
+/* ─── CTA buttons ───────────────────────────────────────────────────── */
+.es-hs__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.es-hs__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 44px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.es-hs__btn--primary {
+  background: #C9A646;
+  color: #071321;
+  border-color: #C9A646;
+}
+
+.es-hs__btn--primary:hover {
+  background: #e0b84f;
+  transform: translateY(-2px);
+}
+
+.es-hs__btn--ghost {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.5);
+}
+
+.es-hs__btn--ghost:hover {
+  border-color: #C9A646;
+  color: #C9A646;
+  transform: translateY(-2px);
+}
+
+/* ─── Trust bar ─────────────────────────────────────────────────────── */
+.es-hs__trust {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.05em;
+}
+
+.es-hs__trust span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.es-hs__trust-dot {
+  font-size: 6px;
+  color: #C9A646;
+  opacity: 0.7;
+}
+
+/* ─── Navigation bar ────────────────────────────────────────────────── */
+.es-hs__nav {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ─── Arrows ────────────────────────────────────────────────────────── */
+.es-hs__arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(201,166,70,0.4);
+  background: rgba(7,19,33,0.6);
+  color: #C9A646;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.es-hs__arrow:hover {
+  background: rgba(201,166,70,0.15);
+  border-color: #C9A646;
+}
+
+/* ─── Dots container ────────────────────────────────────────────────── */
+.es-hs__dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Slick injects <ul><li><button> — style them here */
+.es-hs__track .slick-dots {
+  display: none !important; /* hide slick's own dots — we use custom */
+}
+
+/* Our custom dots (injected by JS below) */
+.es-hs-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s, transform 0.25s, width 0.25s;
+  display: block;
+}
+
+.es-hs-dot.is-active {
+  background: #C9A646;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ─── Bottom fade ───────────────────────────────────────────────────── */
+.es-hs__fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, rgba(7,19,33,0.55));
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ─── Mobile ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .es-hs {
+    height: 520px;
+    --es-hs-height: 520px;
+  }
+
+  .es-hs__slide { height: 520px; }
+
+  .es-hs__overlay-inner {
+    gap: 14px;
+    padding: 24px 20px;
+  }
+
+  .es-hs__btn { padding: 13px 28px; }
+
+  .es-hs__slide-badge { left: 20px; top: 16px; }
+
+  .es-hs__trust-dot { display: none; }
+
+  .es-hs__trust {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .es-hs { height: 460px; --es-hs-height: 460px; }
+  .es-hs__slide { height: 460px; }
+  .es-hs__ctas { flex-direction: column; align-items: center; }
+  .es-hs__btn { width: 220px; justify-content: center; }
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .slick-active .es-hs__slide-img { transform: none; }
+  .es-hs__btn { transition: none; }
+  .es-hs-dot { transition: none; }
+}
+</style>
+
+<script>
+(function() {
+  function initHeroSlider() {
+    var $section = jQuery('#es-hs-{{ section.id }}');
+    if (!$section.length) return;
+
+    var $track    = $section.find('[data-es-slider]');
+    var $dotsWrap = $section.find('[data-es-dots]');
+    var $prev     = $section.find('[data-es-prev]');
+    var $next     = $section.find('[data-es-next]');
+
+    var autoplay  = $track.data('autoplay') !== false;
+    var speed     = parseInt($track.data('speed')) || 4000;
+    var trans     = $track.data('transition') || 'fade';
+    var isFade    = trans === 'fade';
+
+    // Init slick
+    $track.slick({
+      autoplay:      autoplay,
+      autoplaySpeed: speed,
+      fade:          isFade,
+      cssEase:       'cubic-bezier(0.4, 0, 0.2, 1)',
+      speed:         800,
+      arrows:        false,
+      dots:          false,
+      pauseOnHover:  true,
+      pauseOnFocus:  false,
+      infinite:      true,
+      adaptiveHeight: false
+    });
+
+    // Build custom dots
+    var total = $track.slick('getSlick').slideCount;
+    for (var i = 0; i < total; i++) {
+      var $dot = jQuery('<button class="es-hs-dot" role="tab" aria-label="Go to slide ' + (i + 1) + '" data-idx="' + i + '"></button>');
+      $dotsWrap.append($dot);
+    }
+    $dotsWrap.find('.es-hs-dot').first().addClass('is-active');
+
+    // Dot click
+    $dotsWrap.on('click', '.es-hs-dot', function() {
+      $track.slick('slickGoTo', jQuery(this).data('idx'));
+    });
+
+    // Arrow clicks
+    $prev.on('click', function() { $track.slick('slickPrev'); });
+    $next.on('click', function() { $track.slick('slickNext'); });
+
+    // Sync dot state on slide change
+    $track.on('afterChange', function(e, slick, current) {
+      $dotsWrap.find('.es-hs-dot').removeClass('is-active')
+        .eq(current).addClass('is-active');
+    });
+  }
+
+  // Run after jQuery + slick are ready
+  if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
+    jQuery(function() { initHeroSlider(); });
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      var wait = setInterval(function() {
+        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
+          clearInterval(wait);
+          initHeroSlider();
+        }
+      }, 100);
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero — Slideshow",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text overlay"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Authentic Arabian Perfumery"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline (H1)",
+      "default": "The Art of Arabian Fragrance"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheadline",
+      "default": "Luxury oud, rose & amber — delivered across the UK"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn1_label",
+      "label": "Primary button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "btn1_url",
+      "label": "Primary button URL"
+    },
+    {
+      "type": "text",
+      "id": "btn2_label",
+      "label": "Secondary button label",
+      "default": "Explore Brands"
+    },
+    {
+      "type": "url",
+      "id": "btn2_url",
+      "label": "Secondary button URL"
+    },
+    {
+      "type": "header",
+      "content": "Slideshow settings"
+    },
+    {
+      "type": "select",
+      "id": "transition",
+      "label": "Transition style",
+      "options": [
+        { "value": "fade", "label": "Fade (clean crossfade)" },
+        { "value": "slide", "label": "Slide (horizontal)" }
+      ],
+      "default": "fade"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-play",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Time per slide (ms)",
+      "min": 2000,
+      "max": 8000,
+      "step": 500,
+      "default": 4000
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Hero height (px)",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "default": 640
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust",
+      "label": "Show trust badges",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image",
+          "info": "Landscape, min 1920×640px. Clean product/lifestyle shot recommended."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "default": "Luxury Arabian fragrance collection"
+        },
+        {
+          "type": "range",
+          "id": "dim_opacity",
+          "label": "Image darkness",
+          "min": 20,
+          "max": 80,
+          "step": 5,
+          "default": 50,
+          "unit": "%",
+          "info": "Higher = darker overlay. Keep around 45–55% for readability."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Collection badge (optional)",
+          "info": "e.g. 'New Collection' or 'Lattafa Perfumes'. Shown top-left of slide.",
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero — Slideshow",
+      "category": "HOME",
+      "blocks": [
+        { "type": "slide", "settings": { "dim_opacity": 50, "badge": "Bestsellers" } },
+        { "type": "slide", "settings": { "dim_opacity": 45, "badge": "New Arrivals" } },
+        { "type": "slide", "settings": { "dim_opacity": 50, "badge": "Gift Sets" } },
+        { "type": "slide", "settings": { "dim_opacity": 48, "badge": "Oud Collection" } },
+        { "type": "slide", "settings": { "dim_opacity": 52, "badge": "Women's Perfumes" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
