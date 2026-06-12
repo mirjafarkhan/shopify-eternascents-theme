@@ -1,180 +1,607 @@
-<div class="es-hero">
+{%- comment -%}
+  sections/es-hero-luxury.liquid
+  Premium hero section for EternaScents — luxury Arabian fragrance brand.
+  Design: dark navy base, gold accents, CSS-only floating bottle animation,
+  fade-up entrance, responsive, accessible, Lighthouse-friendly.
+{%- endcomment -%}
+
+{%- assign hero_bg      = section.settings.bg_color      | default: '#071321' -%}
+{%- assign overlay_op   = section.settings.overlay_opacity | default: 55 -%}
+{%- assign text_col     = section.settings.text_color    | default: '#ffffff' -%}
+{%- assign gold         = section.settings.accent_color  | default: '#C9A646' -%}
+{%- assign hero_height  = section.settings.hero_height   | default: 620 -%}
+
+<section
+  id="es-hero"
+  data-section-id="{{ section.id }}"
+  data-section-type="es-hero-luxury"
+  class="es-hero"
+  aria-label="Hero — {{ section.settings.title | escape }}"
+  style="min-height: {{ hero_height }}px; background-color: {{ hero_bg }};">
+
+  {%- comment -%} Background image with overlay {%- endcomment -%}
+  {%- if section.settings.hero_image != blank -%}
+    <div class="es-hero__bg-wrap" aria-hidden="true">
+      <img
+        src="{{ section.settings.hero_image | image_url: width: 1920 }}"
+        alt=""
+        width="1920"
+        height="{{ hero_height }}"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="es-hero__bg-img">
+      <div class="es-hero__overlay" style="opacity: {{ overlay_op | divided_by: 100.0 }};"></div>
+    </div>
+  {%- else -%}
+    <div class="es-hero__bg-gradient" aria-hidden="true" style="background: linear-gradient(135deg, {{ hero_bg }} 0%, #0d2035 60%, #1a3a55 100%);"></div>
+    <div class="es-hero__particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  {%- endif -%}
+
   <div class="es-hero__inner">
 
-    {%- comment -%} Decorative gold lines {%- endcomment -%}
-    <div class="es-hero__ornament">
-      <span class="es-hero__line"></span>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5L12 2Z" fill="#C9A646" opacity="0.7"/>
-      </svg>
-      <span class="es-hero__line"></span>
+    {%- comment -%} Text column {%- endcomment -%}
+    <div class="es-hero__content es-fade-up">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="es-hero__eyebrow" style="color: {{ gold }};">
+          <span class="es-hero__eyebrow-line" style="background: {{ gold }};"></span>
+          {{ section.settings.eyebrow }}
+          <span class="es-hero__eyebrow-line" style="background: {{ gold }};"></span>
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h1 class="es-hero__title" style="color: {{ text_col }};">
+          {{ section.settings.title }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="es-hero__subtitle" style="color: rgba(255,255,255,0.78);">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+
+      <div class="es-hero__ctas" role="group" aria-label="Shop links">
+        {%- if section.settings.btn1_label != blank -%}
+          <a
+            href="{{ section.settings.btn1_url | default: '/collections/all' }}"
+            class="es-hero__btn es-hero__btn--primary"
+            style="background: {{ gold }}; color: {{ hero_bg }};">
+            {{ section.settings.btn1_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}
+          <a
+            href="{{ section.settings.btn2_url | default: '/collections' }}"
+            class="es-hero__btn es-hero__btn--ghost"
+            style="border-color: {{ gold }}; color: {{ gold }};">
+            {{ section.settings.btn2_label }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_trust_badges -%}
+        <div class="es-hero__trust" aria-label="Trust signals">
+          <span class="es-hero__trust-item" style="color: rgba(255,255,255,0.6);">
+            <svg viewBox="0 0 16 16" fill="none" stroke="{{ gold }}" stroke-width="1.5" aria-hidden="true" width="14" height="14"><path d="M8 1.5l1.9 3.8 4.2.6-3 3 .7 4.2L8 11l-3.8 2.1.7-4.2-3-3 4.2-.6z"/></svg>
+            100% Authentic
+          </span>
+          <span class="es-hero__trust-sep" aria-hidden="true" style="color: {{ gold }};">·</span>
+          <span class="es-hero__trust-item" style="color: rgba(255,255,255,0.6);">
+            <svg viewBox="0 0 16 16" fill="none" stroke="{{ gold }}" stroke-width="1.5" aria-hidden="true" width="14" height="14"><path d="M1 5h14M1 5v8a1 1 0 001 1h12a1 1 0 001-1V5M1 5l2-3h10l2 3"/></svg>
+            Free UK Delivery
+          </span>
+          <span class="es-hero__trust-sep" aria-hidden="true" style="color: {{ gold }};">·</span>
+          <span class="es-hero__trust-item" style="color: rgba(255,255,255,0.6);">
+            <svg viewBox="0 0 16 16" fill="none" stroke="{{ gold }}" stroke-width="1.5" aria-hidden="true" width="14" height="14"><path d="M13 3H3a1 1 0 00-1 1v8a1 1 0 001 1h10a1 1 0 001-1V4a1 1 0 00-1-1zM8 6v4M6 8h4"/></svg>
+            Gift Wrapped
+          </span>
+        </div>
+      {%- endif -%}
+
     </div>
 
-    <p class="es-hero__eyebrow">{{ section.settings.eyebrow }}</p>
-    <h1 class="es-hero__title">{{ section.settings.title }}</h1>
-    <p class="es-hero__sub">{{ section.settings.subtitle }}</p>
-
-    <div class="es-hero__ctas">
-      <a href="{{ section.settings.btn1_url }}" class="es-hero__btn es-hero__btn--primary">
-        {{ section.settings.btn1_label }}
-      </a>
-      <a href="{{ section.settings.btn2_url }}" class="es-hero__btn es-hero__btn--secondary">
-        {{ section.settings.btn2_label }}
-      </a>
-    </div>
-
-    <div class="es-hero__ornament es-hero__ornament--bottom">
-      <span class="es-hero__line"></span>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="8" cy="8" r="3" fill="#C9A646" opacity="0.5"/>
-      </svg>
-      <span class="es-hero__line"></span>
-    </div>
+    {%- comment -%} Floating bottle visual (CSS animated, no JS) {%- endcomment -%}
+    {%- if section.settings.bottle_image != blank -%}
+      <div class="es-hero__bottle-wrap" aria-hidden="true">
+        <div class="es-hero__bottle-glow" style="background: radial-gradient(ellipse, {{ gold }}33 0%, transparent 70%);"></div>
+        <img
+          src="{{ section.settings.bottle_image | image_url: width: 640 }}"
+          alt="{{ section.settings.bottle_alt | default: 'Luxury fragrance bottle' }}"
+          width="400"
+          height="520"
+          loading="eager"
+          decoding="async"
+          class="es-hero__bottle-img">
+      </div>
+    {%- else -%}
+      <div class="es-hero__bottle-wrap es-hero__bottle-wrap--placeholder" aria-hidden="true">
+        <div class="es-hero__bottle-glow" style="background: radial-gradient(ellipse, {{ gold }}22 0%, transparent 70%);"></div>
+        <div class="es-hero__bottle-placeholder">
+          <svg viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:160px;opacity:0.35;">
+            <rect x="45" y="2" width="30" height="18" rx="4" fill="{{ gold }}"/>
+            <path d="M35 20h50l12 30v120a8 8 0 01-8 8H31a8 8 0 01-8-8V50l12-30z" fill="{{ gold }}" fill-opacity="0.18" stroke="{{ gold }}" stroke-width="1.5"/>
+            <ellipse cx="60" cy="100" rx="18" ry="22" fill="{{ gold }}" fill-opacity="0.1" stroke="{{ gold }}" stroke-width="1"/>
+            <text x="60" y="104" text-anchor="middle" font-size="8" fill="{{ gold }}" font-family="serif" opacity="0.7">ETERNA</text>
+          </svg>
+        </div>
+      </div>
+    {%- endif -%}
 
   </div>
-</div>
+
+  {%- comment -%} Scroll indicator {%- endcomment -%}
+  {%- if section.settings.show_scroll_indicator -%}
+    <div class="es-hero__scroll" aria-hidden="true">
+      <div class="es-hero__scroll-line" style="background: {{ gold }};"></div>
+    </div>
+  {%- endif -%}
+
+</section>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-
+/* ─── Hero base ─────────────────────────────────────────────────────── */
 .es-hero {
-  background: #071321;
-  min-height: {{ section.settings.hero_height }}px;
+  position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 72px 20px;
-  position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
-.es-hero:before {
-  content: '';
+/* ─── Background ─────────────────────────────────────────────────────── */
+.es-hero__bg-wrap {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 50%, #0d2035 0%, #071321 100%);
+  z-index: 0;
+}
+
+.es-hero__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.es-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: #071321;
+}
+
+.es-hero__bg-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ─── Particle dots (decorative) ─────────────────────────────────────── */
+.es-hero__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   pointer-events: none;
 }
 
+.es-hero__particles span {
+  position: absolute;
+  border-radius: 50%;
+  background: #C9A646;
+  opacity: 0.12;
+  animation: es-particle-float 8s ease-in-out infinite;
+}
+
+.es-hero__particles span:nth-child(1) { width: 6px; height: 6px; top: 20%; left: 15%; animation-delay: 0s; }
+.es-hero__particles span:nth-child(2) { width: 4px; height: 4px; top: 65%; left: 8%; animation-delay: 1.5s; }
+.es-hero__particles span:nth-child(3) { width: 8px; height: 8px; top: 40%; left: 88%; animation-delay: 3s; }
+.es-hero__particles span:nth-child(4) { width: 3px; height: 3px; top: 80%; left: 75%; animation-delay: 4.5s; }
+.es-hero__particles span:nth-child(5) { width: 5px; height: 5px; top: 10%; left: 60%; animation-delay: 2s; }
+
+@keyframes es-particle-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-20px); }
+}
+
+/* ─── Inner layout ───────────────────────────────────────────────────── */
 .es-hero__inner {
   position: relative;
   z-index: 1;
-  text-align: center;
-  max-width: 720px;
+  width: 100%;
+  max-width: 1240px;
   margin: 0 auto;
-}
-
-.es-hero__ornament {
-  display: flex;
+  padding: 80px 48px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 48px;
 }
 
-.es-hero__ornament--bottom {
-  margin-top: 32px;
-  margin-bottom: 0;
-}
-
-.es-hero__line {
-  display: block;
-  height: 1px;
-  width: 80px;
-  background: linear-gradient(90deg, transparent, #C9A646, transparent);
+/* ─── Text content ───────────────────────────────────────────────────── */
+.es-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .es-hero__eyebrow {
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .25em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #C9A646;
-  margin-bottom: 16px;
+  margin: 0;
+}
+
+.es-hero__eyebrow-line {
+  flex: 0 0 32px;
+  height: 1px;
+  display: block;
 }
 
 .es-hero__title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.15;
-  margin-bottom: 16px;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 
-.es-hero__sub {
-  font-size: 1rem;
-  color: #c8bfb0;
+.es-hero__subtitle {
+  font-size: clamp(15px, 1.8vw, 18px);
   line-height: 1.7;
   max-width: 520px;
-  margin: 0 auto 32px;
+  margin: 0;
+  font-weight: 300;
 }
 
+/* ─── CTA buttons ────────────────────────────────────────────────────── */
 .es-hero__ctas {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
   flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
 }
 
 .es-hero__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 32px;
-  font-size: .8rem;
+  padding: 15px 36px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
-  border-radius: 2px;
-  transition: background .2s, color .2s, border-color .2s;
-}
-
-.es-hero__btn--primary {
-  background: #C9A646;
-  color: #071321;
-  border: 1.5px solid #C9A646;
+  border: 2px solid transparent;
+  transition: background 0.28s, color 0.28s, border-color 0.28s, transform 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .es-hero__btn--primary:hover {
-  background: #e0bc5a;
-  border-color: #e0bc5a;
+  filter: brightness(1.12);
+  transform: translateY(-2px);
 }
 
-.es-hero__btn--secondary {
+.es-hero__btn--ghost {
   background: transparent;
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,.35);
 }
 
-.es-hero__btn--secondary:hover {
+.es-hero__btn--ghost:hover {
+  background: #C9A646;
+  color: #071321 !important;
   border-color: #C9A646;
-  color: #C9A646;
+  transform: translateY(-2px);
 }
 
-@media (max-width: 600px) {
-  .es-hero { min-height: 360px; padding: 56px 20px; }
-  .es-hero__line { width: 48px; }
+/* ─── Trust badges ───────────────────────────────────────────────────── */
+.es-hero__trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.es-hero__trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.es-hero__trust-sep {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* ─── Floating bottle ────────────────────────────────────────────────── */
+.es-hero__bottle-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: es-bottle-float 5s ease-in-out infinite;
+}
+
+.es-hero__bottle-glow {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.es-hero__bottle-img {
+  position: relative;
+  z-index: 1;
+  max-width: 340px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5));
+}
+
+.es-hero__bottle-placeholder {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes es-bottle-float {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-18px) rotate(1deg); }
+}
+
+/* ─── Scroll indicator ───────────────────────────────────────────────── */
+.es-hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.es-hero__scroll-line {
+  width: 1px;
+  height: 48px;
+  margin: 0 auto;
+  animation: es-scroll-shrink 2s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes es-scroll-shrink {
+  0%   { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(0); opacity: 0; }
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .es-hero__inner {
+    grid-template-columns: 1fr;
+    padding: 60px 24px 80px;
+    text-align: center;
+  }
+
+  .es-hero__eyebrow {
+    justify-content: center;
+  }
+
+  .es-hero__subtitle {
+    max-width: 100%;
+  }
+
+  .es-hero__ctas {
+    justify-content: center;
+  }
+
+  .es-hero__trust {
+    justify-content: center;
+  }
+
+  .es-hero__bottle-wrap {
+    order: -1;
+    max-width: 240px;
+    margin: 0 auto;
+    animation: none;
+  }
+
+  .es-hero__bottle-img {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .es-hero__btn {
+    padding: 13px 24px;
+    font-size: 11px;
+  }
+
+  .es-hero__trust-sep {
+    display: none;
+  }
+
+  .es-hero__trust {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* ─── Fade-up entrance animation ─────────────────────────────────────── */
+.es-fade-up {
+  animation: esFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes esFadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-hero__bottle-wrap,
+  .es-hero__particles span,
+  .es-hero__scroll-line,
+  .es-fade-up {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 </style>
 
 {% schema %}
 {
-  "name": "ES — Luxury Hero",
+  "name": "Hero — Luxury",
+  "class": "index-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Authentic Arabic Perfumery" },
-    { "type": "text", "id": "title", "label": "Headline", "default": "The Art of Arabian Fragrance" },
-    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Authentic oud, rose and amber fragrances from the heart of the Arabian Peninsula — delivered to your door across the UK." },
-    { "type": "range", "id": "hero_height", "min": 300, "max": 700, "step": 20, "label": "Min height (px)", "default": 520 },
-    { "type": "header", "content": "Button 1" },
-    { "type": "text", "id": "btn1_label", "label": "Label", "default": "Shop Now" },
-    { "type": "url", "id": "btn1_url", "label": "Link" },
-    { "type": "header", "content": "Button 2" },
-    { "type": "text", "id": "btn2_label", "label": "Label", "default": "Explore Brands" },
-    { "type": "url", "id": "btn2_url", "label": "Link" }
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background image",
+      "info": "Recommended: 1920×820px. Leave blank for gradient background."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 55,
+      "unit": "%"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#071321"
+    },
+    {
+      "type": "header",
+      "content": "Bottle / Product Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottle_image",
+      "label": "Floating bottle image",
+      "info": "PNG with transparent background recommended. ~800×1000px."
+    },
+    {
+      "type": "text",
+      "id": "bottle_alt",
+      "label": "Bottle image alt text",
+      "default": "Luxury Arabian fragrance bottle"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow line",
+      "default": "Authentic Arabic Perfumery"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline (H1)",
+      "default": "The Art of Arabian Fragrance"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheadline",
+      "default": "Authentic oud, rose and amber fragrances from the heart of the Arabian Peninsula — delivered to your door across the UK."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / gold colour",
+      "default": "#C9A646"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "btn1_label",
+      "label": "Primary button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "btn1_url",
+      "label": "Primary button URL"
+    },
+    {
+      "type": "text",
+      "id": "btn2_label",
+      "label": "Secondary button label",
+      "default": "Explore Brands"
+    },
+    {
+      "type": "url",
+      "id": "btn2_url",
+      "label": "Secondary button URL"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Minimum hero height (px)",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "default": 620
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show scroll indicator",
+      "default": true
+    }
   ],
-  "presets": [{ "name": "ES — Luxury Hero" }]
+  "presets": [
+    {
+      "name": "Hero — Luxury",
+      "category": "HOME"
+    }
+  ]
 }
 {% endschema %}

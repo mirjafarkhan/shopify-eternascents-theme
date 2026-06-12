@@ -1,0 +1,493 @@
+{%- comment -%}
+  sections/es-brand-story.liquid
+  "Why Eterna Scents" — luxury two-column brand story with decorative
+  image panel and animated stats. CSS-only, no JS required.
+{%- endcomment -%}
+
+{%- assign bg   = section.settings.bg_color   | default: '#ffffff' -%}
+{%- assign gold = section.settings.gold_color  | default: '#C9A646' -%}
+{%- assign navy = section.settings.navy_color  | default: '#071321' -%}
+{%- assign img_side = section.settings.image_side | default: 'right' -%}
+
+<section
+  data-section-id="{{ section.id }}"
+  data-section-type="es-brand-story"
+  class="es-story"
+  style="background: {{ bg }};"
+  aria-label="About Eterna Scents">
+
+  <div class="es-story__inner es-story__inner--img-{{ img_side }}">
+
+    {%- comment -%} Image panel {%- endcomment -%}
+    <div class="es-story__img-col">
+      <div class="es-story__img-frame">
+        {%- if section.settings.main_image != blank -%}
+          <img
+            src="{{ section.settings.main_image | image_url: width: 900 }}"
+            alt="{{ section.settings.main_image_alt | default: 'Eterna Scents — luxury Arabian fragrance' }}"
+            width="900"
+            height="1080"
+            loading="lazy"
+            class="es-story__img">
+        {%- else -%}
+          <div class="es-story__img-placeholder" style="background: linear-gradient(160deg, #071321 0%, #1a3a55 100%);" aria-hidden="true">
+            <svg viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" opacity="0.35">
+              <rect x="28" y="2" width="24" height="14" rx="3" fill="#C9A646"/>
+              <path d="M20 16h40l10 24v68a6 6 0 01-6 6H16a6 6 0 01-6-6V40l10-24z" fill="#C9A646" fill-opacity="0.14" stroke="#C9A646" stroke-width="1.5"/>
+              <ellipse cx="40" cy="74" rx="12" ry="16" stroke="#C9A646" stroke-width="1"/>
+            </svg>
+          </div>
+        {%- endif -%}
+        <div class="es-story__img-accent" style="background: {{ gold }};" aria-hidden="true"></div>
+      </div>
+
+      {%- comment -%} Floating stat card {%- endcomment -%}
+      {%- if section.settings.stat1_number != blank -%}
+        <div class="es-story__stat" style="background: {{ navy }}; border-color: {{ gold }};">
+          <p class="es-story__stat-number" style="color: {{ gold }};">{{ section.settings.stat1_number }}</p>
+          <p class="es-story__stat-label" style="color: rgba(255,255,255,0.7);">{{ section.settings.stat1_label }}</p>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Text panel {%- endcomment -%}
+    <div class="es-story__text-col es-reveal">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="es-story__eyebrow" style="color: {{ gold }};">
+          {{ section.settings.eyebrow }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="es-story__heading" style="color: {{ navy }};">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.lead != blank -%}
+        <p class="es-story__lead" style="color: {{ navy }};">{{ section.settings.lead }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="es-story__body" style="color: #555;">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- comment -%} Feature pillars {%- endcomment -%}
+      {%- if section.blocks.size > 0 -%}
+        <ul class="es-story__pillars" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'pillar' -%}
+              <li class="es-story__pillar" {{ block.shopify_attributes }}>
+                <span class="es-story__pillar-icon" style="color: {{ gold }};" aria-hidden="true">
+                  {%- case block.settings.icon -%}
+                    {%- when 'leaf' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c5.5 0 10-4.5 10-10 0-3-1-5.5-3-7.5-1 3.5-3.5 6-7 7"/></svg>
+                    {%- when 'clock' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                    {%- when 'gift' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1014.625 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 109.375 7.5H12m0 0H4.875M12 7.5h6.375M4.875 7.5A1.875 1.875 0 003 9.375v.75c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-.75A1.875 1.875 0 0019.125 7.5H4.875z"/></svg>
+                    {%- when 'truck' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+                    {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                  {%- endcase -%}
+                </span>
+                <div class="es-story__pillar-text">
+                  <strong style="color: {{ navy }};">{{ block.settings.title }}</strong>
+                  <span style="color: #777;">{{ block.settings.desc }}</span>
+                </div>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <div class="es-story__cta-wrap">
+          <a
+            href="{{ section.settings.cta_url | default: '/pages/about' }}"
+            class="es-story__cta"
+            style="background: {{ navy }}; color: {{ gold }}; border-color: {{ navy }};">
+            {{ section.settings.cta_label }}
+          </a>
+        </div>
+      {%- endif -%}
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+.es-story {
+  padding: 88px 0;
+  overflow: hidden;
+}
+
+.es-story__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.es-story__inner--img-right .es-story__img-col { order: 2; }
+.es-story__inner--img-right .es-story__text-col { order: 1; }
+
+/* ─── Image ──────────────────────────────────────────────────────────── */
+.es-story__img-frame {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.es-story__img {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.es-story__img-placeholder {
+  width: 100%;
+  height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.es-story__img-accent {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.es-story__img-col {
+  position: relative;
+}
+
+.es-story__stat {
+  position: absolute;
+  bottom: 40px;
+  right: -24px;
+  padding: 20px 28px;
+  border: 1px solid;
+  text-align: center;
+  min-width: 130px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.es-story__stat-number {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  line-height: 1;
+}
+
+.es-story__stat-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ─── Text ───────────────────────────────────────────────────────────── */
+.es-story__text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.es-story__eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.es-story__heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.es-story__lead {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.es-story__body {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.es-story__body p { margin: 0 0 12px; }
+
+/* ─── Feature pillars ────────────────────────────────────────────────── */
+.es-story__pillars {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.es-story__pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.es-story__pillar-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.es-story__pillar-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.es-story__pillar-text strong {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ─── CTA ────────────────────────────────────────────────────────────── */
+.es-story__cta-wrap { margin-top: 8px; }
+
+.es-story__cta {
+  display: inline-block;
+  padding: 14px 36px;
+  border: 1.5px solid;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
+}
+
+.es-story__cta:hover {
+  background: #C9A646 !important;
+  color: #071321 !important;
+  border-color: #C9A646 !important;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .es-story { padding: 56px 0; }
+  .es-story__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 20px;
+  }
+  .es-story__inner--img-right .es-story__img-col { order: 1; }
+  .es-story__inner--img-right .es-story__text-col { order: 2; }
+  .es-story__img { height: 360px; }
+  .es-story__img-placeholder { height: 360px; }
+  .es-story__stat { right: 12px; bottom: 12px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Brand image",
+      "info": "Portrait orientation recommended. ~900×1080px."
+    },
+    {
+      "type": "text",
+      "id": "main_image_alt",
+      "label": "Image alt text",
+      "default": "Eterna Scents — authentic Arabian fragrance collections"
+    },
+    {
+      "type": "select",
+      "id": "image_side",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Stat card"
+    },
+    {
+      "type": "text",
+      "id": "stat1_number",
+      "label": "Stat number",
+      "default": "200+"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat label",
+      "default": "Premium Fragrances"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Why Choose Eterna Scents?"
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Lead paragraph",
+      "default": "We bring the finest Arabian perfumery directly from Dubai, Riyadh and the Gulf to your home in the UK."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>Every bottle in our collection is sourced directly from the most respected Arabian fragrance houses. From the smoky depth of pure oud to the floral warmth of Taif rose — we carry only authentic, premium fragrances that tell a story.</p><p>Whether you're searching for a long-lasting signature scent, a luxurious gift for men or women, or exploring the world of Arabic perfumery for the first time, Eterna Scents is your trusted guide.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA button label",
+      "default": "Our Full Story"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA button URL"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "gold_color",
+      "label": "Accent colour",
+      "default": "#C9A646"
+    },
+    {
+      "type": "color",
+      "id": "navy_color",
+      "label": "Dark colour",
+      "default": "#071321"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Feature Pillar",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Long-Lasting Scents"
+        },
+        {
+          "type": "text",
+          "id": "desc",
+          "label": "Description",
+          "default": "Arabian-grade concentration for all-day, all-night wear."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story",
+      "category": "HOME",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "clock",
+            "title": "Long-Lasting Fragrance",
+            "desc": "High-concentration Arabian-grade oils that last 12+ hours."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "title": "Premium Natural Oils",
+            "desc": "Pure oud, rose attar, amber and musk from authentic sources."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "title": "Beautifully Gift-Ready",
+            "desc": "Every order arrives in luxury packaging, perfect for gifting."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast UK Delivery",
+            "desc": "Free delivery on orders over £50. Tracked, insured shipping."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

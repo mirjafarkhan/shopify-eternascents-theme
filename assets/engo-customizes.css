@@ -34537,3 +34537,38 @@ a.back-to-top:hover::before{
 }
   
 .rtl a.back-to-top{right: auto;left:36px;}
+/* ═══════════════════════════════════════════════════════════════════════
+   EternaScents — Global animation & reveal utilities
+   Added: 2026-06-12
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Scroll-triggered reveal ─────────────────────────────────────────── */
+.es-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--es-delay, 0ms);
+}
+
+.es-reveal.es-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Reduced motion — skip all es-* animations ──────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .es-fade-up {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ─── Playfair Display import (shared across ES sections) ────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');

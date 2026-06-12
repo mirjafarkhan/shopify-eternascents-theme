@@ -6,11 +6,17 @@
         "eyebrow": "Authentic Arabic Perfumery",
         "title": "The Art of Arabian Fragrance",
         "subtitle": "Authentic oud, rose and amber fragrances from the heart of the Arabian Peninsula — delivered to your door across the UK.",
-        "hero_height": 520,
+        "hero_height": 620,
         "btn1_label": "Shop Now",
         "btn1_url": "/collections/all",
         "btn2_label": "Explore Brands",
-        "btn2_url": "/collections"
+        "btn2_url": "/collections",
+        "show_trust_badges": true,
+        "show_scroll_indicator": true,
+        "overlay_opacity": 55,
+        "bg_color": "#071321",
+        "text_color": "#ffffff",
+        "accent_color": "#C9A646"
       }
     },
     "section_info_v1_pfY4ew": {
@@ -136,7 +142,11 @@
       "settings": {
         "eyebrow": "Trusted Names",
         "title": "Shop by Brand",
-        "bg_color": "#fdf8f0"
+        "cta_label": "View All Brands",
+        "cta_url": "/collections",
+        "bg_color": "#fdf8f0",
+        "accent_color": "#C9A646",
+        "dark_color": "#071321"
       }
     },
     "165457174636311816": {
@@ -207,6 +217,63 @@
         "margin_bottom": ""
       }
     },
+    "es_brand_story": {
+      "type": "es-brand-story",
+      "blocks": {
+        "pillar_longlasting": {
+          "type": "pillar",
+          "settings": {
+            "icon": "clock",
+            "title": "Long-Lasting Fragrance",
+            "desc": "High-concentration Arabian-grade oils that last 12+ hours."
+          }
+        },
+        "pillar_natural": {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "title": "Premium Natural Oils",
+            "desc": "Pure oud, rose attar, amber and musk from authentic sources."
+          }
+        },
+        "pillar_gift": {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "title": "Beautifully Gift-Ready",
+            "desc": "Every order arrives in luxury packaging, perfect for gifting."
+          }
+        },
+        "pillar_delivery": {
+          "type": "pillar",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast UK Delivery",
+            "desc": "Free delivery on orders over £50. Tracked, insured shipping."
+          }
+        }
+      },
+      "block_order": [
+        "pillar_longlasting",
+        "pillar_natural",
+        "pillar_gift",
+        "pillar_delivery"
+      ],
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading": "Why Choose Eterna Scents?",
+        "lead": "We bring the finest Arabian perfumery directly from Dubai, Riyadh and the Gulf to your home in the UK.",
+        "body": "<p>Every bottle in our collection is sourced directly from the most respected Arabian fragrance houses. From the smoky depth of pure oud to the floral warmth of Taif rose — we carry only authentic, premium fragrances that tell a story.</p><p>Whether you're searching for a long-lasting signature scent, a luxurious gift for men or women, or exploring the world of Arabic perfumery for the first time, Eterna Scents is your trusted guide.</p>",
+        "stat1_number": "200+",
+        "stat1_label": "Premium Fragrances",
+        "cta_label": "Our Full Story",
+        "cta_url": "/pages/about",
+        "image_side": "right",
+        "bg_color": "#ffffff",
+        "gold_color": "#C9A646",
+        "navy_color": "#071321"
+      }
+    },
     "section_product_v1_7eEHxb": {
       "type": "section-product-v1",
       "name": "PRODUCT V1",
@@ -247,6 +314,78 @@
         "margin_top": "0",
         "margin_bottom": "0"
       }
+    },
+    "es_testimonials": {
+      "type": "es-testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "review_text": "Absolutely stunning fragrance. The oud is rich and authentic — nothing like the synthetic copies I've tried elsewhere. Eterna Scents is my go-to now.",
+            "stars": 5,
+            "name": "Sarah M.",
+            "location": "London, UK"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "review_text": "Bought as a gift for my husband and he absolutely loves it. The packaging alone is worth it — beautifully presented and arrived within 2 days. Will definitely order again.",
+            "stars": 5,
+            "name": "Aisha K.",
+            "location": "Birmingham, UK"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "review_text": "I was sceptical about ordering Arabian perfume online, but Eterna Scents completely exceeded my expectations. The Lattafa selection is exceptional and the prices are very fair.",
+            "stars": 5,
+            "name": "James T.",
+            "location": "Manchester, UK"
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3"],
+      "settings": {
+        "eyebrow": "Customer Reviews",
+        "heading": "Loved by Fragrance Enthusiasts",
+        "cta_label": "Read All Reviews",
+        "bg_color": "#071321",
+        "gold_color": "#C9A646",
+        "text_color": "#ffffff"
+      }
+    },
+    "es_newsletter": {
+      "type": "es-newsletter",
+      "settings": {
+        "eyebrow": "Join the Community",
+        "heading": "Discover New Fragrances First",
+        "description": "Subscribe for exclusive offers, new Arabian perfume arrivals, and expert fragrance guides. Plus get 10% off your first order.",
+        "placeholder": "Your email address",
+        "btn_label": "Subscribe",
+        "success_message": "Thank you! You've been added to our list. Expect a welcome gift soon.",
+        "disclaimer": "By subscribing you agree to our Privacy Policy. Unsubscribe at any time.",
+        "show_perks": true,
+        "bg_color": "#0d1e2e",
+        "gold_color": "#C9A646",
+        "text_color": "#ffffff"
+      }
+    },
+    "es_seo_content": {
+      "type": "es-seo-content",
+      "settings": {
+        "heading": "Discover Authentic Arabian Perfumes & Luxury Fragrances in the UK",
+        "col1_heading": "Luxury Perfumes for Men & Women",
+        "col1_text": "<p>Eterna Scents offers an exceptional range of luxury perfumes for men and women, sourced directly from the world's finest Arabian fragrance houses. From powerful oud-forward masculines to delicate floral feminines, our collection spans every mood and occasion.</p><p>Whether you're searching for a signature daily scent or a statement fragrance for special events, our curated selection ensures you'll find the perfect match — all 100% authentic and long-lasting.</p>",
+        "col2_heading": "Gift Perfumes & Special Occasions",
+        "col2_text": "<p>Looking for the perfect gift? Our luxury perfume gift sets are beautifully packaged and ready to delight. Arabian fragrances make timeless, sophisticated gifts for birthdays, anniversaries, Eid, weddings and corporate occasions.</p><p>Every Eterna Scents order arrives with complimentary gift-ready packaging, making your purchase look as premium as it smells. A free fragrance sample is included with every full-bottle purchase.</p>",
+        "col3_heading": "Oud, Rose & Amber — The Heart of Arabian Perfumery",
+        "col3_text": "<p>Arabian perfumery is built on three legendary pillars: oud (agarwood), rose and amber. Oud — sometimes called 'liquid gold' — is one of the rarest and most precious fragrance ingredients in the world, prized for its deep, woody, smoky character.</p><p>At Eterna Scents, we stock authentic oud perfumes from Lattafa, Rasasi, Swiss Arabian and Ahmed Al Maghribi — all at accessible prices with fast UK delivery.</p>",
+        "bg_color": "#fdf8f0",
+        "navy_color": "#071321",
+        "gold_color": "#C9A646"
+      }
     }
   },
   "order": [
@@ -256,7 +395,11 @@
     "es_brands_grid",
     "165457174636311816",
     "section_banner_v7_tVbrxi",
+    "es_brand_story",
     "section_product_v1_7eEHxb",
-    "section_banner_v7_waaCBb"
+    "section_banner_v7_waaCBb",
+    "es_testimonials",
+    "es_newsletter",
+    "es_seo_content"
   ]
 }

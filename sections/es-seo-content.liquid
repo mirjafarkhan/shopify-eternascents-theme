@@ -1,0 +1,322 @@
+{%- comment -%}
+  sections/es-seo-content.liquid
+  SEO-rich editorial content block for the homepage.
+  - Targets: perfume, fragrance, oud, luxury scents, men's perfume,
+    women's perfume, gift perfume, Arabian perfume, UK delivery.
+  - Uses semantic HTML with proper heading hierarchy (H2, H3).
+  - Includes JSON-LD WebSite + ItemList structured data.
+  - Collapsible on mobile to avoid cluttering UX.
+{%- endcomment -%}
+
+{%- assign bg   = section.settings.bg_color  | default: '#fdf8f0' -%}
+{%- assign navy = section.settings.navy_color | default: '#071321' -%}
+{%- assign gold = section.settings.gold_color | default: '#C9A646' -%}
+
+<section
+  data-section-id="{{ section.id }}"
+  data-section-type="es-seo-content"
+  class="es-seo"
+  style="background: {{ bg }};"
+  aria-label="About our perfume collection">
+
+  <div class="es-seo__inner">
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="es-seo__heading" style="color: {{ navy }};">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="es-seo__grid">
+
+      {%- if section.settings.col1_heading != blank -%}
+        <div class="es-seo__col">
+          <h3 class="es-seo__col-heading" style="color: {{ navy }};">{{ section.settings.col1_heading }}</h3>
+          {%- if section.settings.col1_text != blank -%}
+            <div class="es-seo__col-text" style="color: #555;">{{ section.settings.col1_text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.col2_heading != blank -%}
+        <div class="es-seo__col">
+          <h3 class="es-seo__col-heading" style="color: {{ navy }};">{{ section.settings.col2_heading }}</h3>
+          {%- if section.settings.col2_text != blank -%}
+            <div class="es-seo__col-text" style="color: #555;">{{ section.settings.col2_text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.col3_heading != blank -%}
+        <div class="es-seo__col">
+          <h3 class="es-seo__col-heading" style="color: {{ navy }};">{{ section.settings.col3_heading }}</h3>
+          {%- if section.settings.col3_text != blank -%}
+            <div class="es-seo__col-text" style="color: #555;">{{ section.settings.col3_text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} Internal links row {%- endcomment -%}
+    <nav class="es-seo__links" aria-label="Quick links to our perfume categories">
+      <p class="es-seo__links-label" style="color: {{ gold }};">Explore:</p>
+      <a href="/collections/all" class="es-seo__link" style="color: {{ navy }};">All Fragrances</a>
+      <a href="/collections/lattafa-perfumes" class="es-seo__link" style="color: {{ navy }};">Lattafa Perfumes</a>
+      <a href="/collections/rasasi" class="es-seo__link" style="color: {{ navy }};">Rasasi</a>
+      <a href="/collections/swiss-arabian" class="es-seo__link" style="color: {{ navy }};">Swiss Arabian</a>
+      <a href="/collections/ahmed-al-magribi" class="es-seo__link" style="color: {{ navy }};">Ahmed Al Maghribi</a>
+    </nav>
+
+  </div>
+
+</section>
+
+{%- comment -%} JSON-LD Structured Data — WebSite + internal search {%- endcomment -%}
+{%- if template == 'index' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ shop.url }}/#website",
+      "url": "{{ shop.url }}/",
+      "name": "{{ shop.name | escape }}",
+      "description": "Authentic Arabian perfumes and luxury fragrances delivered across the UK. Shop oud, rose, amber and musk from top brands including Lattafa, Rasasi, Swiss Arabian and Ahmed Al Maghribi.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "{{ shop.url }}/#organization",
+      "name": "{{ shop.name | escape }}",
+      "url": "{{ shop.url }}/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ settings.logo | image_url: width: 300 }}"
+      },
+      "description": "UK-based luxury Arabian perfume retailer. 100% authentic fragrances sourced direct from leading Gulf perfume houses.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United Kingdom"
+      },
+      "offers": {
+        "@type": "Offer",
+        "description": "Free UK delivery on orders over £50. Authentic Arabian perfumes and oud fragrances."
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Featured Arabian Perfume Brands",
+      "description": "Top Arabian and Gulf perfume brands available at Eterna Scents UK",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Lattafa Perfumes",
+          "url": "{{ shop.url }}/collections/lattafa-perfumes",
+          "description": "Dubai-based luxury perfume house known for rich oud, musk and amber fragrances."
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Rasasi Fragrances",
+          "url": "{{ shop.url }}/collections/rasasi",
+          "description": "Iconic Gulf fragrance brand with over 40 years of premium perfume heritage."
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Swiss Arabian",
+          "url": "{{ shop.url }}/collections/swiss-arabian",
+          "description": "Swiss precision meets Arabian tradition in these long-lasting luxury scents."
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Ahmed Al Maghribi",
+          "url": "{{ shop.url }}/collections/ahmed-al-magribi",
+          "description": "Celebrated Dubai fragrance house blending traditional craftsmanship with modern sophistication."
+        }
+      ]
+    }
+  ]
+}
+</script>
+{%- endif -%}
+
+<style>
+.es-seo {
+  padding: 64px 0;
+  border-top: 1px solid rgba(201,166,70,0.15);
+}
+
+.es-seo__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.es-seo__heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 700;
+  margin: 0 0 40px;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.es-seo__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.es-seo__col-heading {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(201,166,70,0.25);
+}
+
+.es-seo__col-text {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.es-seo__col-text p { margin: 0 0 10px; }
+.es-seo__col-text p:last-child { margin-bottom: 0; }
+
+/* ─── Links row ──────────────────────────────────────────────────────── */
+.es-seo__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(201,166,70,0.12);
+}
+
+.es-seo__links-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.es-seo__link {
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(201,166,70,0.4);
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.es-seo__link:hover {
+  color: #C9A646 !important;
+  text-decoration-color: #C9A646;
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .es-seo { padding: 40px 0; }
+  .es-seo__inner { padding: 0 16px; }
+  .es-seo__grid { grid-template-columns: 1fr; gap: 28px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "SEO Content Block",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading (H2)",
+      "default": "Discover Authentic Arabian Perfumes & Luxury Fragrances in the UK"
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "text",
+      "id": "col1_heading",
+      "label": "Column 1 heading (H3)",
+      "default": "Luxury Perfumes for Men & Women"
+    },
+    {
+      "type": "richtext",
+      "id": "col1_text",
+      "label": "Column 1 text",
+      "default": "<p>Eterna Scents offers an exceptional range of luxury perfumes for men and women, sourced directly from the world's finest Arabian fragrance houses. From powerful oud-forward masculines to delicate floral feminines, our collection spans every mood and occasion.</p><p>Whether you're searching for a signature daily scent or a statement fragrance for special events, our curated selection ensures you'll find the perfect match — all 100% authentic and long-lasting.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "col2_heading",
+      "label": "Column 2 heading (H3)",
+      "default": "Gift Perfumes & Special Occasions"
+    },
+    {
+      "type": "richtext",
+      "id": "col2_text",
+      "label": "Column 2 text",
+      "default": "<p>Looking for the perfect gift? Our luxury perfume gift sets are beautifully packaged and ready to delight. Arabian fragrances make timeless, sophisticated gifts for birthdays, anniversaries, Eid, weddings and corporate occasions.</p><p>Every Eterna Scents order arrives with complimentary gift-ready packaging, making your purchase look as premium as it smells. A free fragrance sample is included with every full-bottle purchase.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "text",
+      "id": "col3_heading",
+      "label": "Column 3 heading (H3)",
+      "default": "Oud, Rose & Amber — The Heart of Arabian Perfumery"
+    },
+    {
+      "type": "richtext",
+      "id": "col3_text",
+      "label": "Column 3 text",
+      "default": "<p>Arabian perfumery is built on three legendary pillars: oud (agarwood), rose and amber. Oud — sometimes called 'liquid gold' — is one of the rarest and most precious fragrance ingredients in the world, prized for its deep, woody, smoky character.</p><p>At Eterna Scents, we stock authentic oud perfumes from Lattafa, Rasasi, Swiss Arabian and Ahmed Al Maghribi — all at accessible prices with fast UK delivery. Explore the ancient tradition of Gulf perfumery from the comfort of your home.</p>"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#fdf8f0"
+    },
+    {
+      "type": "color",
+      "id": "navy_color",
+      "label": "Text / heading colour",
+      "default": "#071321"
+    },
+    {
+      "type": "color",
+      "id": "gold_color",
+      "label": "Accent colour",
+      "default": "#C9A646"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SEO Content Block",
+      "category": "HOME"
+    }
+  ]
+}
+{% endschema %}

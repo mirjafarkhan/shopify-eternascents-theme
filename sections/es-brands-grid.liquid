@@ -1,156 +1,375 @@
-<div class="es-brands" style="{% if section.settings.bg_color != blank %}background:{{ section.settings.bg_color }};{% endif %}">
-  <div class="container container-v1">
+{%- comment -%}
+  sections/es-brands-grid.liquid
+  Shop by Brand — luxury grid of Arabian fragrance house logos/tiles.
+  Configurable via blocks: each block = one brand card.
+{%- endcomment -%}
 
-    <div class="es-brands__head">
-      <p class="es-brands__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h2 class="es-brands__title">{{ section.settings.title }}</h2>
+{%- assign bg   = section.settings.bg_color    | default: '#fdf8f0' -%}
+{%- assign gold = section.settings.accent_color | default: '#C9A646' -%}
+{%- assign navy = section.settings.dark_color   | default: '#071321' -%}
+
+<section
+  data-section-id="{{ section.id }}"
+  data-section-type="es-brands-grid"
+  class="es-brands"
+  style="background: {{ bg }};"
+  aria-label="Shop by brand">
+
+  <div class="es-brands__inner">
+
+    <div class="es-brands__header es-reveal">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="es-brands__eyebrow" style="color: {{ gold }};">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="es-brands__title" style="color: {{ navy }};">{{ section.settings.title }}</h2>
+      {%- endif -%}
     </div>
 
-    <div class="es-brands__grid">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'brand' -%}
-          <a href="{{ block.settings.url }}" class="es-brand-card" {{ block.shopify_attributes }}>
-            {%- if block.settings.logo != blank -%}
-              <div class="es-brand-card__logo">
-                <img src="{{ block.settings.logo | image_url: width: 200 }}"
-                     alt="{{ block.settings.name }}"
-                     width="140" height="60"
-                     loading="lazy">
-              </div>
-            {%- else -%}
-              <div class="es-brand-card__name">{{ block.settings.name }}</div>
-            {%- endif -%}
-            <p class="es-brand-card__count">{{ block.settings.count }} fragrances</p>
-            <span class="es-brand-card__arrow">Explore →</span>
-          </a>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+    {%- if section.blocks.size > 0 -%}
+      <ul class="es-brands__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'brand' -%}
+            <li class="es-brands__item es-reveal" {{ block.shopify_attributes }}
+              style="--es-delay: {{ forloop.index0 | times: 80 }}ms;">
+              <a
+                href="{{ block.settings.url | default: '/collections/all' }}"
+                class="es-brands__card"
+                style="border-color: rgba(201,166,70,0.2); background: #ffffff;"
+                aria-label="Shop {{ block.settings.name }} perfumes">
+
+                {%- if block.settings.logo != blank -%}
+                  <div class="es-brands__logo-wrap">
+                    <img
+                      src="{{ block.settings.logo | image_url: width: 300 }}"
+                      alt="{{ block.settings.name | escape }} — Arabian fragrance brand"
+                      width="150"
+                      height="80"
+                      loading="lazy"
+                      class="es-brands__logo">
+                  </div>
+                {%- else -%}
+                  <div class="es-brands__logo-placeholder" aria-hidden="true"
+                    style="color: {{ navy }}; border-color: {{ gold }};">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="{{ gold }}" stroke-width="1.2" aria-hidden="true" width="32" height="32">
+                      <circle cx="20" cy="16" r="7"/>
+                      <path d="M8 36c0-6.627 5.373-12 12-12s12 5.373 12 12"/>
+                    </svg>
+                  </div>
+                {%- endif -%}
+
+                <div class="es-brands__meta">
+                  <p class="es-brands__name" style="color: {{ navy }};">{{ block.settings.name }}</p>
+                  {%- if block.settings.count != blank -%}
+                    <p class="es-brands__count" style="color: {{ gold }};">{{ block.settings.count }} Fragrances</p>
+                  {%- endif -%}
+                </div>
+
+                <div class="es-brands__arrow" aria-hidden="true" style="color: {{ gold }};">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+                    <path d="M3 8h10M9 4l4 4-4 4"/>
+                  </svg>
+                </div>
+
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="es-brands__cta-wrap">
+        <a href="{{ section.settings.cta_url | default: '/collections' }}"
+          class="es-brands__cta"
+          style="border-color: {{ navy }}; color: {{ navy }};">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
 
   </div>
-</div>
+
+</section>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
-
 .es-brands {
-  padding: 60px 0;
-  background: #fdf8f0;
+  padding: 72px 0;
 }
 
-.es-brands__head {
+.es-brands__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.es-brands__header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 48px;
 }
 
 .es-brands__eyebrow {
-  font-size: .7rem;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: .2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #C9A646;
-  margin-bottom: 8px;
+  margin: 0 0 12px;
 }
 
 .es-brands__title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #071321;
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
+/* ─── Grid ───────────────────────────────────────────────────────────── */
 .es-brands__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.es-brand-card {
+/* ─── Card ───────────────────────────────────────────────────────────── */
+.es-brands__card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 28px 20px;
-  background: #fff;
-  border: 1px solid #e8e0d0;
-  border-radius: 4px;
+  gap: 14px;
+  padding: 32px 20px 24px;
+  border: 1px solid;
   text-decoration: none;
-  transition: border-color .2s, box-shadow .2s, transform .2s;
-  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
 }
 
-.es-brand-card:hover {
-  border-color: #C9A646;
-  box-shadow: 0 4px 20px rgba(201,166,70,.12);
-  transform: translateY(-2px);
+.es-brands__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,166,70,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-.es-brand-card__logo img {
-  max-width: 140px;
-  max-height: 56px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  filter: grayscale(100%);
-  opacity: .75;
-  transition: filter .2s, opacity .2s;
+.es-brands__card:hover {
+  box-shadow: 0 8px 40px rgba(201,166,70,0.18);
+  border-color: #C9A646 !important;
+  transform: translateY(-4px);
 }
 
-.es-brand-card:hover .es-brand-card__logo img {
-  filter: grayscale(0%);
+.es-brands__card:hover::after {
   opacity: 1;
 }
 
-.es-brand-card__name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #071321;
+/* ─── Logo ───────────────────────────────────────────────────────────── */
+.es-brands__logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
 }
 
-.es-brand-card__count {
-  font-size: .72rem;
-  color: #888;
-  letter-spacing: .05em;
+.es-brands__logo {
+  max-width: 140px;
+  max-height: 64px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(40%);
+  transition: filter 0.3s;
 }
 
-.es-brand-card__arrow {
-  font-size: .72rem;
+.es-brands__card:hover .es-brands__logo {
+  filter: grayscale(0%);
+}
+
+.es-brands__logo-placeholder {
+  width: 64px;
+  height: 64px;
+  border: 1px solid;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Meta ───────────────────────────────────────────────────────────── */
+.es-brands__meta {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.es-brands__name {
+  font-size: 13px;
   font-weight: 700;
-  color: #C9A646;
-  letter-spacing: .05em;
-  opacity: 0;
-  transition: opacity .2s;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  line-height: 1.3;
 }
 
-.es-brand-card:hover .es-brand-card__arrow { opacity: 1; }
+.es-brands__count {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
 
-@media (max-width: 600px) {
-  .es-brands__grid { grid-template-columns: repeat(2, 1fr); }
+/* ─── Arrow ──────────────────────────────────────────────────────────── */
+.es-brands__arrow {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.es-brands__card:hover .es-brands__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── CTA ────────────────────────────────────────────────────────────── */
+.es-brands__cta-wrap {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.es-brands__cta {
+  display: inline-block;
+  padding: 13px 40px;
+  border: 1.5px solid;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
+}
+
+.es-brands__cta:hover {
+  background: #071321;
+  color: #C9A646 !important;
+  border-color: #071321;
+}
+
+/* ─── Reveal animation ───────────────────────────────────────────────── */
+.es-brands__item.es-reveal {
+  animation-delay: var(--es-delay, 0ms);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .es-brands__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .es-brands { padding: 48px 0; }
+  .es-brands__inner { padding: 0 16px; }
+  .es-brands__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .es-brands__card { padding: 24px 12px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .es-brands__card,
+  .es-brands__arrow,
+  .es-brands__card::after { transition: none; }
 }
 </style>
 
 {% schema %}
 {
-  "name": "ES — Brands Grid",
+  "name": "Shop by Brand",
+  "class": "index-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trusted Names" },
-    { "type": "text", "id": "title", "label": "Title", "default": "Shop by Brand" },
-    { "type": "color", "id": "bg_color", "label": "Background colour", "default": "#fdf8f0" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Trusted Names"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "Shop by Brand"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA button label",
+      "default": "View All Brands"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA button URL"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#fdf8f0"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / gold colour",
+      "default": "#C9A646"
+    },
+    {
+      "type": "color",
+      "id": "dark_color",
+      "label": "Dark / text colour",
+      "default": "#071321"
+    }
   ],
   "blocks": [
     {
       "type": "brand",
       "name": "Brand",
       "settings": [
-        { "type": "text", "id": "name", "label": "Brand name" },
-        { "type": "image_picker", "id": "logo", "label": "Brand logo" },
-        { "type": "url", "id": "url", "label": "Collection link" },
-        { "type": "text", "id": "count", "label": "Product count", "default": "0" }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Brand name",
+          "default": "Lattafa"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Brand logo",
+          "info": "PNG transparent background recommended. ~300×100px."
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Collection URL"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Product count label",
+          "default": "50+",
+          "info": "e.g. '50+' — shown as '50+ Fragrances'"
+        }
       ]
     }
   ],
-  "presets": [{ "name": "ES — Brands Grid" }]
+  "presets": [
+    {
+      "name": "Shop by Brand",
+      "category": "HOME"
+    }
+  ]
 }
 {% endschema %}
