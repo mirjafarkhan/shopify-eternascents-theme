@@ -1,22 +1,45 @@
 {
   "sections": {
     "es_hero_luxury": {
-      "type": "es-hero-luxury",
+      "type": "es-hero-gallery",
+      "blocks": {
+        "bottle_1": { "type": "bottle", "settings": { "alt": "Luxury Arabian perfume bottle", "dim_opacity": 60 } },
+        "bottle_2": { "type": "bottle", "settings": { "alt": "Premium oud fragrance", "dim_opacity": 55 } },
+        "bottle_3": { "type": "bottle", "settings": { "alt": "Signature Arabic scent", "dim_opacity": 45 } },
+        "bottle_4": { "type": "bottle", "settings": { "alt": "Rose and amber perfume", "dim_opacity": 55 } },
+        "bottle_5": { "type": "bottle", "settings": { "alt": "Gift-ready luxury perfume", "dim_opacity": 60 } }
+      },
+      "block_order": ["bottle_1", "bottle_2", "bottle_3", "bottle_4", "bottle_5"],
       "settings": {
-        "eyebrow": "Authentic Arabic Perfumery",
+        "eyebrow": "Authentic Arabian Perfumery",
         "title": "The Art of Arabian Fragrance",
-        "subtitle": "Authentic oud, rose and amber fragrances from the heart of the Arabian Peninsula — delivered to your door across the UK.",
-        "hero_height": 620,
+        "subtitle": "Luxury oud, rose & amber — delivered across the UK",
+        "hero_height": 640,
         "btn1_label": "Shop Now",
         "btn1_url": "/collections/all",
         "btn2_label": "Explore Brands",
         "btn2_url": "/collections",
-        "show_trust_badges": true,
-        "show_scroll_indicator": true,
-        "overlay_opacity": 55,
-        "bg_color": "#071321",
-        "text_color": "#ffffff",
-        "accent_color": "#C9A646"
+        "show_trust": true
+      }
+    },
+    "es_logo_grid": {
+      "type": "es-logo-grid",
+      "blocks": {
+        "logo_lattafa":        { "type": "logo", "settings": { "name": "Lattafa",          "url": "/collections/lattafa-perfumes" } },
+        "logo_rasasi":         { "type": "logo", "settings": { "name": "Rasasi",            "url": "/collections/rasasi" } },
+        "logo_swiss_arabian":  { "type": "logo", "settings": { "name": "Swiss Arabian",     "url": "/collections/swiss-arabian" } },
+        "logo_ahmed":          { "type": "logo", "settings": { "name": "Ahmed Al Maghribi", "url": "/collections/ahmed-al-magribi" } },
+        "logo_rayhaan":        { "type": "logo", "settings": { "name": "Rayhaan",           "url": "/collections/rayhaan" } },
+        "logo_afnan":          { "type": "logo", "settings": { "name": "Afnan",             "url": "/collections/all" } }
+      },
+      "block_order": ["logo_lattafa","logo_rasasi","logo_swiss_arabian","logo_ahmed","logo_rayhaan","logo_afnan"],
+      "settings": {
+        "eyebrow": "Trusted Brands",
+        "heading": "The World's Finest Fragrance Houses",
+        "display_mode": "grid",
+        "bg_color": "#ffffff",
+        "navy_color": "#071321",
+        "gold_color": "#C9A646"
       }
     },
     "section_info_v1_pfY4ew": {
@@ -390,6 +413,7 @@
   },
   "order": [
     "es_hero_luxury",
+    "es_logo_grid",
     "section_info_v1_pfY4ew",
     "section_product_v3_h6Yn7f",
     "es_brands_grid",

@@ -1,0 +1,543 @@
+{%- comment -%}
+  sections/es-hero-gallery.liquid
+  Multi-panel bottle-strip hero — EternaScents luxury style.
+
+  Layout: 5–7 perfume bottle images displayed as full-height vertical
+  strips, with a centred glass-card text overlay containing the headline,
+  sub-heading and CTAs.  Pure CSS — zero JavaScript.
+
+  Inspired by: emiratesoud.co.uk hero concept.
+  Style: dark navy #071321 + gold #C9A646 — EternaScents palette.
+{%- endcomment -%}
+
+{%- assign navy     = '#071321' -%}
+{%- assign gold     = '#C9A646' -%}
+{%- assign height   = section.settings.hero_height | default: 600 -%}
+{%- assign show_btn2 = section.settings.btn2_label | strip | size | plus: 0 -%}
+
+{%- comment -%} Count how many bottle slots have images {%- endcomment -%}
+{%- assign bottle_blocks = section.blocks | where: 'type', 'bottle' -%}
+
+<section
+  id="es-hero-gallery"
+  data-section-id="{{ section.id }}"
+  data-section-type="es-hero-gallery"
+  class="es-hg"
+  style="--es-hg-height: {{ height }}px; --es-hg-navy: {{ navy }}; --es-hg-gold: {{ gold }};"
+  aria-label="{{ section.settings.title | escape }}">
+
+  {%- comment -%} ── Strip of bottle images ─────────────────────────── {%- endcomment -%}
+  <div class="es-hg__strip" aria-hidden="true">
+
+    {%- if bottle_blocks.size > 0 -%}
+      {%- for block in bottle_blocks -%}
+        <div class="es-hg__panel" {{ block.shopify_attributes }}
+          style="--es-hg-dim: {{ block.settings.dim_opacity | default: 50 | divided_by: 100.0 }};">
+          {%- if block.settings.image != blank -%}
+            <img
+              src="{{ block.settings.image | image_url: width: 600 }}"
+              alt="{{ block.settings.alt | default: 'Luxury Arabian fragrance' }}"
+              width="600"
+              height="{{ height }}"
+              loading="{{ forloop.index | minus: 1 | times: 0 | plus: 1 | lte: 2 | ternary: 'eager', 'lazy' }}"
+              class="es-hg__panel-img">
+          {%- else -%}
+            <div class="es-hg__panel-placeholder"></div>
+          {%- endif -%}
+          <div class="es-hg__panel-dim"></div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment -%} Default 5 placeholder panels if no images uploaded {%- endcomment -%}
+      {%- for i in (1..5) -%}
+        <div class="es-hg__panel">
+          <div class="es-hg__panel-placeholder">
+            <svg viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" opacity="0.2">
+              <rect x="28" y="2" width="24" height="14" rx="3" fill="{{ gold }}"/>
+              <path d="M20 16h40l10 24v68a6 6 0 01-6 6H16a6 6 0 01-6-6V40l10-24z" fill="{{ gold }}" fill-opacity="0.15" stroke="{{ gold }}" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="es-hg__panel-dim"></div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+
+  </div>
+
+  {%- comment -%} ── Centred text card overlay ─────────────────────── {%- endcomment -%}
+  <div class="es-hg__overlay-card">
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="es-hg__eyebrow">
+        <span class="es-hg__eyebrow-gem" aria-hidden="true">
+          <svg viewBox="0 0 12 12" fill="{{ gold }}" width="8" height="8"><polygon points="6,0 12,6 6,12 0,6"/></svg>
+        </span>
+        {{ section.settings.eyebrow }}
+        <span class="es-hg__eyebrow-gem" aria-hidden="true">
+          <svg viewBox="0 0 12 12" fill="{{ gold }}" width="8" height="8"><polygon points="6,0 12,6 6,12 0,6"/></svg>
+        </span>
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.title != blank -%}
+      <h1 class="es-hg__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="es-hg__sub">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+
+    <div class="es-hg__divider" aria-hidden="true">
+      <span class="es-hg__divider-line"></span>
+      <svg viewBox="0 0 16 16" fill="{{ gold }}" width="10" height="10" aria-hidden="true"><polygon points="8,0 16,8 8,16 0,8"/></svg>
+      <span class="es-hg__divider-line"></span>
+    </div>
+
+    <div class="es-hg__ctas" role="group" aria-label="Shop links">
+      {%- if section.settings.btn1_label != blank -%}
+        <a href="{{ section.settings.btn1_url | default: '/collections/all' }}"
+          class="es-hg__btn es-hg__btn--primary">
+          {{ section.settings.btn1_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.btn2_label != blank -%}
+        <a href="{{ section.settings.btn2_url | default: '/collections' }}"
+          class="es-hg__btn es-hg__btn--ghost">
+          {{ section.settings.btn2_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_trust -%}
+      <div class="es-hg__trust" aria-label="Trust signals">
+        <span>
+          <svg viewBox="0 0 14 14" fill="none" stroke="{{ gold }}" stroke-width="1.5" width="11" height="11" aria-hidden="true"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.2 3.8 11l.6-3.6L2 5l3.6-.5z"/></svg>
+          100% Authentic
+        </span>
+        <span aria-hidden="true" style="color:{{ gold }}">◆</span>
+        <span>
+          <svg viewBox="0 0 14 14" fill="none" stroke="{{ gold }}" stroke-width="1.5" width="11" height="11" aria-hidden="true"><path d="M1 4h12v7a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm2-1l1-2h6l1 2"/></svg>
+          Free UK Delivery
+        </span>
+        <span aria-hidden="true" style="color:{{ gold }}">◆</span>
+        <span>
+          <svg viewBox="0 0 14 14" fill="none" stroke="{{ gold }}" stroke-width="1.5" width="11" height="11" aria-hidden="true"><path d="M11 3H3a1 1 0 00-1 1v6a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1zM7 5v4M5 7h4"/></svg>
+          Gift Wrapped
+        </span>
+      </div>
+    {%- endif -%}
+
+  </div>
+
+  {%- comment -%} Bottom gradient fade to page background {%- endcomment -%}
+  <div class="es-hg__bottom-fade" aria-hidden="true"></div>
+
+</section>
+
+<style>
+/* ─── Hero Gallery ──────────────────────────────────────────────────────
+   CSS custom properties set on the section element so values from
+   Liquid settings are inherited without needing inline duplication.
+──────────────────────────────────────────────────────────────────────── */
+.es-hg {
+  position: relative;
+  width: 100%;
+  height: var(--es-hg-height, 600px);
+  overflow: hidden;
+  background: var(--es-hg-navy, #071321);
+  isolation: isolate;
+}
+
+/* ─── Strip ──────────────────────────────────────────────────────────── */
+.es-hg__strip {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Each panel ─────────────────────────────────────────────────────── */
+.es-hg__panel {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  transition: flex 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.es-hg__panel:hover {
+  flex: 1.35;
+}
+
+.es-hg__panel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.es-hg__panel:hover .es-hg__panel-img {
+  transform: scale(1.04);
+}
+
+/* Per-panel dark overlay — uses --es-hg-dim CSS var set inline */
+.es-hg__panel-dim {
+  position: absolute;
+  inset: 0;
+  background: var(--es-hg-navy, #071321);
+  opacity: var(--es-hg-dim, 0.5);
+  transition: opacity 0.4s;
+}
+
+.es-hg__panel:hover .es-hg__panel-dim {
+  opacity: calc(var(--es-hg-dim, 0.5) * 0.7);
+}
+
+/* Vertical thin gold separator between panels */
+.es-hg__panel + .es-hg__panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(201,166,70,0.3) 50%, transparent 100%);
+  z-index: 2;
+}
+
+/* ─── Placeholder panels (no image uploaded) ─────────────────────────── */
+.es-hg__panel-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #0d2035 0%, #071321 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Centred text card ──────────────────────────────────────────────── */
+.es-hg__overlay-card {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 16px;
+
+  /* Dark vignette behind the text without a separate element */
+  background: radial-gradient(
+    ellipse 55% 75% at 50% 50%,
+    rgba(7, 19, 33, 0.75) 0%,
+    rgba(7, 19, 33, 0.35) 60%,
+    transparent 100%
+  );
+}
+
+/* ─── Eyebrow ────────────────────────────────────────────────────────── */
+.es-hg__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--es-hg-gold, #C9A646);
+  margin: 0;
+}
+
+.es-hg__eyebrow-gem {
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+}
+
+/* ─── Title ──────────────────────────────────────────────────────────── */
+.es-hg__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 5.5vw, 72px);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 24px rgba(7,19,33,0.8);
+  max-width: 700px;
+}
+
+/* ─── Sub ────────────────────────────────────────────────────────────── */
+.es-hg__sub {
+  font-size: clamp(13px, 1.6vw, 17px);
+  color: rgba(255,255,255,0.72);
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ─── Divider ────────────────────────────────────────────────────────── */
+.es-hg__divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.es-hg__divider-line {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--es-hg-gold, #C9A646), transparent);
+}
+
+/* ─── CTA buttons ────────────────────────────────────────────────────── */
+.es-hg__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.es-hg__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 40px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.es-hg__btn--primary {
+  background: var(--es-hg-gold, #C9A646);
+  color: var(--es-hg-navy, #071321);
+  border-color: var(--es-hg-gold, #C9A646);
+}
+
+.es-hg__btn--primary:hover {
+  background: #e0b84f;
+  transform: translateY(-2px);
+}
+
+.es-hg__btn--ghost {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.55);
+}
+
+.es-hg__btn--ghost:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--es-hg-gold, #C9A646);
+  color: var(--es-hg-gold, #C9A646);
+  transform: translateY(-2px);
+}
+
+/* ─── Trust bar ──────────────────────────────────────────────────────── */
+.es-hg__trust {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.06em;
+}
+
+.es-hg__trust span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ─── Bottom fade ────────────────────────────────────────────────────── */
+.es-hg__bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(7,19,33,0.6));
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .es-hg {
+    height: auto;
+    min-height: 480px;
+  }
+
+  .es-hg__strip {
+    height: 480px;
+  }
+
+  /* On mobile show only first 2 panels */
+  .es-hg__panel:nth-child(n+3) {
+    display: none;
+  }
+
+  .es-hg__panel:hover { flex: 1; }
+
+  .es-hg__overlay-card {
+    padding: 32px 20px;
+    gap: 12px;
+  }
+
+  .es-hg__btn {
+    padding: 12px 28px;
+  }
+
+  .es-hg__trust {
+    gap: 8px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .es-hg__strip { height: 420px; }
+  .es-hg__ctas { flex-direction: column; align-items: center; }
+  .es-hg__btn { width: 200px; }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-hg__panel,
+  .es-hg__panel-img,
+  .es-hg__panel-dim,
+  .es-hg__btn { transition: none !important; }
+
+  .es-hg__panel:hover { flex: 1; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Hero — Gallery Strip",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Authentic Arabian Perfumery"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline (H1)",
+      "default": "The Art of Arabian Fragrance"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheadline",
+      "default": "Luxury oud, rose & amber — delivered across the UK"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn1_label",
+      "label": "Primary button",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "btn1_url",
+      "label": "Primary button URL"
+    },
+    {
+      "type": "text",
+      "id": "btn2_label",
+      "label": "Secondary button",
+      "default": "Explore Brands"
+    },
+    {
+      "type": "url",
+      "id": "btn2_url",
+      "label": "Secondary button URL"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Hero height (px)",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "default": 640
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust",
+      "label": "Show trust badges",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bottle",
+      "name": "Bottle Panel",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Bottle / product image",
+          "info": "Portrait orientation recommended. Min 600×800px."
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Image alt text",
+          "default": "Luxury Arabian fragrance bottle"
+        },
+        {
+          "type": "range",
+          "id": "dim_opacity",
+          "label": "Panel darkness",
+          "min": 20,
+          "max": 85,
+          "step": 5,
+          "default": 45,
+          "unit": "%",
+          "info": "Higher = darker. Centre panels look best at 50–60%."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero — Gallery Strip",
+      "category": "HOME",
+      "blocks": [
+        { "type": "bottle", "settings": { "dim_opacity": 60 } },
+        { "type": "bottle", "settings": { "dim_opacity": 55 } },
+        { "type": "bottle", "settings": { "dim_opacity": 45 } },
+        { "type": "bottle", "settings": { "dim_opacity": 55 } },
+        { "type": "bottle", "settings": { "dim_opacity": 60 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
