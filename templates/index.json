@@ -17,7 +17,8 @@
           "settings": {
             "image": "shopify://shop_images/Rayhaan_Aquatica_8722d6ad-1a3f-4fac-85ce-38cbf83d5a77.webp",
             "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 60
+            "dim_opacity": 60,
+            "badge": ""
           }
         },
         "bottle_Ckt9AQ": {
@@ -25,7 +26,8 @@
           "settings": {
             "image": "shopify://shop_images/desk-banner-asAD-NEW-LPng-scaled.webp",
             "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 55
+            "dim_opacity": 55,
+            "badge": ""
           }
         },
         "bottle_9JF4RQ": {
@@ -33,7 +35,8 @@
           "settings": {
             "image": "shopify://shop_images/AZUL_WEBSITE_BANNER_2_jpg.webp",
             "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 45
+            "dim_opacity": 45,
+            "badge": ""
           }
         }
       },
@@ -51,6 +54,9 @@
         "btn1_url": "",
         "btn2_label": "Explore Brands",
         "btn2_url": "",
+        "transition": "fade",
+        "autoplay": true,
+        "autoplay_speed": 4000,
         "hero_height": 640,
         "show_trust": true
       }
@@ -70,6 +76,7 @@
           "type": "logo",
           "settings": {
             "name": "Rasasi",
+            "logo": "shopify://shop_images/RASASI_logo-removebg-preview-1719562017592.webp",
             "url": "/collections/rasasi"
           }
         },
@@ -77,6 +84,7 @@
           "type": "logo",
           "settings": {
             "name": "Swiss Arabian",
+            "logo": "shopify://shop_images/logos_0001_download_-_2025-09-12T001641.561.webp",
             "url": "/collections/swiss-arabian"
           }
         },
@@ -84,6 +92,7 @@
           "type": "logo",
           "settings": {
             "name": "Ahmed Al Maghribi",
+            "logo": "shopify://shop_images/ahmedalmaghribiperfumes_0000_Layer_0_1d68641b-6bcb-41df-ad1a-11a8d0be14cc.webp",
             "url": "/collections/ahmed-al-magribi"
           }
         },
@@ -91,13 +100,15 @@
           "type": "logo",
           "settings": {
             "name": "Rayhaan",
+            "logo": "shopify://shop_images/Rayhaan_Perfumes_LOGO.webp",
             "url": "/collections/rayhaan"
           }
         },
         "logo_HfYdTX": {
           "type": "logo",
           "settings": {
-            "name": "Afnan",
+            "name": "Zimaya",
+            "logo": "shopify://shop_images/logos_0001_download_-_2025-09-12T000936.628.webp",
             "url": "/collections/all"
           }
         }
