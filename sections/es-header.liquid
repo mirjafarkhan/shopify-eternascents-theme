@@ -1,0 +1,647 @@
+{%- comment -%}
+  sections/es-header.liquid
+  EternaScents — Option B professional header
+  Gold announcement bar | Dark navy main row (search + bag) | Darker nav strip
+{%- endcomment -%}
+
+{%- assign menu = linklists[section.settings.main_menu] -%}
+{%- assign cart_count = cart.item_count -%}
+{%- assign cart_total = cart.total_price | money -%}
+
+{%- comment -%} ── 1. Announcement bar ─────────────────────────────── {%- endcomment -%}
+<div class="es-hdr__announce" id="es-hdr-announce">
+  <div class="es-hdr__announce-inner">
+    {%- if section.settings.announce_text != blank -%}
+      <p class="es-hdr__announce-msg">{{ section.settings.announce_text }}</p>
+    {%- else -%}
+      <p class="es-hdr__announce-msg">
+        <span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Free UK Delivery Over £50
+        </span>
+        <span class="es-hdr__ann-sep" aria-hidden="true">|</span>
+        <span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100% Authentic Fragrances
+        </span>
+        <span class="es-hdr__ann-sep" aria-hidden="true">|</span>
+        <span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h6M13 3h8v8M9 15l10-10"/></svg>
+          Gift Wrapping Available
+        </span>
+      </p>
+    {%- endif -%}
+    <button class="es-hdr__announce-close" aria-label="Close announcement" onclick="document.getElementById('es-hdr-announce').style.display='none'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+{%- comment -%} ── Sticky wrapper ──────────────────────────────────── {%- endcomment -%}
+<header class="es-hdr{% if section.settings.sticky %} es-hdr--sticky{% endif %}" id="es-hdr" role="banner">
+
+  {%- comment -%} ── 2. Main header row ────────────────────────────── {%- endcomment -%}
+  <div class="es-hdr__main">
+    <div class="es-hdr__main-inner">
+
+      {%- comment -%} Hamburger (mobile) {%- endcomment -%}
+      <button class="es-hdr__burger" aria-label="Open menu" onclick="document.querySelector('.menu-mobile').classList.add('active')">
+        <span></span><span></span><span></span>
+      </button>
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="es-hdr__logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | image_url: width: 280 }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_width }}"
+            height="auto"
+            loading="eager"
+            class="es-hdr__logo-img">
+        {%- else -%}
+          <span class="es-hdr__logo-text">
+            {%- assign parts = shop.name | split: ' ' -%}
+            {%- for part in parts -%}
+              {%- if forloop.first -%}
+                <span class="es-hdr__logo-w">{{ part }}</span>
+              {%- else -%}
+                <span class="es-hdr__logo-g">{{ part }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+      </a>
+
+      {%- comment -%} Search bar {%- endcomment -%}
+      <form action="{{ routes.search_url }}" method="get" class="es-hdr__search" role="search">
+        <input type="hidden" name="type" value="product">
+        <input
+          type="search"
+          name="q"
+          class="es-hdr__search-input"
+          placeholder="Search perfumes, brands, notes…"
+          aria-label="Search"
+          autocomplete="off">
+        <button type="submit" class="es-hdr__search-btn" aria-label="Search">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </form>
+
+      {%- comment -%} Right icons {%- endcomment -%}
+      <div class="es-hdr__icons">
+
+        {%- comment -%} Account {%- endcomment -%}
+        <a href="{{ routes.account_url }}" class="es-hdr__icon-btn" aria-label="My Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span class="es-hdr__icon-label">Account</span>
+        </a>
+
+        {%- comment -%} Wishlist {%- endcomment -%}
+        <a href="{{ section.settings.wishlist_url | default: '/pages/wishlist' }}" class="es-hdr__icon-btn" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+          <span class="es-hdr__icon-label">Wishlist</span>
+        </a>
+
+        {%- comment -%} Cart CTA button {%- endcomment -%}
+        <a href="{{ routes.cart_url }}" class="es-hdr__cart" aria-label="View cart, {{ cart_count }} items">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+          <div class="es-hdr__cart-text">
+            <span class="es-hdr__cart-label">My Bag</span>
+            <span class="es-hdr__cart-count">{{ cart_count }} Item{% if cart_count != 1 %}s{% endif %}</span>
+          </div>
+          {%- if cart_count > 0 -%}
+            <span class="es-hdr__cart-badge">{{ cart_count }}</span>
+          {%- endif -%}
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ── 3. Navigation strip ───────────────────────────── {%- endcomment -%}
+  <nav class="es-hdr__nav" aria-label="Main navigation">
+    <div class="es-hdr__nav-inner">
+
+      {%- comment -%} Hot deals / sale pill — always first {%- endcomment -%}
+      {%- if section.settings.sale_label != blank -%}
+        <a href="{{ section.settings.sale_url | default: '/collections/sale' }}" class="es-hdr__nav-link es-hdr__nav-link--sale">
+          {{ section.settings.sale_label }}
+        </a>
+      {%- endif -%}
+
+      {%- comment -%} Menu links {%- endcomment -%}
+      {%- for link in menu.links -%}
+        {%- if link.links != blank -%}
+          <div class="es-hdr__dropdown" role="listitem">
+            <button class="es-hdr__nav-link es-hdr__nav-link--has-child" aria-expanded="false" aria-haspopup="true">
+              {{ link.title }}
+              <svg class="es-hdr__chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="es-hdr__dropdown-menu" role="menu">
+              {%- for child in link.links -%}
+                <li role="none">
+                  <a href="{{ child.url }}" class="es-hdr__dropdown-item" role="menuitem">{{ child.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="es-hdr__nav-link{% if link.active %} es-hdr__nav-link--active{% endif %}">
+            {{ link.title }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+  </nav>
+
+</header>
+
+<style>
+/* ─── Reset & base ──────────────────────────────────────────────────── */
+.es-hdr *,
+.es-hdr *::before,
+.es-hdr *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Announcement bar ──────────────────────────────────────────────── */
+.es-hdr__announce {
+  background: #C9A646;
+  padding: 7px 24px;
+  position: relative;
+}
+
+.es-hdr__announce-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.es-hdr__announce-msg {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #071321;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.es-hdr__announce-msg span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.es-hdr__ann-sep {
+  color: rgba(7,19,33,0.35);
+  font-weight: 300;
+}
+
+.es-hdr__announce-close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(7,19,33,0.6);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.es-hdr__announce-close:hover { color: #071321; }
+
+/* ─── Sticky ────────────────────────────────────────────────────────── */
+.es-hdr--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 16px rgba(7,19,33,0.18);
+}
+
+/* ─── Main header row ───────────────────────────────────────────────── */
+.es-hdr__main {
+  background: #071321;
+  border-bottom: 1px solid rgba(201,166,70,0.15);
+}
+
+.es-hdr__main-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ─── Logo ──────────────────────────────────────────────────────────── */
+.es-hdr__logo {
+  text-decoration: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.es-hdr__logo-img {
+  display: block;
+  height: auto;
+  max-height: 48px;
+}
+
+.es-hdr__logo-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.es-hdr__logo-w { color: #ffffff; }
+.es-hdr__logo-g { color: #C9A646; }
+
+/* ─── Search ────────────────────────────────────────────────────────── */
+.es-hdr__search {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(201,166,70,0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0d1f30;
+}
+
+.es-hdr__search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.03em;
+}
+
+.es-hdr__search-input::placeholder { color: rgba(255,255,255,0.35); }
+
+.es-hdr__search-input:focus { background: rgba(255,255,255,0.04); }
+
+.es-hdr__search-btn {
+  background: #C9A646;
+  border: none;
+  cursor: pointer;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #071321;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.es-hdr__search-btn:hover { background: #e0b84f; }
+
+/* ─── Right icons ───────────────────────────────────────────────────── */
+.es-hdr__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.es-hdr__icon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.es-hdr__icon-btn:hover { background: rgba(255,255,255,0.06); }
+
+.es-hdr__icon-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  line-height: 1;
+}
+
+/* ─── Cart button ───────────────────────────────────────────────────── */
+.es-hdr__cart {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #C9A646;
+  color: #071321;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  position: relative;
+  margin-left: 4px;
+}
+
+.es-hdr__cart:hover { background: #e0b84f; }
+
+.es-hdr__cart-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.es-hdr__cart-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(7,19,33,0.65);
+}
+
+.es-hdr__cart-count {
+  font-size: 13px;
+  font-weight: 800;
+  color: #071321;
+}
+
+.es-hdr__cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #fff;
+  color: #071321;
+  font-size: 9px;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #C9A646;
+}
+
+/* ─── Navigation strip ──────────────────────────────────────────────── */
+.es-hdr__nav {
+  background: #0a1a28;
+  border-bottom: 1px solid rgba(201,166,70,0.1);
+}
+
+.es-hdr__nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.es-hdr__nav-link {
+  color: rgba(255,255,255,0.75);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.es-hdr__nav-link:hover,
+.es-hdr__nav-link--active {
+  color: #C9A646;
+  background: rgba(201,166,70,0.06);
+}
+
+.es-hdr__nav-link--sale {
+  color: #C9A646;
+  font-weight: 800;
+  border-right: 1px solid rgba(201,166,70,0.2);
+  margin-right: 4px;
+  padding-right: 20px;
+}
+
+.es-hdr__nav-link--sale:hover {
+  color: #e0b84f;
+  background: rgba(201,166,70,0.1);
+}
+
+.es-hdr__chevron {
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+/* ─── Dropdown ──────────────────────────────────────────────────────── */
+.es-hdr__dropdown {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.es-hdr__dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #071321;
+  border: 1px solid rgba(201,166,70,0.15);
+  border-top: 2px solid #C9A646;
+  min-width: 200px;
+  list-style: none;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.es-hdr__dropdown:hover .es-hdr__dropdown-menu,
+.es-hdr__dropdown-menu:hover {
+  display: block;
+}
+
+.es-hdr__dropdown:hover .es-hdr__chevron {
+  transform: rotate(180deg);
+}
+
+.es-hdr__dropdown:hover .es-hdr__nav-link--has-child {
+  color: #C9A646;
+  background: rgba(201,166,70,0.06);
+}
+
+.es-hdr__dropdown-item {
+  display: block;
+  padding: 11px 18px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.15s, background 0.15s, padding-left 0.15s;
+}
+
+.es-hdr__dropdown-item:last-child { border-bottom: none; }
+
+.es-hdr__dropdown-item:hover {
+  color: #C9A646;
+  background: rgba(201,166,70,0.07);
+  padding-left: 24px;
+}
+
+/* ─── Hamburger (mobile) ────────────────────────────────────────────── */
+.es-hdr__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.es-hdr__burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* ─── Mobile ────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .es-hdr__burger { display: flex; }
+
+  .es-hdr__search { max-width: 100%; flex: 1; }
+
+  .es-hdr__icon-btn { display: none; }
+
+  .es-hdr__cart-text { display: none; }
+
+  .es-hdr__cart {
+    padding: 10px 14px;
+    border-radius: 50%;
+    background: #C9A646;
+  }
+
+  .es-hdr__nav { display: none; }
+
+  .es-hdr__logo-text { font-size: 18px; }
+}
+
+@media (max-width: 600px) {
+  .es-hdr__announce-msg .es-hdr__ann-sep,
+  .es-hdr__announce-msg span:not(:first-child) { display: none; }
+
+  .es-hdr__main-inner { gap: 12px; padding: 12px 16px; }
+
+  .es-hdr__search-input { font-size: 12px; padding: 9px 12px; }
+}
+
+/* ─── Prefers reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .es-hdr__search-btn,
+  .es-hdr__cart,
+  .es-hdr__nav-link,
+  .es-hdr__dropdown-item,
+  .es-hdr__chevron { transition: none; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "EternaScents Header",
+  "class": "es-header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "text",
+      "id": "announce_text",
+      "label": "Announcement text",
+      "info": "Leave blank to show the 3 default trust pillars.",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Upload a PNG with transparent background. Recommended: 280×60px."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo display width (px)",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "default": 180
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "sale_label",
+      "label": "Sale / Hot Deals label",
+      "default": "🔥  Hot Deals"
+    },
+    {
+      "type": "url",
+      "id": "sale_url",
+      "label": "Sale link URL"
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist page URL"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header (scrolls with page)",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
