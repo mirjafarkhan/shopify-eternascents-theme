@@ -12,6 +12,24 @@
     "es_hero_gallery_kf3aHx": {
       "type": "es-hero-gallery",
       "blocks": {
+        "bottle_3L4WWa": {
+          "type": "bottle",
+          "settings": {
+            "image": "shopify://shop_images/dalal_des.webp",
+            "alt": "EternaScents luxury fragrance",
+            "dim_opacity": 50,
+            "badge": ""
+          }
+        },
+        "bottle_a69BHn": {
+          "type": "bottle",
+          "settings": {
+            "image": "shopify://shop_images/waha_desktop-new.webp",
+            "alt": "EternaScents luxury fragrance",
+            "dim_opacity": 50,
+            "badge": ""
+          }
+        },
         "bottle_PQpKqJ": {
           "type": "bottle",
           "settings": {
@@ -41,6 +59,8 @@
         }
       },
       "block_order": [
+        "bottle_3L4WWa",
+        "bottle_a69BHn",
         "bottle_PQpKqJ",
         "bottle_Ckt9AQ",
         "bottle_9JF4RQ"
