@@ -1,33 +1,403 @@
-<!-- /sections/header.liquid -->
-{% if template contains 'index' %}
-  {% if section.settings.select_hds == "header_v1" %}
-  {% include 'header-v1' %}
-  {% elsif section.settings.select_hds == "header_v2" %}
-  {% include 'header-v2' %}
-  {% elsif section.settings.select_hds == "header_v3" %}
-  {% include 'header-v3' %}
-  {% elsif section.settings.select_hds == "header_v4" %}
-  {% include 'header-v4' %}
-  {% elsif section.settings.select_hds == "header_v5" %}
-  {% include 'header-v5' %}
-  {% elsif section.settings.select_hds == "header_v6" %}
-  {% include 'header-v6' %}
-  {% endif %}
-{% else %}
-  {% if section.settings.select_hds_all == "header_ver1" %}
-  {% include 'header-v1' %}
-  {% elsif section.settings.select_hds_all == "header_ver2" %}
-  {% include 'header-v2' %}
-  {% elsif section.settings.select_hds_all == "header_ver3" %}
-  {% include 'header-v3' %}
-  {% elsif section.settings.select_hds_all == "header_ver4" %}
-  {% include 'header-v4' %}
-  {% elsif section.settings.select_hds_all == "header_ver5" %}
-  {% include 'header-v5' %}
-  {% elsif section.settings.select_hds_all == "header_ver6" %}
-  {% include 'header-v6' %}
-  {% endif %}
-{% endif %}
+{%- comment -%}
+  sections/header.liquid — EternaScents Option B professional header
+  Gold announcement bar | Dark navy main (logo + search + bag) | Dark nav strip
+{%- endcomment -%}
+
+{%- assign menu = linklists[section.settings.main_menu] -%}
+
+{%- comment -%} ── Announcement bar ─────────────────────────────────── {%- endcomment -%}
+<div class="es-hdr__announce" id="es-hdr-announce">
+  <div class="es-hdr__announce-inner">
+    <p class="es-hdr__announce-msg">
+      {%- if section.settings.announce_text != blank -%}
+        {{ section.settings.announce_text }}
+      {%- else -%}
+        <span>Free UK Delivery Over £50</span>
+        <span class="es-hdr__ann-sep" aria-hidden="true">|</span>
+        <span>100% Authentic Fragrances</span>
+        <span class="es-hdr__ann-sep" aria-hidden="true">|</span>
+        <span>Gift Wrapping Available</span>
+      {%- endif -%}
+    </p>
+    <button class="es-hdr__announce-close" aria-label="Close announcement" onclick="document.getElementById('es-hdr-announce').style.display='none'">&#10005;</button>
+  </div>
+</div>
+
+{%- comment -%} ── Sticky header wrapper ────────────────────────────── {%- endcomment -%}
+<header class="es-hdr" id="es-hdr" role="banner">
+
+  {%- comment -%} ── Main row: logo + search + icons ──────────────────── {%- endcomment -%}
+  <div class="es-hdr__main">
+    <div class="es-hdr__main-inner">
+
+      {%- comment -%} Hamburger — mobile {%- endcomment -%}
+      <button class="es-hdr__burger" aria-label="Open menu" onclick="document.querySelector('.menu-mobile') && document.querySelector('.menu-mobile').classList.add('active')">
+        <span></span><span></span><span></span>
+      </button>
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="es-hdr__logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | image_url: width: 280 }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_width | default: 180 }}"
+            height="auto"
+            loading="eager"
+            class="es-hdr__logo-img">
+        {%- else -%}
+          <span class="es-hdr__logo-text">
+            {%- assign name_parts = shop.name | split: ' ' -%}
+            {%- for part in name_parts -%}
+              {%- if forloop.first -%}
+                <span class="es-hdr__logo-w">{{ part }}</span>
+              {%- else -%}
+                <span class="es-hdr__logo-g">{{ part }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+      </a>
+
+      {%- comment -%} Search bar {%- endcomment -%}
+      <form action="{{ routes.search_url }}" method="get" class="es-hdr__search" role="search">
+        <input type="hidden" name="type" value="product">
+        <input
+          type="search"
+          name="q"
+          class="es-hdr__search-input"
+          placeholder="Search perfumes, brands, notes…"
+          aria-label="Search products"
+          autocomplete="off">
+        <button type="submit" class="es-hdr__search-btn" aria-label="Search">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </form>
+
+      {%- comment -%} Right icons + cart {%- endcomment -%}
+      <div class="es-hdr__icons">
+
+        <a href="{{ routes.account_url }}" class="es-hdr__icon-btn" aria-label="My Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span class="es-hdr__icon-label">Account</span>
+        </a>
+
+        <a href="{{ section.settings.wishlist_url | default: '/pages/wishlist' }}" class="es-hdr__icon-btn" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+          <span class="es-hdr__icon-label">Wishlist</span>
+        </a>
+
+        <a href="{{ routes.cart_url }}" class="es-hdr__cart" aria-label="View bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+          <div class="es-hdr__cart-text">
+            <span class="es-hdr__cart-label">My Bag</span>
+            <span class="es-hdr__cart-count">{{ cart.item_count }} Item{% if cart.item_count != 1 %}s{% endif %}</span>
+          </div>
+          {%- if cart.item_count > 0 -%}
+            <span class="es-hdr__cart-badge">{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ── Navigation strip ─────────────────────────────────── {%- endcomment -%}
+  <nav class="es-hdr__nav" aria-label="Main navigation">
+    <div class="es-hdr__nav-inner">
+
+      {%- if section.settings.sale_label != blank -%}
+        <a href="{{ section.settings.sale_url | default: '/collections/all' }}" class="es-hdr__nav-link es-hdr__nav-link--sale">
+          {{ section.settings.sale_label }}
+        </a>
+      {%- endif -%}
+
+      {%- for link in menu.links -%}
+        {%- if link.links != blank -%}
+          <div class="es-hdr__dropdown">
+            <button class="es-hdr__nav-link es-hdr__nav-link--has-child">
+              {{ link.title }}
+              <svg class="es-hdr__chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="es-hdr__dropdown-menu">
+              {%- for child in link.links -%}
+                <li><a href="{{ child.url }}" class="es-hdr__dropdown-item">{{ child.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="es-hdr__nav-link{% if link.active %} es-hdr__nav-link--active{% endif %}">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+  </nav>
+
+</header>
+
+<style>
+.es-hdr__announce {
+  background: #C9A646;
+  padding: 7px 24px;
+  position: relative;
+}
+.es-hdr__announce-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.es-hdr__announce-msg {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #071321;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.es-hdr__announce-msg span { display: flex; align-items: center; gap: 5px; }
+.es-hdr__ann-sep { color: rgba(7,19,33,0.35); font-weight: 300; }
+.es-hdr__announce-close {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(7,19,33,0.55);
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 6px;
+}
+.es-hdr__announce-close:hover { color: #071321; }
+
+.es-hdr {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 16px rgba(7,19,33,0.2);
+}
+
+.es-hdr__main {
+  background: #071321;
+  border-bottom: 1px solid rgba(201,166,70,0.15);
+}
+.es-hdr__main-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 13px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.es-hdr__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.es-hdr__burger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; }
+
+.es-hdr__logo { text-decoration: none; flex-shrink: 0; display: flex; align-items: center; }
+.es-hdr__logo-img { display: block; max-height: 48px; width: auto; height: auto; }
+.es-hdr__logo-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.es-hdr__logo-w { color: #ffffff; }
+.es-hdr__logo-g { color: #C9A646; }
+
+.es-hdr__search {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(201,166,70,0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0d1f30;
+}
+.es-hdr__search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.03em;
+}
+.es-hdr__search-input::placeholder { color: rgba(255,255,255,0.35); }
+.es-hdr__search-btn {
+  background: #C9A646;
+  border: none;
+  cursor: pointer;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #071321;
+  flex-shrink: 0;
+}
+.es-hdr__search-btn:hover { background: #e0b84f; }
+
+.es-hdr__icons { display: flex; align-items: center; gap: 4px; flex-shrink: 0; margin-left: auto; }
+
+.es-hdr__icon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.es-hdr__icon-btn:hover { background: rgba(255,255,255,0.07); }
+.es-hdr__icon-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.45); line-height: 1; }
+
+.es-hdr__cart {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #C9A646;
+  color: #071321;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 4px;
+  position: relative;
+  margin-left: 6px;
+}
+.es-hdr__cart:hover { background: #e0b84f; }
+.es-hdr__cart-text { display: flex; flex-direction: column; line-height: 1.2; }
+.es-hdr__cart-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(7,19,33,0.65); }
+.es-hdr__cart-count { font-size: 13px; font-weight: 800; color: #071321; }
+.es-hdr__cart-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  background: #fff;
+  color: #071321;
+  font-size: 9px;
+  font-weight: 800;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #C9A646;
+}
+
+.es-hdr__nav { background: #0a1a28; border-bottom: 1px solid rgba(201,166,70,0.1); }
+.es-hdr__nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+}
+
+.es-hdr__nav-link {
+  color: rgba(255,255,255,0.75);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: color 0.2s, background 0.2s;
+}
+.es-hdr__nav-link:hover,
+.es-hdr__nav-link--active { color: #C9A646; background: rgba(201,166,70,0.06); }
+
+.es-hdr__nav-link--sale {
+  color: #C9A646;
+  font-weight: 800;
+  border-right: 1px solid rgba(201,166,70,0.2);
+  margin-right: 4px;
+  padding-right: 18px;
+}
+.es-hdr__nav-link--sale:hover { color: #e0b84f; background: rgba(201,166,70,0.08); }
+
+.es-hdr__chevron { transition: transform 0.2s; flex-shrink: 0; }
+
+.es-hdr__dropdown { position: relative; display: flex; align-items: stretch; }
+.es-hdr__dropdown:hover .es-hdr__dropdown-menu { display: block; }
+.es-hdr__dropdown:hover .es-hdr__chevron { transform: rotate(180deg); }
+.es-hdr__dropdown:hover .es-hdr__nav-link--has-child { color: #C9A646; background: rgba(201,166,70,0.06); }
+
+.es-hdr__dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0;
+  background: #071321;
+  border: 1px solid rgba(201,166,70,0.15);
+  border-top: 2px solid #C9A646;
+  min-width: 200px;
+  list-style: none;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.es-hdr__dropdown-item {
+  display: block;
+  padding: 11px 18px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.15s, background 0.15s, padding-left 0.15s;
+}
+.es-hdr__dropdown-item:last-child { border-bottom: none; }
+.es-hdr__dropdown-item:hover { color: #C9A646; background: rgba(201,166,70,0.07); padding-left: 24px; }
+
+@media (max-width: 900px) {
+  .es-hdr__burger { display: flex; }
+  .es-hdr__icon-btn { display: none; }
+  .es-hdr__cart-text { display: none; }
+  .es-hdr__cart { padding: 10px 12px; border-radius: 50%; }
+  .es-hdr__nav { display: none; }
+  .es-hdr__logo-text { font-size: 18px; }
+  .es-hdr__search { max-width: 100%; }
+}
+@media (max-width: 540px) {
+  .es-hdr__ann-sep,
+  .es-hdr__announce-msg span + span + span { display: none; }
+  .es-hdr__main-inner { gap: 10px; padding: 11px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .es-hdr__search-btn,
+  .es-hdr__cart,
+  .es-hdr__nav-link,
+  .es-hdr__dropdown-item,
+  .es-hdr__chevron { transition: none; }
+}
+</style>
 
 {% schema %}
 {
@@ -36,263 +406,58 @@
   "settings": [
     {
       "type": "header",
-      "content": "Header Homepage"
+      "content": "Announcement Bar"
     },
     {
-      "type": "select",
-      "id": "select_hds",
-      "label": "Select Style",
-      "options": [
-        {
-          "value": "header_v1",
-          "label": "Header v1"
-        },
-        {
-          "value": "header_v2",
-          "label": "Header v2"
-        },
-        {
-          "value": "header_v3",
-          "label": "Header v3"
-        },
-        {
-          "value": "header_v4",
-          "label": "Header v4"
-        },
-        {
-          "value": "header_v5",
-          "label": "Header v5"
-        },
-        {
-          "value": "header_v6",
-          "label": "Header v6"
-        }
-      ],
-      "default": "header_v1"
-    },
-    {
-      "type": "color",
-      "id": "hd_home_color_text",
-      "label": "Texts, Icons Color",
-      "default": "#fff"
-    },
-    {
-      "type": "checkbox",
-      "id": "hd_home_enable_transparents",
-      "label": "Enable Transparent",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "hd_home_bg_header_normal",
-      "label": "Background Color"
-    },
-    {
-      "type": "range",
-      "id": "hd_bg_header_opacity",
-      "min": 0.1,
-      "max": 1,
-      "step": 0.1,
-      "label": "Opacity Background",
-      "default": 1
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sticky_hd_home",
-      "label": "Enable Sticky",
-      "default": true
-    },
-    {
-      "type": "image_picker",
-      "id": "hd_home_logo",
-      "label": "Logo Image",
-      "info": "140 x 46px .png recommended"
-    },
-    {
-      "type": "range",
-      "id": "hd_home_logo_maxwidth",
-      "min": 35,
-      "max": 300,
-      "step": 5,
-      "unit": "px",
-      "label": "Logo Display Width",
-      "default": 140
-    },
-    {
-      "type": "textarea",
-      "id": "hd_home_logo_svg",
-      "label": "Logo Svg"
+      "type": "text",
+      "id": "announce_text",
+      "label": "Announcement text (leave blank for 3 trust pillars)",
+      "default": ""
     },
     {
       "type": "header",
-      "content": "Header Other Pages"
-    },
-    {
-      "type": "select",
-      "id": "select_hds_all",
-      "label": "Select Style",
-      "options": [
-        {
-          "value": "header_ver1",
-          "label": "Header v1"
-        },
-        {
-          "value": "header_ver2",
-          "label": "Header v2"
-        },
-        {
-          "value": "header_ver3",
-          "label": "Header v3"
-        },
-        {
-          "value": "header_ver4",
-          "label": "Header v4"
-        },
-        {
-          "value": "header_ver5",
-          "label": "Header v5"
-        },
-        {
-          "value": "header_ver6",
-          "label": "Header v6"
-        }
-      ],
-      "default": "header_ver1"
-    },
-    {
-      "type": "color",
-      "id": "hd_other_color_text",
-      "label": "Texts, Icons Color",
-      "default": "#fff"
-    },
-    {
-      "type": "checkbox",
-      "id": "hd_other_enable_transparents",
-      "label": "Enable Transparents",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "hd_other_bg_header_normal",
-      "label": "Background Color"
-    },
-    {
-      "type": "range",
-      "id": "hd_other_bg_header_opacity",
-      "min": 0.1,
-      "max": 1,
-      "step": 0.1,
-      "label": "Opacity Background",
-      "default": 1
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sticky_hd_other",
-      "label": "Enable Sticky",
-      "default": true
+      "content": "Logo"
     },
     {
       "type": "image_picker",
-      "id": "hd_other_logo",
-      "label": "Logo Image",
-      "info": "140 x 46px .png recommended"
+      "id": "logo",
+      "label": "Logo image",
+      "info": "PNG with transparent background. Recommended: 280x60px."
     },
     {
       "type": "range",
-      "id": "hd_other_logo_maxwidth",
-      "min": 35,
+      "id": "logo_width",
+      "label": "Logo width (px)",
+      "min": 80,
       "max": 300,
-      "step": 5,
-      "unit": "px",
-      "label": "Logo Display Width",
-      "default": 140
-    },
-    {
-      "type": "textarea",
-      "id": "hd_other_logo_svg",
-      "label": "Logo Svg"
+      "step": 10,
+      "default": 180
     },
     {
       "type": "header",
-      "content": "Select Menu"
+      "content": "Navigation"
     },
     {
       "type": "link_list",
-      "id": "main_menu_store",
-      "label": "Main Menu"
-    },
-    {
-      "type": "header",
-      "content": "Icon Header"
-    },
-    {
-      "type": "header",
-      "content": "Icon search"
+      "id": "main_menu",
+      "label": "Main menu",
+      "default": "main-menu"
     },
     {
       "type": "text",
-      "id": "hd_icon_search",
-      "label": "Icon search",
-      "info": "[Get icon from here](https://fontawesome.com/v4.7.0/icons/)",
-      "default": "fa fa-search"
-    },
-    {
-      "type": "textarea",
-      "id": "hd_icon_search_svg",
-      "label": "Icon search SVG"
-    },
-    {
-      "type": "header",
-      "content": "Icon Wishlist"
-    },
-    {
-      "type": "text",
-      "id": "hd_icon_wishlist",
-      "label": "Icon Wishlist",
-      "info": "[Get icon from here](https://fontawesome.com/v4.7.0/icons/)",
-      "default": "icon-heart"
-    },
-    {
-      "type": "textarea",
-      "id": "hd_icon_wishlist_svg",
-      "label": "Icon wishlist SVG"
+      "id": "sale_label",
+      "label": "Hot Deals label",
+      "default": "Hot Deals"
     },
     {
       "type": "url",
-      "id": "url_wishlist",
-      "label": "Url Wishlist"
+      "id": "sale_url",
+      "label": "Hot Deals link URL"
     },
     {
-      "type": "header",
-      "content": "Icon login"
-    },
-    {
-      "type": "text",
-      "id": "hd_icon_login",
-      "label": "Icon login",
-      "info": "[Get icon from here](https://fontawesome.com/v4.7.0/icons/)",
-      "default": "icon-icon-user"
-    },
-    {
-      "type": "textarea",
-      "id": "hd_icon_login_svg",
-      "label": "Icon login SVG"
-    },
-    {
-      "type": "header",
-      "content": "Icon cart"
-    },
-    {
-      "type": "text",
-      "id": "hd_icon_cart",
-      "label": "Icon cart",
-      "info": "[Get icon from here](https://fontawesome.com/v4.7.0/icons/)",
-      "default": "icon-icon-cart"
-    },
-    {
-      "type": "textarea",
-      "id": "hd_icon_cart_svg",
-      "label": "Icon cart SVG"
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist page URL"
     }
   ]
 }
