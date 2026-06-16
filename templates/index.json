@@ -16,6 +16,7 @@
           "type": "bottle",
           "settings": {
             "image": "shopify://shop_images/dalal_des.webp",
+            "mobile_image": "shopify://shop_images/image.png",
             "alt": "EternaScents luxury fragrance",
             "dim_opacity": 50,
             "badge": ""
