@@ -59,20 +59,55 @@
         {%- endif -%}
       </a>
 
-      {%- comment -%} Search bar {%- endcomment -%}
-      <form action="{{ routes.search_url }}" method="get" class="es-hdr__search" role="search">
-        <input type="hidden" name="type" value="product">
-        <input
-          type="search"
-          name="q"
-          class="es-hdr__search-input"
-          placeholder="Search perfumes, brands, notes…"
-          aria-label="Search products"
-          autocomplete="off">
-        <button type="submit" class="es-hdr__search-btn" aria-label="Search">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-        </button>
-      </form>
+      {%- comment -%} Search bar with predictive results {%- endcomment -%}
+      <div class="es-hdr__search-wrap" id="es-search-wrap">
+        <form action="{{ routes.search_url }}" method="get" class="es-hdr__search" role="search">
+          <input type="hidden" name="type" value="product">
+          <input
+            type="search"
+            name="q"
+            id="es-search-input"
+            class="es-hdr__search-input"
+            placeholder="Search perfumes, brands, notes…"
+            aria-label="Search products"
+            aria-autocomplete="list"
+            aria-controls="es-search-dropdown"
+            autocomplete="off">
+          <button type="submit" class="es-hdr__search-btn" aria-label="Search">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+          </button>
+        </form>
+
+        {%- comment -%} Predictive dropdown {%- endcomment -%}
+        <div class="es-search-drop" id="es-search-dropdown" role="listbox" aria-label="Search suggestions" hidden>
+
+          {%- comment -%} Popular searches — shown on focus when input is empty {%- endcomment -%}
+          <div class="es-search-drop__popular" id="es-search-popular">
+            <p class="es-search-drop__heading">Popular Searches</p>
+            <div class="es-search-drop__tags">
+              <button class="es-search-drop__tag" type="button" data-query="Oud">Oud</button>
+              <button class="es-search-drop__tag" type="button" data-query="Rose">Rose</button>
+              <button class="es-search-drop__tag" type="button" data-query="Lattafa">Lattafa</button>
+              <button class="es-search-drop__tag" type="button" data-query="Rasasi">Rasasi</button>
+              <button class="es-search-drop__tag" type="button" data-query="Amber">Amber</button>
+              <button class="es-search-drop__tag" type="button" data-query="Gift Set">Gift Set</button>
+              <button class="es-search-drop__tag" type="button" data-query="Musk">Musk</button>
+              <button class="es-search-drop__tag" type="button" data-query="Swiss Arabian">Swiss Arabian</button>
+            </div>
+          </div>
+
+          {%- comment -%} Live results — injected by JS {%- endcomment -%}
+          <div class="es-search-drop__results" id="es-search-results" hidden></div>
+
+          {%- comment -%} No results state {%- endcomment -%}
+          <div class="es-search-drop__empty" id="es-search-empty" hidden>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(201,166,70,0.5)" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <p>No perfumes found</p>
+            <span>Try searching for a brand, note or fragrance name</span>
+          </div>
+
+        </div>
+      </div>
 
       {%- comment -%} Right icons + cart {%- endcomment -%}
       <div class="es-hdr__icons">
@@ -398,6 +433,400 @@
   .es-hdr__chevron { transition: none; }
 }
 </style>
+
+<style>
+/* ── Search wrap ───────────────────────────────────────────────────── */
+.es-hdr__search-wrap {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+/* ── Dropdown container ────────────────────────────────────────────── */
+.es-search-drop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #071321;
+  border: 1px solid rgba(201,166,70,0.25);
+  border-top: 2px solid #C9A646;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  z-index: 9999;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+
+/* ── Section heading ───────────────────────────────────────────────── */
+.es-search-drop__heading {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #C9A646;
+  padding: 14px 16px 8px;
+  margin: 0;
+}
+
+/* ── Popular tag pills ─────────────────────────────────────────────── */
+.es-search-drop__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 16px 14px;
+}
+
+.es-search-drop__tag {
+  background: rgba(201,166,70,0.1);
+  border: 1px solid rgba(201,166,70,0.25);
+  color: rgba(255,255,255,0.75);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+
+.es-search-drop__tag:hover {
+  background: #C9A646;
+  color: #071321;
+  border-color: #C9A646;
+}
+
+/* ── Divider between popular and results ───────────────────────────── */
+.es-search-drop__divider {
+  height: 1px;
+  background: rgba(201,166,70,0.12);
+  margin: 0;
+}
+
+/* ── Results heading ───────────────────────────────────────────────── */
+.es-search-drop__results-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #C9A646;
+  padding: 12px 16px 6px;
+  margin: 0;
+}
+
+/* ── Individual product result ─────────────────────────────────────── */
+.es-search-drop__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.15s;
+}
+
+.es-search-drop__item:last-child { border-bottom: none; }
+
+.es-search-drop__item:hover {
+  background: rgba(201,166,70,0.07);
+}
+
+/* Product image */
+.es-search-drop__img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(201,166,70,0.15);
+  flex-shrink: 0;
+  background: #0d1f30;
+}
+
+.es-search-drop__img-placeholder {
+  width: 52px;
+  height: 52px;
+  border-radius: 4px;
+  border: 1px solid rgba(201,166,70,0.15);
+  background: #0d1f30;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product info */
+.es-search-drop__info { flex: 1; min-width: 0; }
+
+.es-search-drop__name {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.es-search-drop__name em {
+  color: #C9A646;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.es-search-drop__vendor {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.es-search-drop__price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #C9A646;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Loading spinner ───────────────────────────────────────────────── */
+.es-search-drop__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 16px;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+}
+
+.es-search-drop__spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(201,166,70,0.2);
+  border-top-color: #C9A646;
+  border-radius: 50%;
+  animation: es-spin 0.7s linear infinite;
+}
+
+@keyframes es-spin { to { transform: rotate(360deg); } }
+
+/* ── No results ────────────────────────────────────────────────────── */
+.es-search-drop__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 6px;
+}
+
+.es-search-drop__empty p {
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.es-search-drop__empty span {
+  color: rgba(255,255,255,0.35);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* ── View all link ─────────────────────────────────────────────────── */
+.es-search-drop__view-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 16px;
+  background: rgba(201,166,70,0.07);
+  border-top: 1px solid rgba(201,166,70,0.12);
+  color: #C9A646;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.es-search-drop__view-all:hover { background: rgba(201,166,70,0.14); }
+
+/* ── Mobile adjustments ────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .es-hdr__search-wrap { max-width: 100%; }
+  .es-search-drop { left: -60px; right: -60px; }
+}
+
+@media (max-width: 540px) {
+  .es-search-drop { left: -40px; right: -10px; }
+  .es-search-drop__img,
+  .es-search-drop__img-placeholder { width: 42px; height: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .es-search-drop__spinner { animation: none; }
+  .es-search-drop__tag,
+  .es-search-drop__item { transition: none; }
+}
+</style>
+
+<script>
+(function() {
+  var input     = document.getElementById('es-search-input');
+  var dropdown  = document.getElementById('es-search-dropdown');
+  var popular   = document.getElementById('es-search-popular');
+  var results   = document.getElementById('es-search-results');
+  var empty     = document.getElementById('es-search-empty');
+  var wrap      = document.getElementById('es-search-wrap');
+
+  if (!input || !dropdown) return;
+
+  var debounceTimer = null;
+  var lastQuery     = '';
+
+  /* ── helpers ── */
+  function show(el)  { el.hidden = false; el.removeAttribute('hidden'); }
+  function hide(el)  { el.hidden = true;  el.setAttribute('hidden', ''); }
+
+  function openDrop() {
+    dropdown.removeAttribute('hidden');
+    dropdown.hidden = false;
+  }
+
+  function closeDrop() {
+    dropdown.hidden = true;
+    dropdown.setAttribute('hidden', '');
+  }
+
+  function showPopular() {
+    show(popular);
+    hide(results);
+    hide(empty);
+    openDrop();
+  }
+
+  function showLoading() {
+    hide(popular);
+    hide(empty);
+    results.innerHTML = '<div class="es-search-drop__loading"><div class="es-search-drop__spinner"></div><span>Searching…</span></div>';
+    show(results);
+    openDrop();
+  }
+
+  /* ── highlight query match in title ── */
+  function highlight(text, query) {
+    if (!query) return text;
+    var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<em>$1</em>');
+  }
+
+  /* ── render product results ── */
+  function renderResults(products, query) {
+    if (!products || products.length === 0) {
+      hide(results);
+      hide(popular);
+      show(empty);
+      openDrop();
+      return;
+    }
+
+    var html = '<p class="es-search-drop__results-label">Products</p>';
+
+    products.forEach(function(p) {
+      var img = p.image
+        ? '<img src="' + p.image + '" alt="' + (p.title || '').replace(/"/g, '&quot;') + '" class="es-search-drop__img" width="52" height="52" loading="lazy">'
+        : '<div class="es-search-drop__img-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,166,70,0.4)" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>';
+
+      var name    = highlight(p.title || '', query);
+      var vendor  = p.vendor ? '<span class="es-search-drop__vendor">' + p.vendor + '</span>' : '';
+      var price   = p.price ? '<span class="es-search-drop__price">' + p.price + '</span>' : '';
+
+      html += '<a href="' + p.url + '" class="es-search-drop__item" role="option">'
+            + img
+            + '<div class="es-search-drop__info">'
+            + '<div class="es-search-drop__name">' + name + '</div>'
+            + vendor
+            + '</div>'
+            + price
+            + '</a>';
+    });
+
+    var encoded  = encodeURIComponent(query);
+    html += '<div class="es-search-drop__divider"></div>'
+          + '<a href="{{ routes.search_url }}?q=' + '" + encoded + "&type=product" class="es-search-drop__view-all">'
+          + 'View all results for &ldquo;' + query + '&rdquo;'
+          + ' &rarr;</a>';
+
+    results.innerHTML = html;
+    hide(popular);
+    hide(empty);
+    show(results);
+    openDrop();
+  }
+
+  /* ── fetch from Shopify Predictive Search API ── */
+  function fetchSuggestions(query) {
+    lastQuery = query;
+    showLoading();
+
+    var url = '/search/suggest.json?q='
+      + encodeURIComponent(query)
+      + '&resources[type]=product'
+      + '&resources[limit]=6'
+      + '&resources[options][unavailable_products]=last'
+      + '&resources[options][fields]=title,vendor,product_type,variants.title';
+
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (input.value.trim() !== lastQuery) return;
+        var products = (data.resources && data.resources.results && data.resources.results.products) || [];
+        renderResults(products, query);
+      })
+      .catch(function() {
+        hide(results);
+        show(empty);
+        openDrop();
+      });
+  }
+
+  /* ── popular tag click ── */
+  document.querySelectorAll('.es-search-drop__tag').forEach(function(tag) {
+    tag.addEventListener('click', function() {
+      var q = this.getAttribute('data-query');
+      input.value = q;
+      fetchSuggestions(q);
+    });
+  });
+
+  /* ── input events ── */
+  input.addEventListener('focus', function() {
+    if (input.value.trim().length === 0) {
+      showPopular();
+    }
+  });
+
+  input.addEventListener('input', function() {
+    var q = input.value.trim();
+    clearTimeout(debounceTimer);
+    if (q.length === 0) { showPopular(); return; }
+    if (q.length < 2)   { return; }
+    debounceTimer = setTimeout(function() { fetchSuggestions(q); }, 280);
+  });
+
+  /* ── close on outside click ── */
+  document.addEventListener('click', function(e) {
+    if (!wrap.contains(e.target)) closeDrop();
+  });
+
+  /* ── close on Escape ── */
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeDrop(); input.blur(); }
+  });
+
+})();
+</script>
 
 {% schema %}
 {
