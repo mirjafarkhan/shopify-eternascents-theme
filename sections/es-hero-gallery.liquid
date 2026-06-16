@@ -187,9 +187,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   display: block;
   transition: transform 7s ease;
+}
+
+@media (max-width: 768px) {
+  .es-hs__slide-img {
+    object-position: 70% center;
+  }
 }
 
 .slick-active .es-hs__slide-img {
@@ -413,18 +419,32 @@
 }
 
 @media (max-width: 768px) {
-  .es-hs { height: 520px; --es-hs-height: 520px; }
-  .es-hs__slide { height: 520px; }
+  .es-hs { height: 420px; --es-hs-height: 420px; }
+  .es-hs__slide { height: 420px; }
   .es-hs__overlay-inner { gap: 14px; padding: 24px 20px; }
   .es-hs__btn { padding: 13px 28px; }
   .es-hs__trust-dot { display: none; }
   .es-hs__trust { flex-direction: column; gap: 6px; }
   .es-hs__badge { left: 20px; top: 16px; }
+
+  /* Arrows — smaller on mobile */
+  .es-hs__arrow {
+    width: 32px;
+    height: 32px;
+  }
+  .es-hs__arrow svg { width: 15px; height: 15px; }
+
+  /* Dots — bigger tap targets */
+  .es-hs-dot { width: 10px; height: 10px; }
+  .es-hs-dot.is-active { width: 28px; }
+
+  /* Nav — move up slightly so not clipped */
+  .es-hs__nav { bottom: 16px; gap: 10px; }
 }
 
 @media (max-width: 480px) {
-  .es-hs { height: 460px; --es-hs-height: 460px; }
-  .es-hs__slide { height: 460px; }
+  .es-hs { height: 360px; --es-hs-height: 360px; }
+  .es-hs__slide { height: 360px; }
   .es-hs__ctas { flex-direction: column; align-items: center; }
   .es-hs__btn { width: 220px; justify-content: center; }
 }
