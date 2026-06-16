@@ -44,15 +44,23 @@
 
           <div class="es-hs__slide-bg" aria-hidden="true">
             {%- if img != blank -%}
-              <img
-                src="{{ img | image_url: width: 1920 }}"
-                alt="{{ alt_text | escape }}"
-                width="1920"
-                height="{{ height }}"
-                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
-                decoding="async"
-                class="es-hs__slide-img">
+              {%- assign mobile_img = block.settings.mobile_image | default: block.settings.image_mobile -%}
+              <picture>
+                {%- if mobile_img != blank -%}
+                  <source
+                    media="(max-width: 768px)"
+                    srcset="{{ mobile_img | image_url: width: 800 }}">
+                {%- endif -%}
+                <img
+                  src="{{ img | image_url: width: 1920 }}"
+                  alt="{{ alt_text | escape }}"
+                  width="1920"
+                  height="{{ height }}"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
+                  decoding="async"
+                  class="es-hs__slide-img">
+              </picture>
             {%- else -%}
               <div class="es-hs__slide-placeholder"></div>
             {%- endif -%}
@@ -419,8 +427,8 @@
 }
 
 @media (max-width: 768px) {
-  .es-hs { height: 420px; --es-hs-height: 420px; }
-  .es-hs__slide { height: 420px; }
+  .es-hs { height: 500px; --es-hs-height: 500px; }
+  .es-hs__slide { height: 500px; }
   .es-hs__overlay-inner { gap: 14px; padding: 24px 20px; }
   .es-hs__btn { padding: 13px 28px; }
   .es-hs__trust-dot { display: none; }
@@ -443,8 +451,8 @@
 }
 
 @media (max-width: 480px) {
-  .es-hs { height: 360px; --es-hs-height: 360px; }
-  .es-hs__slide { height: 360px; }
+  .es-hs { height: 480px; --es-hs-height: 480px; }
+  .es-hs__slide { height: 480px; }
   .es-hs__ctas { flex-direction: column; align-items: center; }
   .es-hs__btn { width: 220px; justify-content: center; }
 }
@@ -634,8 +642,14 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Slide image",
+          "label": "Desktop image",
           "info": "Landscape, min 1920x640px recommended."
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image (optional)",
+          "info": "Portrait, min 800x900px recommended. If blank, desktop image is used."
         },
         {
           "type": "text",
@@ -667,7 +681,13 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image (optional)",
+          "info": "Portrait, min 800x900px recommended. If blank, desktop image is used."
         },
         {
           "type": "text",
