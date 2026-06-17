@@ -2,13 +2,16 @@
 {%- comment -%} EternaScents luxury PDP — set via product.json settings {%- endcomment -%}
 
 <style>
-/* Disable sticky product details column — image and info scroll together */
-.prod_sticky .content-page-detail .sticky_content .detail-info,
+/* Disable all sticky behaviour on product page — image and info scroll together */
 .prod_sticky .content-page-detail .sticky_content,
+.prod_sticky .content-page-detail .sticky_content .detail-info,
 .prod_sticky.sticky_center .content-page-detail .sticky_content .detail-info,
-.prod_sticky.slide_gallery .content-page-detail .sticky_content .detail-info {
+.prod_sticky.slide_gallery .content-page-detail .sticky_content .detail-info,
+.js_sticky,
+.sticky_content {
   position: static !important;
   top: auto !important;
+  -webkit-position: static !important;
 }
 </style>
 {% if section.settings.spd_style == "pd_luxury" %}
