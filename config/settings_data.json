@@ -49,7 +49,7 @@
     "ena_popup_cookie": true,
     "content_cookie": "This website uses cookies to ensure you get the best experience on our website.",
     "title_btn_cookie": "Privacy & Policy",
-    "ulr_cookie1": "https://eternascents.com/",
+    "ulr_cookie1": "shopify://pages/privacy-policy",
     "title_btn_cookie2": "Got it!",
     "lr_cookie": "right",
     "title_1": "There are",
