@@ -192,6 +192,7 @@
     },
     "section_banner_v7_tVbrxi": {
       "type": "section-banner-v7",
+      "disabled": true,
       "custom_css": [
         ".banner-center {text-align: center; padding: 20px;}",
         ".section-banner-v7 h3.title,.section-banner-v7 p {color: #fff;}",
