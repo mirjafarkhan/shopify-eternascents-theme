@@ -3954,7 +3954,7 @@
           "select_hds_all": "header_ver2",
           "hd_other_color_text": "#c9a646",
           "hd_other_enable_transparents": false,
-          "hd_other_bg_header_normal": "#071321",
+          "hd_other_bg_header_normal": "#181818",
           "hd_other_bg_header_opacity": 1,
           "enable_sticky_hd_other": true,
           "hd_other_logo": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png",
