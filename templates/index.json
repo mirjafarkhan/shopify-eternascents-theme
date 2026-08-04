@@ -304,6 +304,7 @@
       "blocks": {
         "info_fXnqHV": {
           "type": "Info",
+          "disabled": true,
           "settings": {
             "img_content": "shopify://shop_images/shipping-box.jpg",
             "mini_title": "Free Delivery",
@@ -312,6 +313,7 @@
         },
         "info_2_dPRmDK": {
           "type": "Info-2",
+          "disabled": true,
           "settings": {
             "banner_url": "shopify://collections/all",
             "img_content_2": "shopify://shop_images/person-working-support_1212-37.avif",
