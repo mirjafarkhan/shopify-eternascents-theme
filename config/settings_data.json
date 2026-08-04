@@ -3941,6 +3941,9 @@
       },
       "header": {
         "type": "header",
+        "custom_css": [
+          "#header{background-color: #181818 !important;}"
+        ],
         "settings": {
           "select_hds": "header_v1",
           "hd_home_color_text": "#c9a646",
