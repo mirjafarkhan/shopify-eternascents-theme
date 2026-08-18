@@ -327,9 +327,12 @@
         "info_fXnqHV",
         "info_2_dPRmDK"
       ],
+      "custom_css": [
+        ".section-info-v1 .adv-thumb-link img{margin-top: 40px;}"
+      ],
       "name": "INFO V1",
       "settings": {
-        "margin_top": "",
+        "margin_top": "300",
         "margin_bottom": "",
         "enable_margin_top": true,
         "bg_color": "#f4f4f4",
