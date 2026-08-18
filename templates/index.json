@@ -61,6 +61,16 @@
             "dim_opacity": 45,
             "badge": ""
           }
+        },
+        "bottle_8zULqE": {
+          "type": "bottle",
+          "settings": {
+            "image": "shopify://shop_images/Selected_photo.webp",
+            "mobile_image": "shopify://shop_images/Selected_photo.webp",
+            "alt": "Luxury Arabian fragrance bottle",
+            "dim_opacity": 45,
+            "badge": ""
+          }
         }
       },
       "block_order": [
@@ -68,7 +78,8 @@
         "bottle_a69BHn",
         "bottle_PQpKqJ",
         "bottle_Ckt9AQ",
-        "bottle_9JF4RQ"
+        "bottle_9JF4RQ",
+        "bottle_8zULqE"
       ],
       "name": "Hero — Gallery Strip",
       "settings": {
