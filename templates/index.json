@@ -22,6 +22,16 @@
             "badge": ""
           }
         },
+        "bottle_VMHbF3": {
+          "type": "bottle",
+          "settings": {
+            "image": "shopify://shop_images/Fahad_hero_image.png",
+            "mobile_image": "shopify://shop_images/Selected_photo_2.webp",
+            "alt": "Luxury Arabian fragrance bottle",
+            "dim_opacity": 45,
+            "badge": ""
+          }
+        },
         "bottle_3L4WWa": {
           "type": "bottle",
           "settings": {
@@ -82,16 +92,6 @@
             "badge": ""
           }
         },
-        "bottle_VMHbF3": {
-          "type": "bottle",
-          "settings": {
-            "image": "shopify://shop_images/Selected_photo_2.webp",
-            "mobile_image": "shopify://shop_images/Selected_photo_2.webp",
-            "alt": "Luxury Arabian fragrance bottle",
-            "dim_opacity": 45,
-            "badge": ""
-          }
-        },
         "bottle_LLLJjF": {
           "type": "bottle",
           "settings": {
@@ -105,13 +105,13 @@
       },
       "block_order": [
         "bottle_8zULqE",
+        "bottle_VMHbF3",
         "bottle_3L4WWa",
         "bottle_a69BHn",
         "bottle_PQpKqJ",
         "bottle_Ckt9AQ",
         "bottle_9JF4RQ",
         "bottle_zcTCha",
-        "bottle_VMHbF3",
         "bottle_LLLJjF"
       ],
       "name": "Hero — Gallery Strip",
@@ -382,7 +382,7 @@
         "bg_color": "#f4f4f4",
         "info_title": "Our Promise",
         "info_des": "Quality service, quick delivery, and support when you need it.",
-        "img_banner_info": "shopify://shop_images/shared_image_new-removebg-preview.webp"
+        "img_banner_info": "shopify://shop_images/Eterna_Scents_Logo_Concept_1.png"
       }
     }
   },
