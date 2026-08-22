@@ -223,6 +223,20 @@
         "margin_bottom": ""
       }
     },
+    "section_product_v3_haKAi9": {
+      "type": "section-product-v3",
+      "name": "PRODUCT V3",
+      "settings": {
+        "title_heading": "Best Sellers",
+        "color_title": "#c9a646",
+        "sub_title": "",
+        "color_sub_title": "#071321",
+        "select_collection": "new-launch",
+        "products_limit": 16,
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
     "1657338808c94fcad3": {
       "type": "section-banner-v2",
       "custom_css": [
@@ -390,6 +404,7 @@
     "es_hero_gallery_kf3aHx",
     "es_logo_grid_a6WcAh",
     "section_product_v3_h6Yn7f",
+    "section_product_v3_haKAi9",
     "1657338808c94fcad3",
     "section_banner_v7_tVbrxi",
     "165457174636311816",
