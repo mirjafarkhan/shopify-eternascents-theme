@@ -3943,7 +3943,7 @@
         "type": "header",
         "custom_css": [
           "#header {background-color: #181818 !important;}",
-          ".nav-item .list-woman {display: none !important;}"
+          ".nav-item .shop {display: none !important;}"
         ],
         "settings": {
           "select_hds": "header_v1",
