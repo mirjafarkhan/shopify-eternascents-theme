@@ -213,11 +213,11 @@
       "type": "section-product-v3",
       "name": "PRODUCT V3",
       "settings": {
-        "title_heading": "Trending",
+        "title_heading": "New Launch",
         "color_title": "#c9a646",
-        "sub_title": "Ahmed Al Maghribi",
+        "sub_title": "",
         "color_sub_title": "#071321",
-        "select_collection": "ahmed-al-magribi",
+        "select_collection": "new-launch",
         "products_limit": 12,
         "margin_top": "",
         "margin_bottom": ""
