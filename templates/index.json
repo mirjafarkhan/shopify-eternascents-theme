@@ -114,6 +114,9 @@
         "bottle_zcTCha",
         "bottle_LLLJjF"
       ],
+      "custom_css": [
+        "img {object-fit: cover; width: 100%; height: 100%;}"
+      ],
       "name": "Hero — Gallery Strip",
       "settings": {
         "eyebrow": "Authentic Arabian Perfumery",
