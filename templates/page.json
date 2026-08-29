@@ -31,7 +31,7 @@
         "btn2_label": "",
         "btn2_url": "",
         "hero_height": 620,
-        "show_trust_badges": true,
+        "show_trust_badges": false,
         "show_scroll_indicator": true
       }
     }
