@@ -126,7 +126,7 @@
         "btn1_url": "",
         "btn2_label": "Explore Brands",
         "btn2_url": "",
-        "transition": "fade",
+        "transition": "slide",
         "autoplay": true,
         "autoplay_speed": 4000,
         "hero_height": 640,
