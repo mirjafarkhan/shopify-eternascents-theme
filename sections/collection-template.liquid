@@ -241,7 +241,10 @@ Use .grid--rev so that the collection tags appear below the products on mobile
 <!-- 👇 PASTE THE DESCRIPTION CODE HERE (BOTTOM OF PAGE) 👇 -->
 {% if collection.metafields.custom.featured_text != blank %}
 <div class="container collection-description" style="padding: 40px 0; max-width: 900px; margin: 0 auto;">
-  {{ collection.metafields.custom.featured_text | metafield_tag }}
+  {% comment %} {{ collection.metafields.custom.featured_text | metafield_tag }} {% endcomment %}
+   <div class="rich-text-content">
+    {{ collection.metafields.custom.featured_text | metafield_tag }}
+  </div>
 </div>
 {% endif %}
 <!-- 👆 END OF DESCRIPTION CODE 👆 -->
