@@ -11,6 +11,9 @@
   "sections": {
     "collection_template": {
       "type": "collection-template",
+      "custom_css": [
+        ".title-page h2{color: black;}"
+      ],
       "settings": {
         "select_style_bread": "style_1",
         "ena_bg_img": true,
