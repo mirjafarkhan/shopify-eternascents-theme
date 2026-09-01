@@ -19,9 +19,9 @@ For more information on collection tags:
 
 
 <!-- 👇 DESCRIPTION CODE HERE 👇 -->
-{% if collection.description != blank %}
+{% if collection.metafields.custom.featured_text != blank %}
 <div class="container collection-description" style="padding: 20px 0; text-align: center; max-width: 800px; margin: 0 auto;">
-  {{ collection.description }}
+  {{ collection.metafields.custom.featured_text }}
 </div>
 {% endif %}
 <!-- 👆 END OF DESCRIPTION CODE 👆 -->
