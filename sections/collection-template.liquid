@@ -15,6 +15,20 @@ For more information on collection tags:
 
 {% paginate collection.products by {{section.settings.prod_per_page}} %}
 
+
+
+
+<!-- 👇 DESCRIPTION CODE HERE 👇 -->
+{% if collection.description != blank %}
+<div class="container collection-description" style="padding: 20px 0; text-align: center; max-width: 800px; margin: 0 auto;">
+  {{ collection.description }}
+</div>
+{% endif %}
+<!-- 👆 END OF DESCRIPTION CODE 👆 -->
+
+
+
+
 {% comment %}
 Use .grid--rev so that the collection tags appear below the products on mobile
 {% endcomment %}
@@ -211,20 +225,6 @@ Use .grid--rev so that the collection tags appear below the products on mobile
   {% endunless %}
   {% endif %}
 </style>
-
-
-
-
-<!-- 👇 PASTE THE DESCRIPTION CODE HERE 👇 -->
-{% if collection.description != blank %}
-<div class="container collection-description" style="padding: 20px 0; text-align: center; max-width: 800px; margin: 0 auto;">
-  {{ collection.description }}
-</div>
-{% endif %}
-<!-- 👆 END OF DESCRIPTION CODE 👆 -->
-
-
-
 
 
 {% if section.settings.collection_layout == "full_width" %}
