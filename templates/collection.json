@@ -12,7 +12,7 @@
     "collection_template": {
       "type": "collection-template",
       "custom_css": [
-        ".title-page h2,.bread-crumb a,.bread-crumb strong, .bread-crumb i {color: black !important;}"
+        ".title-page h2,.bread-crumb a,.bread-crumb strong,.bread-crumb i {color: black !important;}"
       ],
       "settings": {
         "select_style_bread": "style_1",
