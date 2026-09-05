@@ -1312,7 +1312,7 @@
     {%- comment -%} ── LABELS (top-left) ─────────────────────────── {%- endcomment -%}
     <div class="es-product-card__labels">
       {%- if sold_out -%}
-        <span class="es-product-card__label es-product-card__label--soldout">Sold Out</span>
+        <span class="es-product-card__label es-product-card__label--soldout">Coming Soon!</span>
       {%- elsif on_sale and settings.enable_sale_label -%}
         {%- assign sale_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
         <span class="es-product-card__label es-product-card__label--sale"
