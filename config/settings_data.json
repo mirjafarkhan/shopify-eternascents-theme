@@ -1443,7 +1443,7 @@
     "mega6_product": "",
     "icon_preloader": "",
     "enable_soldout_label": true,
-    "soldout_label_name": "Sold Out",
+    "soldout_label_name": "Coming Soon!",
     "soldout_label_color": "#000",
     "enable_sale_label": true,
     "enable_new_label": true,
@@ -6184,17 +6184,6 @@
         "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
         "disabled": false,
         "settings": {}
-      },
-      "18272643779398082604": {
-        "type": "shopify://apps/timesact-pre-order/blocks/app-embed-v2/bf6c109b-79b5-457c-8752-0e5e9e9676e7",
-        "disabled": false,
-        "settings": {
-          "debug_mode": true,
-          "add_to_cart_text": "Add to cart",
-          "sold_out_text": "Sold out",
-          "unavailable_text": "Unavailable",
-          "use_custom_script": false
-        }
       }
     }
   },
