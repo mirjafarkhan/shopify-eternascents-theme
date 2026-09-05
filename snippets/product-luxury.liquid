@@ -767,7 +767,7 @@
 
           <div class="es-gallery__badges">
             {%- if sold_out -%}
-              <span class="es-badge es-badge--sold">Sold Out</span>
+              <span class="es-badge es-badge--sold">Coming Soon!</span>
             {%- elsif on_sale -%}
               {%- assign savings_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
               <span class="es-badge es-badge--sale">Save {{ savings_pct }}%</span>
