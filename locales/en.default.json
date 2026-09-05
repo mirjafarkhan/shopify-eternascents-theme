@@ -405,7 +405,7 @@
       "sold_out": "Coming Soon!",
       "on_sale": "Sale",
       "in_stock": "In Stock",
-      "out_of_stock": "Out Of Stock",
+      "out_of_stock": "Coming Soon!",
       "on_sale_from_html": "<strong>On Sale</strong> from {{ price }}",
       "unavailable": "Unavailable",
       "compare_at": "Compare at",
