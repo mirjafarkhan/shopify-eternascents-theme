@@ -191,6 +191,14 @@
             "logo": "shopify://shop_images/logos_0001_download_-_2025-09-12T000936.628.webp",
             "url": "/collections/all"
           }
+        },
+        "logo_73VpDp": {
+          "type": "logo",
+          "settings": {
+            "name": "Bujairami",
+            "logo": "shopify://shop_images/593dad3a-c9b3-4ab8-99c5-0beebb74.webp",
+            "url": "shopify://collections/bujairami-perfumes"
+          }
         }
       },
       "block_order": [
@@ -200,7 +208,8 @@
         "logo_fz3bRn",
         "logo_7U6dqj",
         "logo_VBwAVn",
-        "logo_HfYdTX"
+        "logo_HfYdTX",
+        "logo_73VpDp"
       ],
       "name": "Brand Logo Grid",
       "settings": {
