@@ -886,7 +886,7 @@
               <option value="{{ variant.id }}"
                 {%- if variant == product.selected_or_first_available_variant %} selected{% endif -%}
                 {% unless variant.available %} disabled{% endunless %}>
-                {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
+                {{ variant.title }}{% unless variant.available %} — Coming Soon!{% endunless %}
               </option>
             {%- endfor -%}
           </select>
@@ -1253,7 +1253,7 @@
     var atcBtn = document.querySelector('.es-atc.engoj-btn-addtocart');
     if(atcBtn){
       atcBtn.disabled = !vd.available;
-      atcBtn.childNodes[atcBtn.childNodes.length-1].textContent = vd.available ? ' Add to Bag' : ' Sold Out';
+      atcBtn.childNodes[atcBtn.childNodes.length-1].textContent = vd.available ? ' Add to Bag' : ' Coming Soon!';
     }
     if(typeof selectCallback==='function'){
       var opt = hidSelect && hidSelect.querySelector('option[value="'+id+'"]');
