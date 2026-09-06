@@ -136,6 +136,14 @@
     "es_logo_grid_a6WcAh": {
       "type": "es-logo-grid",
       "blocks": {
+        "logo_GYPpjP": {
+          "type": "logo",
+          "settings": {
+            "name": "Arabiyat Prestige",
+            "logo": "shopify://shop_images/Arabiyat_Prestige_Logo.webp",
+            "url": "shopify://collections/arabiyat-prestige"
+          }
+        },
         "logo_Jhi6Fc": {
           "type": "logo",
           "settings": {
@@ -226,6 +234,7 @@
         }
       },
       "block_order": [
+        "logo_GYPpjP",
         "logo_Jhi6Fc",
         "logo_TxatME",
         "logo_edhfND",
