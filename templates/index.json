@@ -136,6 +136,14 @@
     "es_logo_grid_a6WcAh": {
       "type": "es-logo-grid",
       "blocks": {
+        "logo_edhfND": {
+          "type": "logo",
+          "settings": {
+            "name": "Armaf Perfumes",
+            "logo": "shopify://shop_images/logos_0000_download_61.webp",
+            "url": ""
+          }
+        },
         "logo_aE3aC7": {
           "type": "logo",
           "settings": {
@@ -202,6 +210,7 @@
         }
       },
       "block_order": [
+        "logo_edhfND",
         "logo_aE3aC7",
         "logo_YXQBWb",
         "logo_Uh9NRA",
