@@ -136,6 +136,14 @@
     "es_logo_grid_a6WcAh": {
       "type": "es-logo-grid",
       "blocks": {
+        "logo_qGRtNE": {
+          "type": "logo",
+          "settings": {
+            "name": "Rasasi Perfumes",
+            "logo": "shopify://shop_images/logos_0008_rasasi_logo.webp",
+            "url": "shopify://collections/rasasi"
+          }
+        },
         "logo_GYPpjP": {
           "type": "logo",
           "settings": {
@@ -184,14 +192,6 @@
             "url": "/collections/lattafa-perfumes"
           }
         },
-        "logo_Uh9NRA": {
-          "type": "logo",
-          "settings": {
-            "name": "Rasasi",
-            "logo": "shopify://shop_images/RASASI_logo-removebg-preview-1719562017592.webp",
-            "url": "shopify://products/hawas-100ml"
-          }
-        },
         "logo_fz3bRn": {
           "type": "logo",
           "settings": {
@@ -234,13 +234,13 @@
         }
       },
       "block_order": [
+        "logo_qGRtNE",
         "logo_GYPpjP",
         "logo_Jhi6Fc",
         "logo_TxatME",
         "logo_edhfND",
         "logo_aE3aC7",
         "logo_YXQBWb",
-        "logo_Uh9NRA",
         "logo_fz3bRn",
         "logo_7U6dqj",
         "logo_VBwAVn",
