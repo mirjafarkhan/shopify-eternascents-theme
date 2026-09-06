@@ -136,6 +136,14 @@
     "es_logo_grid_a6WcAh": {
       "type": "es-logo-grid",
       "blocks": {
+        "logo_Jhi6Fc": {
+          "type": "logo",
+          "settings": {
+            "name": "Paris Corner Perfumes",
+            "logo": "shopify://shop_images/logos_0004_download_-_2025-09-12T000857.633.webp",
+            "url": "shopify://collections/paris-corner-perfumes"
+          }
+        },
         "logo_TxatME": {
           "type": "logo",
           "settings": {
@@ -218,6 +226,7 @@
         }
       },
       "block_order": [
+        "logo_Jhi6Fc",
         "logo_TxatME",
         "logo_edhfND",
         "logo_aE3aC7",
