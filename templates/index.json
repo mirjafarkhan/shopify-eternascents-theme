@@ -136,6 +136,14 @@
     "es_logo_grid_a6WcAh": {
       "type": "es-logo-grid",
       "blocks": {
+        "logo_TxatME": {
+          "type": "logo",
+          "settings": {
+            "name": "Khadlaj Perfumes",
+            "logo": "shopify://shop_images/logos_0007_khadlaj_logo.webp",
+            "url": "shopify://collections/khadlaj-perfumes"
+          }
+        },
         "logo_edhfND": {
           "type": "logo",
           "settings": {
@@ -210,6 +218,7 @@
         }
       },
       "block_order": [
+        "logo_TxatME",
         "logo_edhfND",
         "logo_aE3aC7",
         "logo_YXQBWb",
