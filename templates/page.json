@@ -16,6 +16,9 @@
     },
     "es_hero_luxury_88RzVb": {
       "type": "es-hero-luxury",
+      "custom_css": [
+        "h1 {font-family: Jost; font-size: 36px; font-weight: 500;}"
+      ],
       "name": "Hero — Luxury",
       "settings": {
         "overlay_opacity": 55,
