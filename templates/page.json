@@ -18,7 +18,7 @@
       "type": "es-hero-luxury",
       "custom_css": [
         "h1 {font-family: Jost; font-size: 36px; font-weight: 500;}",
-        ".es-hero {background: linear-gradient(135deg, #181818 0%, #181818 60%, #181818 100%) !important;}"
+        ".es-hero__bg-gradient {background: linear-gradient(135deg, #181818 0%, #181818 60%, #181818 100%) !important;}"
       ],
       "name": "Hero — Luxury",
       "settings": {
