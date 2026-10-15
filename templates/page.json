@@ -38,11 +38,26 @@
     "17879995746fdde47c": {
       "type": "apps",
       "settings": {}
+    },
+    "section_product_v3_rcyVD9": {
+      "type": "section-product-v3",
+      "name": "PRODUCT V3",
+      "settings": {
+        "title_heading": "New Launch",
+        "color_title": "#222",
+        "sub_title": "",
+        "color_sub_title": "#666666",
+        "select_collection": "new-launch",
+        "products_limit": 48,
+        "margin_top": "",
+        "margin_bottom": ""
+      }
     }
   },
   "order": [
     "main",
     "es_hero_luxury_88RzVb",
-    "17879995746fdde47c"
+    "17879995746fdde47c",
+    "section_product_v3_rcyVD9"
   ]
 }
