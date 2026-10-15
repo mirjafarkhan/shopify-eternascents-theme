@@ -1,0 +1,67 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "es_hero_luxury_88RzVb": {
+      "type": "es-hero-luxury",
+      "custom_css": [
+        "h1 {font-family: Jost; font-size: 36px; font-weight: 500;}",
+        ".es-hero__bg-gradient {background: linear-gradient(135deg, #181818 0%, #181818 60%, #181818 100%) !important;}"
+      ],
+      "name": "Hero — Luxury",
+      "settings": {
+        "overlay_opacity": 55,
+        "bg_color": "#000000",
+        "bottle_alt": "Luxury Arabian fragrance bottle",
+        "eyebrow": "JUST ARRIVED · THE NEW COLLECTION",
+        "title": "A New Era of Elegance",
+        "subtitle": "Discover the latest fragrances from Eterna Scents, crafted to captivate the senses, express your individuality, and leave an unforgettable impression.",
+        "text_color": "#ffffff",
+        "accent_color": "#c9a646",
+        "btn1_label": "",
+        "btn1_url": "",
+        "btn2_label": "",
+        "btn2_url": "",
+        "hero_height": 400,
+        "show_trust_badges": false,
+        "show_scroll_indicator": true
+      }
+    },
+    "17879995746fdde47c": {
+      "type": "apps",
+      "settings": {}
+    },
+    "section_product_v3_rcyVD9": {
+      "type": "section-product-v3",
+      "name": "PRODUCT V3",
+      "settings": {
+        "title_heading": "New Launch",
+        "color_title": "#C9A646",
+        "sub_title": "",
+        "color_sub_title": "#666666",
+        "select_collection": "new-launch",
+        "products_limit": 48,
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "es_hero_luxury_88RzVb",
+    "17879995746fdde47c",
+    "section_product_v3_rcyVD9"
+  ]
+}
