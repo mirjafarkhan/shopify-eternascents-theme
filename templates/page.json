@@ -21,12 +21,12 @@
         "overlay_opacity": 55,
         "bg_color": "#071321",
         "bottle_alt": "Luxury Arabian fragrance bottle",
-        "eyebrow": "A Private Fragrance Service",
-        "title": "Create Your Signature Fragrance'",
-        "subtitle": "Work with our perfumers to commission a bespoke scent made only for you — or reserve an upcoming limited fragrance before it launches.",
+        "eyebrow": "JUST ARRIVED · THE NEW COLLECTION",
+        "title": "A New Era of Elegance",
+        "subtitle": "Discover the latest fragrances from Eterna Scents, crafted to captivate the senses, express your individuality, and leave an unforgettable impression.",
         "text_color": "#ffffff",
-        "accent_color": "#C9A646",
-        "btn1_label": "Start Your Request",
+        "accent_color": "#c9a646",
+        "btn1_label": "",
         "btn1_url": "",
         "btn2_label": "",
         "btn2_url": "",
@@ -37,28 +37,6 @@
     },
     "17879995746fdde47c": {
       "type": "apps",
-      "blocks": {
-        "forms_inline_JxGkpn": {
-          "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
-          "settings": {
-            "form_id": "1133081",
-            "text_color": "#202020",
-            "button_background_color": "#202020",
-            "button_label_color": "#FFFFFF",
-            "links_color": "#1878B9",
-            "errors_color": "#E02229",
-            "text_alignment": "center",
-            "form_alignment": "center",
-            "padding_top": 64,
-            "padding_bottom": 64,
-            "padding_right": 0,
-            "padding_left": 0
-          }
-        }
-      },
-      "block_order": [
-        "forms_inline_JxGkpn"
-      ],
       "settings": {}
     }
   },
