@@ -18,16 +18,16 @@
       "type": "es-hero-luxury",
       "custom_css": [
         "h1 {font-family: Jost; font-size: 36px; font-weight: 500;}",
-        ".es-hero__bg-gradient {background: linear-gradient(135deg, #181818 0%, #181818 60%, #181818 100%) !important;}"
+        ".es-hero__bg-gradient {background: linear-gradient( 135deg, #181818 0%, #181818 60%, #181818 100% ) !important;}"
       ],
       "name": "Hero — Luxury",
       "settings": {
         "overlay_opacity": 55,
         "bg_color": "#000000",
         "bottle_alt": "Luxury Arabian fragrance bottle",
-        "eyebrow": "JUST ARRIVED · THE NEW COLLECTION",
-        "title": "A New Era of Elegance",
-        "subtitle": "Discover the latest fragrances from Eterna Scents, crafted to captivate the senses, express your individuality, and leave an unforgettable impression.",
+        "eyebrow": "THE MOST LOVED · ETERNA SCENTS",
+        "title": "Fragrances Worth Falling For",
+        "subtitle": "Explore our most-loved fragrances, cherished for their captivating notes, refined character, and unforgettable presence. Find the scent that becomes uniquely yours.",
         "text_color": "#ffffff",
         "accent_color": "#c9a646",
         "btn1_label": "",
@@ -47,8 +47,8 @@
       "type": "section-product-v3",
       "name": "PRODUCT V3",
       "settings": {
-        "title_heading": "New Launch",
-        "color_title": "#C9A646",
+        "title_heading": "Best Sellers",
+        "color_title": "#c9a646",
         "sub_title": "",
         "color_sub_title": "#666666",
         "select_collection": "new-launch",
