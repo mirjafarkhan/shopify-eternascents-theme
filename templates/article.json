@@ -12,7 +12,8 @@
     "article_template": {
       "type": "article-template",
       "custom_css": [
-        "section{margin-top: 100px !important;}"
+        "section {margin-top: 100px !important;}",
+        "p{font-family: 'Jost'; color: #181818; font-size: 16px;}"
       ],
       "settings": {
         "blog_layout": "blog_layo_none",
