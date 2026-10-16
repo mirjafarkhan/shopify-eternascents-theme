@@ -1,6 +1,6 @@
 {% paginate blog.articles by section.settings.posts_limit %}
 
-<section style="margin-top: 65px !important;">
+<section>
   <div class="wrap-bread-crumb breadcrumb_collection2">
     <div class="text-center bg-breadcrumb" style="background-image : url({% if section.settings.bg_breadcrumb != blank %}{{ section.settings.bg_breadcrumb | image_url }} {% else %}//via.placeholder.com/1920x510 {% endif %})">
       <div class="title-page">
