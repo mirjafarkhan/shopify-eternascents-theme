@@ -13,7 +13,8 @@
       "type": "article-template",
       "custom_css": [
         "section {margin-top: 45px !important;}",
-        "p {font-family: \"Jost\"; color: #181818; font-size: 16px;}"
+        "p {font-family: \"Jost\"; color: #181818; font-size: 16px;}",
+        ".single-post-thumb img{height: 500px; object-fit: cover;}"
       ],
       "settings": {
         "blog_layout": "blog_layo_none",
